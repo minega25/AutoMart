@@ -1,0 +1,84 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #05386B;
+}
+a{
+	text-decoration: none;
+	color: #05386B;
+}
+
+/*************** Logo module***************************/
+
+.logo::before{
+	content: '\1F697 \ Auto Mart';
+	padding-left: 2rem;
+	font-family: 'Shrikhand', cursive;
+	color: #05386B;
+}
+.centered{
+	margin: 0 auto;
+	padding: 10px;
+}
+
+/************* Form module ***************************/
+.form {
+	max-width: 30rem;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+.form-input{
+	background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.75rem;
+	position: relative;
+	padding: .9em 1.8em;
+	border: 1px solid #05386B;
+	cursor: pointer;
+	outline: none;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;	
+	-webkit-transition: all .1s linear;
+	-moz-transition: all .1s linear;
+	transition: all .1s linear;
+}
+.form-group {
+    padding-top: 1rem;
+}
+
+label {
+    display: inline-block;
+    text-align: left;
+    padding-left: 6.6rem;
+    bottom: 1;
+    width: 100%;
+    color: #05386B;
+}
+
+/************* buttons ********************************/
+.button{
+  outline:none;
+  height: 40px;
+  text-align: center;
+  width: 130px;
+  border-radius:40px;
+  background: #fff;
+  border: 2px solid #05386B;;
+  color: #05386B;
+  letter-spacing:1px;
+  text-shadow:0;
+  font-size: 12px;
+  font-weight:bold;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.button:hover{
+	color:white;
+    background: #05386B;
+}
+.button:active{
+	letter-spacing: 2px ;
+}
