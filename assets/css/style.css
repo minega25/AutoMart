@@ -32,8 +32,8 @@ a{
 }
 .form-input{
 	background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 0.75rem;
+  background-position: right 1rem center;
+  background-size: 0.75rem;
 	position: relative;
 	padding: .9em 1.8em;
 	border: 1px solid #05386B;
