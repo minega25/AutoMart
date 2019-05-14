@@ -7,17 +7,19 @@
 	<link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="../../assets/css/style.css">
-	<title>Auto Mart - Home.</title>
+	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+	<title>Auto Mart - Buy Car.</title>
 </head>
 <body>
-	<div data-include="./views/includes/header.html"></div>
-	<main>
-		<div class="home-page-intro">
-			<h1 class="centered"><i>Shop Cars for Sale.</i></h1>
+	<div data-include="./includes/header.html"></div>
+	<div class="buy-page-intro">
 			<h3>Fast, safe and easy to buy and sell vehicles locally</h3>
-		</div>
-		<div class="filter-table form">
+			<h4>3000 cars available for sale</h4>
+	</div>
+	<main class="container">
+		<div class="sidebar">
+			<h1>Filters</h1>
+		 <div class="filter-table form">
 			<form action="" method="get" accept-charset="utf-8">
 				<select class="form-select" id="">
 				    <option value="">Manufacturer</option>
@@ -59,16 +61,24 @@
 			</form>
 				
 		</div>
-		<div>
-			<h2>Most recent cars for sale</h2>	
+		<div class="pagination">
+			  <a href="#">&laquo;</a>
+			  <a href="#">1</a>
+			  <a href="#">2</a>
+			  <a href="#">3</a>
+			  <a href="#">4</a>
+			  <a href="#">5</a>
+			  <a href="#">6</a>
+			  <a href="#">&raquo;</a>
 		</div>
-		<div class="display-car-row centered">
-			<div class="display-car">
-				<a href="#" title="">
-					<span class="display-car-img"></span>
-					<span class="display-car-desc">
-						<table>
-							<p>2015 TOYOTA RAV4</p>
+		</div>
+		<div class="main-content">
+			<a href="" title="">
+			<div class="lg-display-car">
+				<span class="lg-display-car-img"></span>
+				<span class="lg-display-car-desc">
+					<h2> 2015 TOYOTA RAV4</h2>
+					<table>
 							<thead>
 								<tr>
 									<th>Price</th>
@@ -82,15 +92,16 @@
 								</tr>
 							</tbody>
 						</table>
-					</span>
-				</a>
+				</span>
+
 			</div>
-			<div class="display-car">
-				<a href="#" title="">
-					<span class="display-car-img"></span>
-					<span class="display-car-desc">
-						<table>
-							<p>2015 TOYOTA RAV4</p>
+		</a>
+		 	<a href="" title="">
+			<div class="lg-display-car">
+				<span class="lg-display-car-img"></span>
+				<span class="lg-display-car-desc">
+					<h2> 2015 TOYOTA RAV4</h2>
+					<table>
 							<thead>
 								<tr>
 									<th>Price</th>
@@ -104,15 +115,15 @@
 								</tr>
 							</tbody>
 						</table>
-					</span>
-				</a>
+				</span>
 			</div>
-			<div class="display-car">
-				<a href="#" title="">
-					<span class="display-car-img"></span>
-					<span class="display-car-desc">
-						<table>
-							<p>2015 TOYOTA RAV4</p>
+		</a>
+		<a href="" title="">
+			<div class="lg-display-car">
+				<span class="lg-display-car-img"></span>
+				<span class="lg-display-car-desc">
+					<h2> 2015 TOYOTA RAV4</h2>
+					<table>
 							<thead>
 								<tr>
 									<th>Price</th>
@@ -126,15 +137,15 @@
 								</tr>
 							</tbody>
 						</table>
-					</span>
-				</a>
+				</span>
 			</div>
-			<div class="display-car">
-				<a href="#" title="">
-					<span class="display-car-img"></span>
-					<span class="display-car-desc">
-						<table>
-							<p>2015 TOYOTA RAV4</p>
+		</a>
+		<a href="" title="">
+			<div class="lg-display-car">
+				<span class="lg-display-car-img"></span>
+				<span class="lg-display-car-desc">
+					<h2> 2015 TOYOTA RAV4</h2>
+					<table>
 							<thead>
 								<tr>
 									<th>Price</th>
@@ -148,15 +159,15 @@
 								</tr>
 							</tbody>
 						</table>
-					</span>
-				</a>
+				</span>
 			</div>
-			<div class="display-car">
-				<a href="#" title="">
-					<span class="display-car-img"></span>
-					<span class="display-car-desc">
-						<table>
-							<p>2015 TOYOTA RAV4</p>
+		</a>
+		<a href="" title="">
+			<div class="lg-display-car">
+				<span class="lg-display-car-img"></span>
+				<span class="lg-display-car-desc">
+					<h2> 2015 TOYOTA RAV4</h2>
+					<table>
 							<thead>
 								<tr>
 									<th>Price</th>
@@ -170,13 +181,35 @@
 								</tr>
 							</tbody>
 						</table>
-					</span>
-				</a>
+				</span>
 			</div>
+		</a>
+		<a href="" title="">
+			<div class="lg-display-car">
+				<span class="lg-display-car-img"></span>
+				<span class="lg-display-car-desc">
+					<h2> 2015 TOYOTA RAV4</h2>
+					<table>
+							<thead>
+								<tr>
+									<th>Price</th>
+									<th>Mileage</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>$10,000</td>
+									<td>33k </td>
+								</tr>
+							</tbody>
+						</table>
+				</span>
+			</div>
+		</a>
 		</div>
 	</main>
-	<div data-include="./views/includes/footer.html"></div>
+	<div data-include="./includes/footer.html"></div>
 </body>
-<script  src="assets/js/csi.min.js"></script>
-<script  src="assets/js/main.js"></script>
+<script  src="../assets/js/csi.min.js"></script>
+<script  src="../assets/js/main.js"></script>
 </html>
