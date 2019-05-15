@@ -111,7 +111,10 @@ h1, h2, h3, h4, h5, h6, caption {
     text-align: center;
     padding: 10px;
 }
-.buy-page-intro > h3,h4{
+.buy-page-intro > h3{
+    color: white;
+  }
+.buy-page-intro > h4{
     color: white;
   }
 .sidebar {
@@ -152,10 +155,21 @@ h1, h2, h3, h4, h5, h6, caption {
     height: 120px;
     text-align: center;
     padding: 10px;
+    color: white;
 }
-.sell-page-intro{
-  color: white;
+/************ car detail page ************************/
+.car-detail-page-intro{
+  background-image: linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),url('../images/car-detail.jpg ');
+    background-size: cover;
+    height: 120px;
+    text-align: center;
+    padding: 10px;
+    color: white;
 }
+
 /************* Form module ***************************/
 .form {
 	max-width: 30rem;

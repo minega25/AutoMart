@@ -1,0 +1,49 @@
+.container{
+  display: flex;
+  justify-content: space-around;
+  
+}
+.row{
+	display: flex;
+	flex-wrap: wrap;	
+	flex: 1;
+}
+.or-x{
+  flex-direction: column;
+}
+.or-y{
+  flex-direction: column;
+}
+.shadow-effect{
+  padding: 1.5rem 2rem;
+  margin : 5px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+.centered {
+	margin : auto;
+}
+.column-1{
+  flex:1;
+}
+.column-2{
+  flex:2;
+}
+.column-3{
+  flex:3;
+}
+.column-4{
+  flex:4;
+}
+.column-5{
+  flex:5;
+}
+@media all and (min-width: 600px) {
+	.or-x{
+  		flex-direction: row;
+	}
+	.or-y{
+		flex-direction: column;
+	}
+}
