@@ -142,6 +142,20 @@ h1, h2, h3, h4, h5, h6, caption {
 }
 
 .pagination a:hover:not(.active) {background-color: #3399CC;}
+/************* sell page   ***************************/
+.sell-page-intro{
+  background-image: linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),url('../images/sell.jpg ');
+    background-size: cover;
+    height: 120px;
+    text-align: center;
+    padding: 10px;
+}
+.sell-page-intro{
+  color: white;
+}
 /************* Form module ***************************/
 .form {
 	max-width: 30rem;
@@ -150,12 +164,11 @@ h1, h2, h3, h4, h5, h6, caption {
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+.form > h5{
   text-align: center;
 }
 .form-input{
-	background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 0.75rem;
 	position: relative;
 	padding: .9em 1.8em;
 	border: 1px solid #3399CC;
@@ -169,7 +182,16 @@ h1, h2, h3, h4, h5, h6, caption {
 }
 .form-group {
     padding-top: 1rem;
+    width: auto;
 }
+.form-group > label{
+  display: inline-block;
+  text-align : left;
+  width: 100%;
+}
+.form-group > input[type="file"]{
+    width: 70%;
+  }
 .form-select{
   width: 200px;
   height: 2.5rem;
@@ -184,16 +206,8 @@ h1, h2, h3, h4, h5, h6, caption {
   display: inline-block;
   vertical-align: middle;
   margin: 5px;
-  border: 6px solid transparent;
-  border-color: #fff transparent transparent transparent;
-}
-label {
-    display: inline-block;
-    text-align: left;
-    padding-left: 6.6rem;
-    bottom: 1;
-    width: 100%;
-    color: #3399CC;
+  border: 1px solid #91C9E8;
+  border-color: #91C9E8; transparent transparent transparent;
 }
 
 /************* buttons ********************************/
@@ -301,6 +315,20 @@ label {
 }
 /****** Medium screens ************************************/
 @media all and (min-width: 600px) {
+  .form-group > label{
+    text-align: right;
+    width: 33.33%;
+    }
+  .form-group > p{
+    text-align: right;
+    width: 33.33%;
+    }
+  .form-group > input[type="submit"]{
+    margin-left: 33.333%;
+  }
+  .form-group > input[type="file"]{
+    width: auto;
+  }
   .sidebar {
     margin: 0;
     padding: 0;
@@ -353,9 +381,6 @@ label {
     ),url('../images/telsa1-big.jpg ');
     background-size: cover;
     height: 400px;
-  }
-  .form {
-    max-width: 60rem;
   }
   .header{
     background-color: transparent;
