@@ -8,80 +8,57 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
-	<title>Auto Mart - Sell Car.</title>
+	<link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+
+	<title>Auto Mart - Sell your car.</title>
 </head>
 <body>
-	<div data-include="./includes/header.html"></div>
-	<div class="sell-page-intro">
-			<h3>Post your Advert here.</h3>
-	</div>
-	<main class="">
-				<div class="centered form">
-			<h5>POST YOUR AD Just a few steps and finished!</h5>
-			<form action="" method="post" accept-charset="utf-8">
-				<div class="form-group ">
-					<label for="Price">Price:</label>
-					<input type="text" class="form-input" name="first name" value="" placeholder="Enter Price" required>
-				</div>
-				<div class="form-group">
-				<p>Condition:</p>
-					 <p>
-					    <input type="radio" class="form-radio" id="new" name="radio-group" checked>
-					    <label for="new">New</label>
-					  </p>
-					  <p>
-					    <input type="radio" class="form-radio" id="used" name="radio-group">
-					    <label for="used">Used</label>
-					  </p>
-				</div>
-				<div class="form-group">
-					<label for="">Brand:</label>
-					<select class="form-select" id="">
-					    <option value="">Choose Brand</option>
-					    <option value="dog">Dog</option>
-					    <option value="cat">Cat</option>
-					    <option value="hamster">Hamster</option>
-					    <option value="parrot">Parrot</option>
-					    <option value="spider">Spider</option>
-					    <option value="goldfish">Goldfish</option>
-					</select>
-				</div>
-				<div class="form-group ">
-					<label for="">Model:</label>
-					<select class="form-select" id="">
-					    <option value="">Choose Model</option>
-					    <option value="dog">Dog</option>
-					    <option value="cat">Cat</option>
-					    <option value="hamster">Hamster</option>
-					    <option value="parrot">Parrot</option>
-					    <option value="spider">Spider</option>
-					    <option value="goldfish">Goldfish</option>
-					</select>
-				</div>
-				<div class="form-group ">
-					<label for="">Body Type:</label>
-					<select class="form-select" id="">
-					    <option value="">Choose Body type</option>
-					    <option value="dog">Dog</option>
-					    <option value="cat">Cat</option>
-					    <option value="hamster">Hamster</option>
-					    <option value="parrot">Parrot</option>
-					    <option value="spider">Spider</option>
-					    <option value="goldfish">Goldfish</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="photo">Upload picture :</label>
-					<input type="file"  class="form-input" name="photo" value="" required>
-				</div>
-				<div class="form-group centered">
-					<input type="submit" class="button" name="" value="Post"/>
-				</div>
-			</form>
+	<main class="container">
+		<div data-include="./includes/header.html" class="row or-x"></div>
+		<div class="row sell-page-intro">
+			<div class="column-5">
+				<h3>Fast, safe and easy to buy and sell vehicles locally</h3>
+			</div>
 		</div>
+			<div class="row shadow-effect or-y fit-content">
+					<div class="row centered">
+						<h4>Advertize your car with Auto Mart.</h4>
+					</div>
+					<form action="login_submit" class="row or-y" method="get" accept-charset="utf-8">
+						<div class="row centered ">
+							<input type="text" class="form-input" name="" value="" placeholder="Enter Your Price">
+						</div>
+						<div class="row centered">
+							<input type="text" class="form-input" name= value="" placeholder="Enter Car Brand">
+						</div>
+						<div class="row centered">
+							<input type="text" class="form-input" name= value="" placeholder="Enter Car Model">
+						</div>
+						<div class="row centered">
+							<input type="text" class="form-input" name= value="" placeholder="Enter Car Body type">
+						</div>
+						<div class="row centered">
+							<div class="upload-btn-wrapper">
+  							<button class="upload-btn">Upload a picture</button>
+  							<input type="file" name="myfile" />
+							</div>
+						</div>
+						
+						<div class="row centered">
+							<input placeholder="" type="submit" class="button" name="" value="Post Your Ad."/>
+						</div>
+					
+					</form>
+					<div class="row centered">
+						<h6>Don't have an account yet! <a href="signup.html" title="">Sign Up</a> Instead.</h6>
+					</div>
+				</div>
+		<div data-include="./includes/footer.html" class="row or-x"></div>
 	</main>
-	<div data-include="./includes/footer.html"></div>
+	
 </body>
 <script  src="../assets/js/csi.min.js"></script>
 <script  src="../assets/js/main.js"></script>
 </html>
+
+
