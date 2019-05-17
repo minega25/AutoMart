@@ -172,30 +172,7 @@ h1, h2, h3, h4, h5, h6, caption {
   }
 
 /************* buttons ********************************/
-.button{
-  outline:none;
-  height: 40px;
-  text-align: center;
-  width: 130px;
-  display: inline-block;
-  border-radius:40px;
-  background: #fff;
-  border: 2px solid #3399CC;
-  color: #3399CC;
-  letter-spacing:1px;
-  text-shadow:0;
-  font-size: 12px;
-  font-weight:bold;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-.button:hover{
-	color:white;
-  background: #3399CC;
-}
-.button:active{
-	letter-spacing: 2px ;
-}
+
 /****** Advert display *************************************/
 .display-car-row{
   display: inline-block;
