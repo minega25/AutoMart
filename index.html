@@ -7,7 +7,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	
 	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
 
 	<title>Auto Mart - Home.</title>
@@ -67,8 +67,8 @@
 				<h1>Most Recently advertized cars</h1>
 			</div>
 		<div class="row or-x">
-
-						<div class="column-1 shadow-effect">
+					<a class="row" href="/views/car-detail.html" title="">
+				   				<div class="column-1 shadow-effect">
 				<div class="row">
 					<img src="assets/images/toyota.png" height="120px">
 				</div>
@@ -93,8 +93,10 @@
 							</tbody>
 						</table>
 					</div>
-			</div>
-						<div class="column-1 shadow-effect">
+			</div>	
+				</a>
+					<a class="row" href="/views/car-detail.html" title="">
+				   				<div class="column-1 shadow-effect">
 				<div class="row">
 					<img src="assets/images/toyota.png" height="120px">
 				</div>
@@ -106,7 +108,7 @@
 							<thead class="">
 								<tr class="align-left or-x">
 									<th>Price</th>
-									
+						
 									<th>Brand</th>
 								</tr>
 							</thead>
@@ -119,8 +121,10 @@
 							</tbody>
 						</table>
 					</div>
-			</div>
-						<div class="column-1 shadow-effect">
+			</div>	
+				</a>
+					<a class="row" href="/views/car-detail.html" title="">
+				   				<div class="column-1 shadow-effect">
 				<div class="row">
 					<img src="assets/images/toyota.png" height="120px">
 				</div>
@@ -132,7 +136,7 @@
 							<thead class="">
 								<tr class="align-left or-x">
 									<th>Price</th>
-									
+						
 									<th>Brand</th>
 								</tr>
 							</thead>
@@ -145,8 +149,10 @@
 							</tbody>
 						</table>
 					</div>
-			</div>
-						<div class="column-1 shadow-effect">
+			</div>	
+				</a>
+					<a class="row" href="/views/car-detail.html" title="">
+				   				<div class="column-1 shadow-effect">
 				<div class="row">
 					<img src="assets/images/toyota.png" height="120px">
 				</div>
@@ -158,7 +164,7 @@
 							<thead class="">
 								<tr class="align-left or-x">
 									<th>Price</th>
-									
+						
 									<th>Brand</th>
 								</tr>
 							</thead>
@@ -171,7 +177,8 @@
 							</tbody>
 						</table>
 					</div>
-			</div>
+			</div>	
+				</a>
 			
 		</div>
 		<div data-include="views/includes/footer.html" class="row or-x"></div>
@@ -181,196 +188,3 @@
 <script  src="assets/js/csi.min.js"></script>
 <script  src="assets/js/main.js"></script>
 </html>
-
-
-<!-- 
-
-
-
-
-
-
-<!DOCTYPE html>
-<html>
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<title>Auto Mart - Home.</title>
-</head>
-<body>
-	<div data-include="./views/includes/header.html"></div>
-	<main>
-		<div class="home-page-intro">
-			<h1 class="centered"><i>Shop Cars for Sale.</i></h1>
-			<h3>Fast, safe and easy to buy and sell vehicles locally</h3>
-		</div>
-		<div class="filter-table form">
-			<form action="" method="get" accept-charset="utf-8">
-				<select class="form-select" id="">
-				    <option value="">Manufacturer</option>
-				    <option value="dog">Dog</option>
-				    <option value="cat">Cat</option>
-				    <option value="hamster">Hamster</option>
-				    <option value="parrot">Parrot</option>
-				    <option value="spider">Spider</option>
-				    <option value="goldfish">Goldfish</option>
-				</select>
-				<select class="form-select" id="">
-				    <option value="">Model</option>
-				    <option value="dog">Dog</option>
-				    <option value="cat">Cat</option>
-				    <option value="hamster">Hamster</option>
-				    <option value="parrot">Parrot</option>
-				    <option value="spider">Spider</option>
-				    <option value="goldfish">Goldfish</option>
-				</select>
-				<select class="form-select" id="">
-				    <option value="">Body Type</option>
-				    <option value="dog">Dog</option>
-				    <option value="cat">Cat</option>
-				    <option value="hamster">Hamster</option>
-				    <option value="parrot">Parrot</option>
-				    <option value="spider">Spider</option>
-				    <option value="goldfish">Goldfish</option>
-				</select>
-				<select class="form-select" id="">
-				    <option value="">State</option>
-				    <option value="dog">Dog</option>
-				    <option value="cat">Cat</option>
-				    <option value="hamster">Hamster</option>
-				    <option value="parrot">Parrot</option>
-				    <option value="spider">Spider</option>
-				    <option value="goldfish">Goldfish</option>
-				</select>
-				<div class="form-group">
-					<input type="submit" class="button" value="Search"/>	
-				</div>	
-			</form>
-				
-		</div>
-		<div>
-			<h4>Most recent cars for sale</h4>	
-		</div>
-		<div class="display-car-row centered">
-			<div class="display-car">
-				<a href="#" title="">
-					<span class="display-car-img"></span>
-					<span class="display-car-desc">
-						<table>
-							<p>2015 TOYOTA RAV4</p>
-							<thead>
-								<tr>
-									<th>Price</th>
-									
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>$10,000</td>
-									
-								</tr>
-							</tbody>
-						</table>
-					</span>
-				</a>
-			</div>
-			<div class="display-car">
-				<a href="#" title="">
-					<span class="display-car-img"></span>
-					<span class="display-car-desc">
-						<table>
-							<p>2015 TOYOTA RAV4</p>
-							<thead>
-								<tr>
-									<th>Price</th>
-									
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>$10,000</td>
-									
-								</tr>
-							</tbody>
-						</table>
-					</span>
-				</a>
-			</div>
-			<div class="display-car">
-				<a href="#" title="">
-					<span class="display-car-img"></span>
-					<span class="display-car-desc">
-						<table>
-							<p>2015 TOYOTA RAV4</p>
-							<thead>
-								<tr>
-									<th>Price</th>
-									
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>$10,000</td>
-									
-								</tr>
-							</tbody>
-						</table>
-					</span>
-				</a>
-			</div>
-			<div class="display-car">
-				<a href="#" title="">
-					<span class="display-car-img"></span>
-					<span class="display-car-desc">
-						<table>
-							<p>2015 TOYOTA RAV4</p>
-							<thead>
-								<tr>
-									<th>Price</th>
-									
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>$10,000</td>
-									
-								</tr>
-							</tbody>
-						</table>
-					</span>
-				</a>
-			</div>
-			<div class="display-car">
-				<a href="#" title="">
-					<span class="display-car-img"></span>
-					<span class="display-car-desc">
-						<table>
-							<p>2015 TOYOTA RAV4</p>
-							<thead>
-								<tr>
-									<th>Price</th>
-									
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>$10,000</td>
-									
-								</tr>
-							</tbody>
-						</table>
-					</span>
-				</a>
-			</div>
-		</div>
-	</main>
-	<div data-include="./views/includes/footer.html"></div>
-</body>
-<script  src="assets/js/csi.min.js"></script>
-<script  src="assets/js/main.js"></script>
-</html> -->
