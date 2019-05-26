@@ -7,8 +7,8 @@ install:
 notifications:
   email: false
 script:
-  - "npm run lint"
   - "npm run test"
+  - "npm run coverage"
   
 branches:
   only:
