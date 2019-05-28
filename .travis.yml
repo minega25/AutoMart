@@ -7,7 +7,7 @@ install:
 notifications:
   email: false
 script:
-  - "npm run test"
+  - "npm test"
   - "npm run coverage"
   
 branches:
