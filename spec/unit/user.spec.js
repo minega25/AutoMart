@@ -33,6 +33,11 @@ describe('User model', () => {
     expect(result).toEqual(jasmine.objectContaining({ id: user1.id, is_admin: true }));
   });
 
+  it('should return a user based on any attribute', () => {
+    const result = user.findOne({ email: 'deg@gmail.com' });
+    expect(result).toEqual(jasmine.objectContaining({ email: 'deg@gmail.com' }));
+  });
+
   it('should return all registered users ', () => {
     const result = user.findAll();
     // eslint-disable-next-line max-len

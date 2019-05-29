@@ -31,6 +31,14 @@ class User {
     return this.users.find(user => user.id === id);
   }
 
+  // Find user by any attribute
+  findOne(data) {
+    const attrArr = Object.keys(data);
+    const attr = attrArr[0];
+
+    return this.users.find(user => user[attr] === data[attr]);
+  }
+
   // Find all users
   findAll() {
     return this.users;
