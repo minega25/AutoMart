@@ -1,17 +1,10 @@
-const _ = require('lodash');
 const express = require('express');
-const User = require('../models/User');
 
 const router = express.Router();
-const user = new User();
 
-router.post('/', async (req, res) => {
-  if (user.findOne(req.body.email)) {
-    return res.status(400).send('User already registered');
-  }
-  const newUser = _.pick(req.body, ['email', 'first_name', 'last_name', 'password', 'address']);
-  const userInstance = await user.add(newUser);
-  return res.send(_.pick(userInstance, ['first_name', 'email']));
-});
+const userController = require('../controllers/userController');
+
+// POST request to create user
+router.post('/signup', userController.user_create_post);
 
 module.exports = router;
