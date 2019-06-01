@@ -1,42 +1,45 @@
-// const user = require('../models/User');
+const Joi = require('@hapi/joi');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const _ = require('lodash');
+const User = require('../models/User');
+const userSchema = require('../helpers/validationShemas/userSchema');
 
-// Display a list of all users
-exports.user_list = (req, res) => {
-  res.send('Not implemented');
-};
-
-
-// Display detail page for a specific user.
-exports.user_detail = (req, res) => {
-  res.send(`NOT IMPLEMENTED: user detail: ${req.params.id}`);
-};
-
-// Display user create form on GET.
-exports.user_create_get = (req, res) => {
-  res.send('NOT IMPLEMENTED: user create GET');
-};
-
+const users = new User();
 // Handle user create on POST.
-exports.user_create_post = (req, res) => {
-  res.send('NOT IMPLEMENTED: user create POST');
-};
+exports.user_create_post = async (req, res) => {
+  const newUser = _.pick(req.body, ['first_name', 'last_name', 'password', 'email', 'address']);
+  const { error } = Joi.validate(newUser, userSchema);
+  if (error) {
+    const response = {
+      status: 400,
+      error: error.details[0].message,
+    };
+    return res.status(400).json(response);
+  }
 
-// Display user delete form on GET.
-exports.user_delete_get = (req, res) => {
-  res.send('NOT IMPLEMENTED: user delete GET');
-};
+  const userExistsAlready = users.findAll()
+    .find(user => user.email === newUser.email);
 
-// Handle user delete on POST.
-exports.user_delete_post = (req, res) => {
-  res.send('NOT IMPLEMENTED: user delete POST');
-};
+  if (userExistsAlready) {
+    const response = {
+      status: 400,
+      error: 'User already exists',
+    };
+    return res.status(400).json(response);
+  }
+  const addedUser = await users.add(newUser);
 
-// Display user update form on GET.
-exports.user_update_get = (req, res) => {
-  res.send('NOT IMPLEMENTED: user update GET');
-};
-
-// Handle user update on POST.
-exports.user_update_post = (req, res) => {
-  res.send('NOT IMPLEMENTED: user update POST');
+  const userToken = jwt.sign({ id: addedUser.id }, config.get('jwtPrivateKey'));
+  const response = {
+    status: 200,
+    data: {
+      token: userToken,
+      id: addedUser.id,
+      first_name: addedUser.first_name,
+      last_name: addedUser.last_name,
+      email: addedUser.email,
+    },
+  };
+  return res.header('x-auth-token', userToken).status(200).json(response);
 };

@@ -7,7 +7,7 @@
   "description": "An online market place for automobiles where  users can sell their cars or buy from trusted dealerships or private sellers.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon --exec babel-node index.js",
     "test-init": "jasmine --init",
     "test": "nyc jasmine",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
@@ -25,6 +25,7 @@
   "dependencies": {
     "@hapi/joi": "^15.0.3",
     "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
     "config": "^3.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.0",
@@ -32,12 +33,18 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
+    "request": "^2.88.0",
     "swagger-jsdoc": "^3.2.9",
     "swagger-ui-express": "^4.0.5",
     "uuid": "^3.3.2",
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
     "coveralls": "^3.0.3",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -45,6 +52,8 @@
     "eslint-plugin-jasmine": "^2.10.1",
     "heroku": "^7.24.4",
     "jasmine": "^3.4.0",
+    "jasmine-console-reporter": "^3.1.0",
+    "jasmine-node": "^3.0.0",
     "nyc": "^14.1.1",
     "supertest": "^4.0.2",
     "travis-cli": "^1.0.9"
