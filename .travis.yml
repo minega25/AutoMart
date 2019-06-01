@@ -3,7 +3,7 @@ language: node_js
 node_js:
   - 10.15.1
 install:
-  - npm ci
+  - npm i
 notifications:
   email: false
 script:
