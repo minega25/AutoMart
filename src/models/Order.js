@@ -1,5 +1,5 @@
-const moment = require('moment');
-const uuid = require('uuid');
+import moment from 'moment';
+import uuid from 'uuid';
 
 class Order {
   constructor() {
@@ -52,4 +52,4 @@ class Order {
   }
 }
 
-module.exports = Order;
+export default Order;

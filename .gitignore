@@ -1,3 +1,4 @@
-node_modules/
-.nyc_output/
-logs/
+.nyc_output
+logs
+coverage
+node_modules

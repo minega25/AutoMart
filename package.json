@@ -6,11 +6,22 @@
   ],
   "description": "An online market place for automobiles where  users can sell their cars or buy from trusted dealerships or private sellers.",
   "main": "src/index.js",
+  "nyc": {
+    "require": [
+      "@babel/register"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
     "test-init": "jasmine init",
-    "test": "nyc jasmine --config=src/spec/support/jasmine.json",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "test": "cross-env NODE_ENV=test nyc babel-node node_modules/jasmine/bin/jasmine.js --config=src/spec/support/jasmine.json",
+    "coverage": "cross-env NODE_ENV=test nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -45,7 +56,9 @@
     "@babel/node": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "@babel/register": "^7.4.4",
+    "babel-plugin-istanbul": "^5.1.4",
     "coveralls": "^3.0.3",
+    "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3",

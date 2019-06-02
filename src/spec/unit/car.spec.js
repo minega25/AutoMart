@@ -1,5 +1,5 @@
 // const uuid = require('uuid');
-const Car = require('../../models/Car');
+import Car from '../../models/Car';
 
 describe('Car model', () => {
   let car;

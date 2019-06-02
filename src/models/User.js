@@ -1,6 +1,6 @@
-const moment = require('moment');
-const uuid = require('uuid');
-const bcrypt = require('bcrypt');
+import moment from 'moment';
+import uuid from 'uuid';
+import bcrypt from 'bcrypt';
 
 class User {
   constructor() {
@@ -66,4 +66,4 @@ class User {
   }
 }
 
-module.exports = User;
+export default User;

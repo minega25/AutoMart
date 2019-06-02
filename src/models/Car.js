@@ -1,5 +1,5 @@
-const moment = require('moment');
-const uuid = require('uuid');
+import moment from 'moment';
+import uuid from 'uuid';
 
 class Car {
   constructor() {
@@ -55,4 +55,4 @@ class Car {
   }
 }
 
-module.exports = Car;
+export default Car;

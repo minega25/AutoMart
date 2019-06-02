@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-const User = require('../../models/User');
+import User from '../../models/User';
 
 describe('User model', () => {
   let user;

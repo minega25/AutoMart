@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
-const cors = require('cors');
+import cors from 'cors';
 
-module.exports = function (app) {
+export default function (app) {
   app.use(cors());
-};
+}
