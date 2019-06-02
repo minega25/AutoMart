@@ -1,17 +1,10 @@
-const request = require('supertest');
-// const User = require('../../models/User');
+import request from 'supertest';
+import server from '../../index';
 
-// const users = new User();
-
-let server;
 describe('/api/v1/auth', () => {
-  // eslint-disable-next-line global-require
-  beforeEach(() => { server = require('../../index'); });
-
   afterEach(async () => {
     await server.close();
   });
-
   describe('POST /signup', () => {
     let newUser;
     const exec = async () => {
@@ -28,9 +21,10 @@ describe('/api/v1/auth', () => {
         address: 'kg120st',
       };
     });
-    afterEach(() => {
-      newUser = {};
+    afterEach(async () => {
+
     });
+
     it('should return error message if user input validation fails', async () => {
       newUser.email = 'dd';
       const res = await exec();

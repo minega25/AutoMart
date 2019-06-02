@@ -1,7 +1,7 @@
-const winston = require('winston');
-require('express-async-errors');
+import winston from 'winston';
+import 'express-async-errors';
 
-module.exports = () => {
+export default () => {
   winston.createLogger({
     level: 'info',
     format: winston.format.json(),
@@ -21,16 +21,3 @@ module.exports = () => {
     }));
   }
 };
-// eslint-disable-next-line func-names
-// module.exports = function () {
-//   winston.handleExceptions(
-//     new winston.transports.Console({ colorize: true, prettyPrint: true }),
-//     new winston.transports.File({ filename: 'uncaughtExceptions.log' }),
-//   );
-
-//   process.on('unhandledRejection', (ex) => {
-//     throw ex;
-//   });
-
-//   winston.add(winston.transports.File, { filename: 'logfile.log' });
-// };

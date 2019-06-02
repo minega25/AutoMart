@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+import Joi from '@hapi/joi';
 
 const schema = {
   email: Joi.string().email().min(5).max(255)
@@ -6,4 +6,4 @@ const schema = {
   password: Joi.string().min(5).max(255).required(),
 };
 
-module.exports = schema;
+export default schema;

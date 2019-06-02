@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-const Order = require('../../models/Order');
+import Order from '../../models/Order';
 
 describe('Order model', () => {
   let order;

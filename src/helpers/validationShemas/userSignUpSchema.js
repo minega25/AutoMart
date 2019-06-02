@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+import Joi from '@hapi/joi';
 
 const schema = {
   first_name: Joi.string().min(5).max(255).required(),
@@ -9,4 +9,4 @@ const schema = {
   address: Joi.string().min(5).max(255).required(),
 };
 
-module.exports = schema;
+export default schema;

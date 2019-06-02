@@ -1,8 +1,8 @@
-const bodyParser = require('body-parser');
-const users = require('../routes/users');
-// const auth = require('../routes/auth');
+import bodyParser from 'body-parser';
+import users from '../routes/users';
 
-module.exports = (app) => {
+
+export default (app) => {
   app.use(bodyParser.json());
   app.use('/api/v1/auth', users);
 };

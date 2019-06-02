@@ -1,8 +1,8 @@
 /* eslint-disable func-names */
-const config = require('config');
+import config from 'config';
 
-module.exports = function () {
+export default function () {
   if (!config.get('jwtPrivateKey')) {
     throw new Error('FATAL ERROR: jwtPrivateKey is not defined.');
   }
-};
+}

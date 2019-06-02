@@ -1,16 +1,16 @@
-const Joi = require('@hapi/joi');
-const jwt = require('jsonwebtoken');
-const config = require('config');
-const bcrypt = require('bcrypt');
-const _ = require('lodash');
-
-const User = require('../models/User');
-const userSignUpSchema = require('../helpers/validationShemas/userSignUpSchema');
-const userLoginSchema = require('../helpers/validationShemas/userLoginSchema');
+import Joi from '@hapi/joi';
+import jwt from 'jsonwebtoken';
+import config from 'config';
+import bcrypt from 'bcrypt';
+import _ from 'lodash';
+import User from '../models/User';
+import userSignUpSchema from '../helpers/validationShemas/userSignUpSchema';
+import userLoginSchema from '../helpers/validationShemas/userLoginSchema';
 
 const users = new User();
+
 // Handle user create on POST.
-exports.user_create_post = async (req, res) => {
+export const userCreatePost = async (req, res) => {
   const newUser = _.pick(req.body, ['first_name', 'last_name', 'password', 'email', 'address']);
   const { error } = Joi.validate(newUser, userSignUpSchema);
   if (error) {
@@ -47,7 +47,7 @@ exports.user_create_post = async (req, res) => {
   return res.header('x-auth-token', userToken).status(200).json(response);
 };
 
-exports.user_login_post = async (req, res) => {
+export const userLoginPost = async (req, res) => {
   const user = _.pick(req.body, ['email', 'password']);
   const { error } = Joi.validate(user, userLoginSchema);
   if (error) {
