@@ -6,11 +6,22 @@
   ],
   "description": "An online market place for automobiles where  users can sell their cars or buy from trusted dealerships or private sellers.",
   "main": "src/index.js",
+  "nyc": {
+    "require": [
+      "@babel/register"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
     "test-init": "jasmine init",
-    "test": "NODE_ENV=test nyc babel-node node_modules/jasmine/bin/jasmine.js --config=src/spec/support/jasmine.json",
-    "coverage": "NODE_ENV=test nyc report --reporter=text-lcov | coveralls"
+    "test": "cross-env NODE_ENV=test nyc babel-node node_modules/jasmine/bin/jasmine.js --config=src/spec/support/jasmine.json",
+    "coverage": "cross-env NODE_ENV=test nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
