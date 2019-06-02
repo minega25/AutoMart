@@ -3,7 +3,9 @@ language: node_js
 node_js:
   - 10.15.1
 install:
-  - npm i
+  - npm ci
+env:
+  - automart_jwtPrivateKey=12345
 notifications:
   email: false
 script:
