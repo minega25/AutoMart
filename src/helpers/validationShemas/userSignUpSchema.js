@@ -7,6 +7,7 @@ const schema = {
     .required(),
   password: Joi.string().min(5).max(255).required(),
   address: Joi.string().min(5).max(255).required(),
+  is_admin: Joi.boolean(),
 };
 
 export default schema;
