@@ -11,7 +11,7 @@ const users = new User();
 
 // Handle user create on POST.
 export const userCreatePost = async (req, res) => {
-  const newUser = _.pick(req.body, ['first_name', 'last_name', 'password', 'email', 'address']);
+  const newUser = _.pick(req.body, ['first_name', 'last_name', 'password', 'email', 'address', 'is_admin']);
   const { error } = Joi.validate(newUser, userSignUpSchema);
   if (error) {
     const response = {
@@ -33,7 +33,7 @@ export const userCreatePost = async (req, res) => {
   }
   const addedUser = await users.add(newUser);
 
-  const userToken = jwt.sign({ id: addedUser.id }, config.get('jwtPrivateKey'));
+  const userToken = jwt.sign({ id: addedUser.id, isAdmin: addedUser.is_admin }, config.get('jwtPrivateKey'));
   const response = {
     status: 200,
     data: {
@@ -42,6 +42,7 @@ export const userCreatePost = async (req, res) => {
       first_name: addedUser.first_name,
       last_name: addedUser.last_name,
       email: addedUser.email,
+      is_admin: addedUser.is_admin,
     },
   };
   return res.header('x-auth-token', userToken).status(200).json(response);
@@ -76,7 +77,7 @@ export const userLoginPost = async (req, res) => {
     };
     return res.status(400).json(response);
   }
-  const userToken = jwt.sign({ id: userRegistered.id }, config.get('jwtPrivateKey'));
+  const userToken = jwt.sign({ id: userRegistered.id, isAdmin: userRegistered.is_admin }, config.get('jwtPrivateKey'));
   const response = {
     status: 200,
     data: {

@@ -18,7 +18,7 @@ class User {
       last_name: data.last_name || '',
       password: hash || '',
       address: data.address || '',
-      is_admin: data.is_admin || false,
+      is_admin: !!data.is_admin,
       createdDate: moment.now(),
       modifiedDate: moment.now(),
     };
