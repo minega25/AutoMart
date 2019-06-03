@@ -20,7 +20,7 @@ export default async (req, res) => {
   const addedCar = await cars.add(newCar);
   const response = {
     status: 200,
-    data: _.pick(addedCar, ['id', 'owner', 'email', 'state', 'status', 'price', 'manufacturer', 'model', 'body_type']),
+    data: _.pick(addedCar, ['id', 'owner', 'email', 'state', 'status', 'price', 'createdDate', 'manufacturer']),
   };
   return res.status(200).json(response);
 };
