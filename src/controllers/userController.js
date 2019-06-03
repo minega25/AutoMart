@@ -33,7 +33,7 @@ export const userCreatePost = async (req, res) => {
   }
   const addedUser = await users.add(newUser);
 
-  const userToken = jwt.sign({ id: addedUser.id, isAdmin: addedUser.is_admin }, config.get('jwtPrivateKey'));
+  const userToken = jwt.sign({ id: addedUser.id, email: addedUser.email, isAdmin: addedUser.is_admin }, config.get('jwtPrivateKey'));
   const response = {
     status: 200,
     data: {
@@ -77,7 +77,7 @@ export const userLoginPost = async (req, res) => {
     };
     return res.status(400).json(response);
   }
-  const userToken = jwt.sign({ id: userRegistered.id, isAdmin: userRegistered.is_admin }, config.get('jwtPrivateKey'));
+  const userToken = jwt.sign({ id: userRegistered.id, email: userRegistered.email, isAdmin: userRegistered.is_admin }, config.get('jwtPrivateKey'));
   const response = {
     status: 200,
     data: {
