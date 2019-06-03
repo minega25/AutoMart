@@ -10,6 +10,7 @@ class Car {
   add(data) {
     const car = {
       id: uuid.v4(),
+      email: data.email || '',
       owner: data.owner || '',
       state: data.state || '',
       status: data.status || '',
@@ -17,8 +18,8 @@ class Car {
       manufacturer: data.manufacturer || '',
       model: data.model || '',
       body_type: data.body_type || '',
-      createdDate: moment.now(),
-      modifiedDate: moment.now(),
+      createdDate: moment(),
+      modifiedDate: moment(),
     };
     this.cars.push(car);
     return car;
