@@ -1,0 +1,28 @@
+sudo: false
+language: node_js
+node_js:
+  - 10.15.1
+install:
+  - npm ci
+env:
+  - automart_jwtPrivateKey=12345
+notifications:
+  email: false
+script:
+  - "npm test"
+  - "npm run coverage"
+  
+branches:
+  only:
+  - master
+  - develop
+
+after_success: npm run coverage
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: 95a89fe5-50d0-4c87-b139-8c3e9bb1e7de
+  app: automartapp
+  on:
+    repo: minega25/AutoMart
