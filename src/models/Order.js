@@ -14,8 +14,8 @@ class Order {
       car_id: data.car_id || '',
       amount: data.amount || '',
       status: data.status || '',
-      createdDate: moment.now(),
-      modifiedDate: moment.now(),
+      createdDate: moment(),
+      modifiedDate: moment(),
     };
     this.orders.push(order);
     return order;
