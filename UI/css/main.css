@@ -175,7 +175,7 @@ a{
   background-image: linear-gradient(
       rgba(0, 0, 0, 0.5),
       rgba(0, 0, 0, 0.5)
-    ),url('../images/teslas.jpg');
+    ),url('../assets/images/teslas.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   font-size: 10px;
@@ -189,7 +189,7 @@ a{
   background-image: linear-gradient(
       rgba(0, 0, 0, 0.5),
       rgba(0, 0, 0, 0.5)
-    ),url('../images/buy.jpg ');
+    ),url('../assets/images/buy.jpg ');
     background-size: cover;
     height: 120px;
     text-align: center;
@@ -221,7 +221,7 @@ a{
   background-image: linear-gradient(
       rgba(0, 0, 0, 0.5),
       rgba(0, 0, 0, 0.5)
-    ),url('../images/sell.jpg ');
+    ),url('../assets/images/sell.jpg ');
     background-size: cover;
     height: 120px;
     text-align: center;
@@ -329,7 +329,7 @@ a{
     background-image: linear-gradient(
       rgba(0, 0, 0, 0.5),
       rgba(0, 0, 0, 0.5)
-    ),url('../images/telsa1-big.jpg ');
+    ),url('../assets/images/telsa1-big.jpg ');
     background-size: cover;
     height: 400px;
 }
