@@ -37,7 +37,6 @@ class Order {
     const order = this.findById(id);
     const index = this.orders.indexOf(order);
     this.orders[index].amount = data.amount || order.amount;
-    this.orders[index].password = data.status || order.status;
     this.orders[index].modifiedDate = moment.now();
 
     return this.orders;
