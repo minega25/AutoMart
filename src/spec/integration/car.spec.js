@@ -44,7 +44,7 @@ describe('/api/v1/car', () => {
       expect(res.status).toBe(401);
     });
 
-    it('should return user details after successfull sign up', async () => {
+    it('should return car details after successfull car registration', async () => {
       const res = await exec(userToken);
       expect(res.status).toBe(200);
     });
