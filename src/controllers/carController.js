@@ -25,4 +25,33 @@ export const carCreatePost = async (req, res) => {
   return res.status(200).json(response);
 };
 
+export const updateCarStatus = (req, res) => {
+// Validate incoming user input
+  const carId = req.params.car_id;
+  const { error } = Joi.validate(carId, Joi.string().guid({ version: 'uuidv4' }));
+  if (error) {
+    const response = {
+      status: 400,
+      error: error.details[0].message,
+    };
+    return res.status(400).json(response);
+  }
+  //  Find car
+  const car = cars.findById(carId);
+  if (!car) {
+    const response = {
+      status: 400,
+      error: 'Car does not exist',
+    };
+    return res.status(400).json(response);
+  }
+  // Update car
+  car.status = 'sold';
+  const response = {
+    status: 200,
+    data: _.pick(car, ['id', 'email', 'created_on', 'manufacturer', 'model', 'price', 'state', 'status']),
+  };
+  return res.status(200).json(response);
+};
+
 export const car = cars;
