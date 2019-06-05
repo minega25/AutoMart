@@ -6,7 +6,7 @@ import carCreateSchema from '../helpers/validationShemas/carCreateSchema';
 const cars = new Car();
 
 // Handle car create on POST.
-export default async (req, res) => {
+export const carCreatePost = async (req, res) => {
   const newCar = _.pick(req.body, ['owner', 'state', 'status', 'price', 'manufacturer', 'model', 'body_type']);
   const { error } = Joi.validate(newCar, carCreateSchema);
   if (error) {
@@ -24,3 +24,5 @@ export default async (req, res) => {
   };
   return res.status(200).json(response);
 };
+
+export const car = cars;

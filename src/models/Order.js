@@ -12,9 +12,10 @@ class Order {
       id: uuid.v4(),
       buyer: data.buyer || '',
       car_id: data.car_id || '',
-      amount: data.amount || '',
+      price: data.price || '',
+      price_offered: data.amount || '',
       status: data.status || '',
-      createdDate: moment(),
+      created_on: moment(),
       modifiedDate: moment(),
     };
     this.orders.push(order);
