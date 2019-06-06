@@ -2,6 +2,7 @@ import Joi from '@hapi/joi';
 import _ from 'lodash';
 import Car from '../models/Car';
 import carCreateSchema from '../helpers/validationShemas/carCreateSchema';
+import updateCarPriceSchema from '../helpers/validationShemas/updateCarPriceSchema';
 
 const cars = new Car();
 
@@ -50,6 +51,36 @@ export const updateCarStatus = (req, res) => {
   const response = {
     status: 200,
     data: _.pick(car, ['id', 'email', 'created_on', 'manufacturer', 'model', 'price', 'state', 'status']),
+  };
+  return res.status(200).json(response);
+};
+
+export const updateCarPrice = (req, res) => {
+  // Validate incoming user input
+  const carId = req.params.car_id;
+  const { price } = req.body;
+  const { error } = Joi.validate({ price, carId }, updateCarPriceSchema);
+  if (error) {
+    const response = {
+      status: 400,
+      error: error.details[0].message,
+    };
+    return res.status(400).json(response);
+  }
+  //  Find car
+  const car = cars.findById(carId);
+  if (!car) {
+    const response = {
+      status: 400,
+      error: 'Car does not exist',
+    };
+    return res.status(400).json(response);
+  }
+  // Update price
+  car.price = price;
+  const response = {
+    status: 200,
+    data: _.pick(car, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'model', 'manufacturer']),
   };
   return res.status(200).json(response);
 };
