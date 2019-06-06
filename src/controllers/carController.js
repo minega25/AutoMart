@@ -118,6 +118,18 @@ export const getCar = (req, res) => {
 export const getCars = (req, res) => {
   if (req.query) {
     if (req.query.status === 'available') {
+      if (req.query.min_price && req.query.max_price) {
+        const result = cars.findByPrice(req.query.min_price, req.query.max_price);
+        // return car details to client
+        const response = {
+          status: 200,
+          data: _.map(result, _.partialRight(_.pick,
+            ['id', 'owner', 'email', 'state', 'status',
+              'price', 'createdDate', 'manufacturer',
+              'model', 'body_type'])),
+        };
+        return res.status(200).json(response);
+      }
       const allUnsoldCars = cars.findUnsold();
       // return car details to client
       const response = {
