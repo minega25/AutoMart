@@ -10,5 +10,6 @@ router.post('/', auth, carController.carCreatePost);
 router.patch('/:car_id/status', auth, carController.updateCarStatus);
 router.patch('/:car_id/price', auth, carController.updateCarPrice);
 router.get('/:car_id', carController.getCar);
+router.get('/', carController.getCars);
 
 export default router;
