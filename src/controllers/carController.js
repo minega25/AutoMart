@@ -115,4 +115,27 @@ export const getCar = (req, res) => {
   return res.status(200).json(response);
 };
 
+export const getCars = (req, res) => {
+  if (req.query) {
+    if (req.query.status === 'available') {
+      const allUnsoldCars = cars.findUnsold();
+      // return car details to client
+      const response = {
+        status: 200,
+        data: _.map(allUnsoldCars, _.partialRight(_.pick,
+          ['id', 'owner', 'email', 'state', 'status',
+            'price', 'createdDate', 'manufacturer',
+            'model', 'body_type'])),
+      };
+      return res.status(200).json(response);
+    }
+  }
+
+  const response = {
+    status: 400,
+    error: 'Bad Request. Check your url structure',
+  };
+  return res.status(400).json(response);
+};
+
 export const car = cars;

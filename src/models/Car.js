@@ -35,6 +35,11 @@ class Car {
     return this.cars;
   }
 
+  // Find all unsold cars
+  findUnsold() {
+    return this.cars.filter(car => car.status === 'available');
+  }
+
   // Update car
   update(id, data) {
     const car = this.findById(id);
