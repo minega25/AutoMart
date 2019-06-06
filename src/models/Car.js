@@ -40,7 +40,7 @@ class Car {
     return this.cars.filter(car => car.status === 'available');
   }
 
-  // Find all unsold within a price range
+  // Find all unsold cars in a fleet within a price range
   findByPrice(min, max) {
     return this.cars.filter(car => (car.status === 'available') && (car.price > min && car.price < max));
   }
