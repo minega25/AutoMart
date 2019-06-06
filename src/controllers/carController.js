@@ -85,4 +85,34 @@ export const updateCarPrice = (req, res) => {
   return res.status(200).json(response);
 };
 
+export const getCar = (req, res) => {
+// Validate incoming user input
+  const carId = req.params.car_id;
+  const { error } = Joi.validate(carId, Joi.string().guid({ version: 'uuidv4' }));
+  if (error) {
+    const response = {
+      status: 400,
+      error: error.details[0].message,
+    };
+    return res.status(400).json(response);
+  }
+  //  Find car
+  const car = cars.findById(carId);
+  if (!car) {
+    const response = {
+      status: 400,
+      error: 'Car does not exist',
+    };
+    return res.status(400).json(response);
+  }
+  // return car details to client
+  const response = {
+    status: 200,
+    data: _.pick(car,
+      ['id', 'owner', 'email', 'state', 'status',
+        'price', 'createdDate', 'manufacturer', 'model', 'body_type']),
+  };
+  return res.status(200).json(response);
+};
+
 export const car = cars;
