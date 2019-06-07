@@ -18,7 +18,9 @@
     "instrument": false
   },
   "scripts": {
-    "start": "nodemon --exec babel-node src/index.js",
+    "start": "babel-node dist/index.js",
+    "build": "babel src --out-dir dist",
+    "dev": "nodemon --exec babel-node src/index.js",
     "test-init": "jasmine init",
     "test": "cross-env NODE_ENV=test nyc babel-node node_modules/jasmine/bin/jasmine.js --config=src/spec/support/jasmine.json",
     "coverage": "cross-env NODE_ENV=test nyc report --reporter=text-lcov | coveralls"
@@ -64,7 +66,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-jasmine": "^2.10.1",
-    "heroku": "^7.24.4",
+    "heroku": "^7.25.0",
     "jasmine": "^3.4.0",
     "jasmine-console-reporter": "^3.1.0",
     "jasmine-node": "^3.0.0",
