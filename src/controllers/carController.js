@@ -1,5 +1,7 @@
 import Joi from '@hapi/joi';
 import _ from 'lodash';
+import jwt from 'jsonwebtoken';
+import config from 'config';
 import Car from '../models/Car';
 import carCreateSchema from '../helpers/validationShemas/carCreateSchema';
 import updateCarPriceSchema from '../helpers/validationShemas/updateCarPriceSchema';
@@ -142,12 +144,31 @@ export const getCars = (req, res) => {
       return res.status(200).json(response);
     }
   }
-
-  const response = {
-    status: 400,
-    error: 'Bad Request. Check your url structure',
-  };
-  return res.status(400).json(response);
+  const token = req.header('x-auth-token');
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
+      if (!decoded.isAdmin) {
+        return res.status(403).send({ status: 403, data: 'Unathorized access.' });
+      // eslint-disable-next-line no-else-return
+      } else {
+        const allCars = cars.findAll();
+        // return car details to client
+        const response = {
+          status: 200,
+          data: _.map(allCars, _.partialRight(_.pick,
+            ['id', 'owner', 'email', 'state', 'status',
+              'price', 'createdDate', 'manufacturer',
+              'model', 'body_type'])),
+        };
+        return res.status(200).json(response);
+      }
+    } catch (ex) {
+      return res.status(400).send('Invalid token.');
+    }
+  } else {
+    return res.status(400).send({ status: 400, data: 'No token provided' });
+  }
 };
 
 export const deleteCar = (req, res) => {
