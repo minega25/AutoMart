@@ -150,4 +150,32 @@ export const getCars = (req, res) => {
   return res.status(400).json(response);
 };
 
+export const deleteCar = (req, res) => {
+  // Validate incoming user input
+  const carId = req.params.car_id;
+  const { error } = Joi.validate(carId, Joi.string().guid({ version: 'uuidv4' }));
+  if (error) {
+    const response = {
+      status: 400,
+      error: error.details[0].message,
+    };
+    return res.status(400).json(response);
+  }
+  //  Find car
+  const car = cars.findById(carId);
+  if (!car) {
+    const response = {
+      status: 400,
+      error: 'Car does not exist',
+    };
+    return res.status(400).json(response);
+  }
+  // delete car
+  cars.delete(carId);
+  const response = {
+    status: 200,
+    data: 'Car Ad successfully deleted',
+  };
+  return res.status(200).json(response);
+};
 export const car = cars;
