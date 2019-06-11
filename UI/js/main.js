@@ -1,4 +1,3 @@
-// eslint-disable-next-line func-names
 Element.prototype.toggle = function () {
   this.addEventListener('click', (event) => {
     event.preventDefault();
@@ -12,7 +11,8 @@ Element.prototype.toggle = function () {
 const authOut = document.getElementsByClassName('authOut')[0];
 const authIn = document.getElementsByClassName('authIn')[0];
 localStorage.setItem('isAuth', false);
-if (!localStorage.getItem('isAuth')) {
+let isAuth = localStorage.getItem('isAuth');
+if (isAuth == false) {
   authIn.style.display = 'none';
   authOut.style.display = 'inline-block';
 }
