@@ -14,6 +14,9 @@ let isAuth = localStorage.getItem('isAuth');
 if (isAuth === 'false') {
   authIn.style.display = 'none';
   authOut.style.display = 'block';
+}else {
+  authIn.style.display = 'block';
+  authOut.style.display = 'none';
 }
 function login() {
   authIn.style.display = 'block';
