@@ -5,6 +5,7 @@ node_js:
 install:
   - npm ci
 env:
+  - CC_TEST_REPORTER_ID=d532a378b063347e107f11a65a140e1423ccb9d83aa10b8a1ba764e6eb1af15f
   - automart_jwtPrivateKey=12345
 notifications:
   email: false
@@ -18,11 +19,3 @@ branches:
   - develop
 
 after_success: npm run coverage
-
-deploy:
-  provider: heroku
-  api_key:
-    secure: 95a89fe5-50d0-4c87-b139-8c3e9bb1e7de
-  app: automartapp
-  on:
-    repo: minega25/AutoMart

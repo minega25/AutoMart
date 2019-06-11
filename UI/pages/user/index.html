@@ -7,7 +7,6 @@
 	<link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="../../css/style.css">
 	<link rel="stylesheet" type="text/css" href="../../css/main.css">
 
 	<title>Auto Mart - Dashboard.</title>
@@ -30,10 +29,22 @@
 <div class="row">
 	<nav class="column-5 nav">
 			<ul>
-				<li class="navbar-item"><a href="/AutoMart/pages/buy-car.html" class="navbar-link">BUY</a></li>
-				<li class="navbar-item"><a href="/AutoMart/pages/sell-car.html" class="navbar-link">SELL/TRADE</a></li>
-				<li class="navbar-item"><a href="/AutoMart/pages/login.html"><button class="button hide-button"> Login </button></a></li>
-				<li class="navbar-item"><a href="/AutoMart/pages/signup.html"><button class="hide-button button button-reverse"> Sign Up </button></a></li>
+				<li class="navbar-item"><a href="/AutoMart/UI/assets/buy-car.html" class="navbar-link">BUY</a></li>
+				<li class="navbar-item"><a href="/AutoMart/UI/assets/sell-car.html" class="navbar-link">SELL/TRADE</a></li>
+				<li class="navbar-item">
+					<span class="auth">
+						<span class="authOut">
+							<a onclick="login()" href="/AutoMart/UI/assets/login.html"><button class="button hide-button"> Login </button></a>
+							<a  onclick="login()" href="/AutoMart/UI/assets/signup.html"><button class="hide-button button button-reverse"> Sign Up </button></a>
+						</span>
+						<span class="authIn">
+							<a onclick="logOut()" href="/AutoMart/UI/"  class="logout-btn">
+								<img src="/AutoMart/UI/assets/images/icons8-sign-out-40.png" alt="">
+								<div class="logout">LOGOUT</div>
+							</a>		
+						</span>
+					</span>
+				</li>
 			</ul>
 	</nav>
 </div>
@@ -130,8 +141,8 @@
   	</div>
 </div>
 	</main>
-	
+	<script  src="../../js/main.js"></script>
 </body>
-<script  src="../../js/main.js"></script>
+
 </html>
 

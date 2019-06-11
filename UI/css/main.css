@@ -11,8 +11,9 @@ th{
 }
 a{
   text-decoration: none;
-  color: #333;
+  color:#3399CC;
 }
+
 
 .container{
   display: flex;
@@ -150,7 +151,6 @@ a{
   margin-top: -10px;
 }
 .navbar-item:nth-last-child(2){
-  margin-top: -10px;
   margin-right: 3px;
 }
 .navbar-item:hover{
@@ -261,6 +261,7 @@ a{
   margin: inherit;
   letter-spacing:1px;
   width: 170px;
+  font-size: 14px;
   font-weight:bold;
   overflow: hidden;
   padding: .9em 1.8em;
@@ -317,7 +318,20 @@ a{
 .hide-button{
   display: none;
 }
-
+.logout {
+  font-size: .8em;
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 2px;
+  float: right;
+  padding: 4px;
+  margin-top: 7px;
+}
+.logout-btn {
+  text-decoration: none;
+	float: right;
+  color: #3399CC;
+  background-color: white;
+}
 @media all and (min-width: 600px) {
 	.or-x{
   		flex-direction: row;
@@ -367,6 +381,12 @@ a{
   }
   .mini-menu{
    display: none;
+  }
+}
+
+@media all and (min-width: 1300px) {
+  * {
+    font-size: 21px;
   }
 }
 
