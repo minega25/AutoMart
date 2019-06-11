@@ -10,19 +10,19 @@ Element.prototype.toggle = function () {
 };
 const authOut = document.getElementsByClassName('authOut')[0];
 const authIn = document.getElementsByClassName('authIn')[0];
-localStorage.setItem('isAuth', false);
+localStorage.setItem('isAuth', 'false');
 let isAuth = localStorage.getItem('isAuth');
-if (!isAuth) {
+if (isAuth === 'false') {
   authIn.style.display = 'none';
-  authOut.style.display = 'inline-block';
+  authOut.style.display = 'block';
 }
 function login() {
   authIn.style.display = 'block';
   authOut.style.display = 'none';
-  localStorage.setItem('isAuth', true);
+  localStorage.setItem('isAuth', 'true');
 }
 function logOut() {
-  authOut.style.display = 'inline-block';
+  authOut.style.display = 'block';
   authIn.style.display = 'none';
-  localStorage.setItem('isAuth', false);
+  localStorage.setItem('isAuth', 'false');
 }
