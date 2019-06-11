@@ -12,6 +12,7 @@ const authOut = document.getElementsByClassName('authOut')[0];
 const authIn = document.getElementsByClassName('authIn')[0];
 localStorage.setItem('isAuth', false);
 let isAuth = localStorage.getItem('isAuth');
+console.log(isAuth);
 if (isAuth == false) {
   authIn.style.display = 'none';
   authOut.style.display = 'inline-block';
