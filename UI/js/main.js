@@ -11,18 +11,18 @@ Element.prototype.toggle = function () {
 };
 const authOut = document.getElementsByClassName('authOut')[0];
 const authIn = document.getElementsByClassName('authIn')[0];
-let isAuth = false;
-if (!isAuth) {
+localStorage.setItem('isAuth', false);
+if (!localStorage.getItem('isAuth')) {
   authIn.style.display = 'none';
   authOut.style.display = 'inline-block';
 }
 function login() {
   authIn.style.display = 'block';
   authOut.style.display = 'none';
-  isAuth = true;
+  localStorage.setItem('isAuth', true);
 }
 function logOut() {
   authOut.style.display = 'inline-block';
   authIn.style.display = 'none';
-  isAuth = false;
+  localStorage.setItem('isAuth', false);
 }
