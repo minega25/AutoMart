@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 import moment from 'moment';
 import uuid from 'uuid';
 
@@ -11,9 +12,8 @@ class Car {
     const car = {
       id: uuid.v4(),
       email: data.email || '',
-      owner: data.owner || '',
       state: data.state || '',
-      status: data.status || '',
+      status: data.status || 'available',
       price: data.price || '',
       manufacturer: data.manufacturer || '',
       model: data.model || '',
@@ -37,12 +37,26 @@ class Car {
 
   // Find all unsold cars
   findUnsold() {
-    return this.cars.filter(car => car.status === 'available');
+    const result = this.cars.filter(car => car.status === 'available');
+    return result;
   }
 
   // Find all unsold cars in a fleet within a price range
   findByPrice(min, max) {
-    return this.cars.filter(car => (car.status === 'available') && (car.price > min && car.price < max));
+    const minPrice = parseInt(min, 10);
+    const maxPrice = parseInt(max, 10);
+    const result = this.cars.filter((car) => {
+      if (car.status === 'available') {
+        if ((car.price >= minPrice) && (car.price <= maxPrice)) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    });
+    return result;
   }
 
   // Update car

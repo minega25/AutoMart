@@ -2,11 +2,11 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Automart-challenge",
+    "title": "Automart Api documentation",
     "description": "Auto Mart is online shopping app for cars, this is a market place app where one can make ads and others can be able to make order of that car.",
     "license": {
       "name": "ISC",
-      "url": "https://github.com/harerakalex/automart-challenge"
+      "url": "git+https://github.com/minega25/AutoMart.git"
     }
   },
   "basePath": "/api/v1",
@@ -56,11 +56,11 @@
           "application/json"
         ],
         "responses": {
-          "201": {
-            "description": "success: successfully created"
+          "200": {
+            "description": "success: User successfully created"
           },
           "400": {
-            "description": "Error: invalid input"
+            "description": "Error: Validation error"
           },
           "500": {
             "description": "Server Error"
@@ -89,7 +89,7 @@
           "application/json"
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "success: successfully loged in"
           },
           "400": {
@@ -172,7 +172,7 @@
           "application/json"
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "success: A new car is sucessfully posted"
           },
           "400": {
@@ -429,7 +429,7 @@
           "application/json"
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "success: Order created Successfully"
           },
           "400": {

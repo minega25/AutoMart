@@ -65,6 +65,7 @@ export const updateOrderPrice = async (req, res) => {
   }
   // Update price
   order.old_price_offered = order.price_offered;
+  order.price_offered = req.body.new_price_offered;
   order.new_price_offered = req.body.new_price_offered;
   const response = {
     status: 200,

@@ -10,7 +10,7 @@ const cars = new Car();
 
 // Handle car create on POST.
 export const carCreatePost = async (req, res) => {
-  const newCar = _.pick(req.body, ['owner', 'state', 'status', 'price', 'manufacturer', 'model', 'body_type']);
+  const newCar = _.pick(req.body, ['state', 'price', 'manufacturer', 'model', 'body_type']);
   const { error } = Joi.validate(newCar, carCreateSchema);
   if (error) {
     const response = {
@@ -23,7 +23,7 @@ export const carCreatePost = async (req, res) => {
   const addedCar = await cars.add(newCar);
   const response = {
     status: 200,
-    data: _.pick(addedCar, ['id', 'owner', 'email', 'state', 'status', 'price', 'createdDate', 'manufacturer']),
+    data: _.pick(addedCar, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'manufacturer']),
   };
   return res.status(200).json(response);
 };
@@ -49,7 +49,11 @@ export const updateCarStatus = (req, res) => {
     return res.status(400).json(response);
   }
   // Update car
-  car.status = 'sold';
+  if (car.status === 'available') {
+    car.status = 'sold';
+  } else {
+    car.status = 'available';
+  }
   const response = {
     status: 200,
     data: _.pick(car, ['id', 'email', 'created_on', 'manufacturer', 'model', 'price', 'state', 'status']),
@@ -111,7 +115,7 @@ export const getCar = (req, res) => {
   const response = {
     status: 200,
     data: _.pick(car,
-      ['id', 'owner', 'email', 'state', 'status',
+      ['id', 'email', 'state', 'status',
         'price', 'createdDate', 'manufacturer', 'model', 'body_type']),
   };
   return res.status(200).json(response);
@@ -122,11 +126,12 @@ export const getCars = (req, res) => {
     if (req.query.status === 'available') {
       if (req.query.min_price && req.query.max_price) {
         const result = cars.findByPrice(req.query.min_price, req.query.max_price);
+
         // return car details to client
         const response = {
           status: 200,
           data: _.map(result, _.partialRight(_.pick,
-            ['id', 'owner', 'email', 'state', 'status',
+            ['id', 'email', 'state', 'status',
               'price', 'createdDate', 'manufacturer',
               'model', 'body_type'])),
         };
@@ -137,7 +142,7 @@ export const getCars = (req, res) => {
       const response = {
         status: 200,
         data: _.map(allUnsoldCars, _.partialRight(_.pick,
-          ['id', 'owner', 'email', 'state', 'status',
+          ['id', 'email', 'state', 'status',
             'price', 'createdDate', 'manufacturer',
             'model', 'body_type'])),
       };
@@ -157,7 +162,7 @@ export const getCars = (req, res) => {
         const response = {
           status: 200,
           data: _.map(allCars, _.partialRight(_.pick,
-            ['id', 'owner', 'email', 'state', 'status',
+            ['id', 'email', 'state', 'status',
               'price', 'createdDate', 'manufacturer',
               'model', 'body_type'])),
         };

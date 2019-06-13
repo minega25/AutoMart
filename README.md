@@ -28,46 +28,6 @@ Auto Mart is an online marketplace for automobiles of diverse makes, model or bo
 ## API Documentation link
 * [Auto Mart api documentation](https://automartappl.herokuapp.com/api-docs/#/)
 
-## Open Endpoints
-
-Open endpoints require no Authentication.
-
-`POST /api/v1/auth/signup`: User can register with Automart 
-
-`POST /api/v1/auth/signin` : A registered user can login
-
-`GET /api/v1/car?status=available` : A user can view all available cars
-
-`GET /api/v1/car?status=available&&min_price=xxx&&max_price=xxx` : A user can view all available cars
-
-
-## Endpoints that require Authentication
-
-Closed endpoints require a valid Token to be included in the header of the
-request. A Token can be acquired from the sign up and sign in response headers.
-
-### Car related enpoints
-
-Each endpoint manipulates or displays information related to the Car whose
-Token is provided with the request:
-
-*  `POST /api/v1/car` : Post a car sale advert
-
-*  `PATCH /api/v1/car/{car_id}/status` : Update status of a car sale advert from available to sold
-
-*  `PATCH /api/v1/car/{car_id}/price` : Update price of a car sale advert
-
-*  `DELETE /api/v1/car/{car_id}` : Admin can delete a specific car sale advert.
-
-
-### Order related enpoints
-Each endpoint manipulates or displays information related to the Order whose
-Token is provided with the request:
-
-*  `POST /api/v1/order` : Post an order
-
-*  `PATCH /api/v1/order/{order_id}/price` : Update order price offer
-
 ## Technologies used
 
 ### Language
