@@ -8,7 +8,7 @@ const orders = new Order();
 
 // Handle car create on POST.
 export const orderCreatePost = async (req, res) => {
-  const newOrder = _.pick(req.body, ['buyer', 'car_id', 'status', 'amount']);
+  const newOrder = _.pick(req.body, ['car_id', 'status', 'amount']);
   const { error } = Joi.validate(newOrder, orderCreateSchema);
   if (error) {
     const response = {
@@ -28,6 +28,7 @@ export const orderCreatePost = async (req, res) => {
   }
 
   newOrder.price = carObject.price;
+  newOrder.buyer = req.user.id;
   const addedOrder = await orders.add(newOrder);
   const response = {
     status: 200,
