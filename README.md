@@ -106,7 +106,9 @@ Heroku
 <b>Step 4: Start the server</b>
 
 `npm run dev`
-
+##Tests
+###To run test run the below command
+`npm test`
 ## Contributor
 Minega Shyaka Patrick 
 
