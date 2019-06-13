@@ -11,7 +11,6 @@ notifications:
   email: false
 script:
   - "npm test"
-  - "npm run coverage"
   
 branches:
   only:
