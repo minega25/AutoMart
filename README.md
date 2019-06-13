@@ -9,6 +9,7 @@ Auto Mart is an online marketplace for automobiles of diverse makes, model or bo
 
 [![Coverage Status](https://coveralls.io/repos/github/minega25/AutoMart/badge.svg?branch=master)](https://coveralls.io/github/minega25/AutoMart?branch=master)
 
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/b6eeebdf4625b8aa7a73/maintainability)](https://codeclimate.com/github/minega25/AutoMart/maintainability)
 
 # Auto mart Front-end UI design
