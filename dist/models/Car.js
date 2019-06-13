@@ -32,10 +32,10 @@ function () {
     value: function add(data) {
       var car = {
         id: _uuid["default"].v4(),
-        email: data.email || '',
         owner: data.owner || '',
+        email: data.email || '',
         state: data.state || '',
-        status: data.status || '',
+        status: data.status || 'available',
         price: data.price || '',
         manufacturer: data.manufacturer || '',
         model: data.model || '',
@@ -53,6 +53,20 @@ function () {
       return this.cars.find(function (car) {
         return car.id === id;
       });
+    }
+  }, {
+    key: "findByMin",
+    value: function findByMin(min) {
+      return this.cars.filter(function (car) {
+        return car.price >= min;
+      });
+    }
+  }, {
+    key: "findByMax",
+    value: function findByMax(max) {
+      return this.cars.filter(function (car) {
+        return car.price <= max;
+      });
     } // Find all cars
 
   }, {
@@ -64,17 +78,29 @@ function () {
   }, {
     key: "findUnsold",
     value: function findUnsold() {
-      return this.cars.filter(function (car) {
+      var result = this.cars.filter(function (car) {
         return car.status === 'available';
       });
+      return result;
     } // Find all unsold cars in a fleet within a price range
 
   }, {
     key: "findByPrice",
     value: function findByPrice(min, max) {
-      return this.cars.filter(function (car) {
-        return car.status === 'available' && car.price > min && car.price < max;
+      var minPrice = parseInt(min, 10);
+      var maxPrice = parseInt(max, 10);
+      var result = this.cars.filter(function (car) {
+        if (car.status === 'available') {
+          if (car.price >= minPrice && car.price <= maxPrice) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
       });
+      return result;
     } // Update car
 
   }, {

@@ -11,8 +11,6 @@ var _express = _interopRequireDefault(require("express"));
 
 var _config = _interopRequireDefault(require("config"));
 
-var _expressOasGenerator = _interopRequireDefault(require("express-oas-generator"));
-
 var _logging = _interopRequireDefault(require("./startup/logging"));
 
 var _cors = _interopRequireDefault(require("./startup/cors"));
@@ -28,8 +26,6 @@ var app = (0, _express["default"])();
 (0, _cors["default"])(app);
 (0, _routes["default"])(app);
 (0, _config2["default"])();
-
-_expressOasGenerator["default"].init(app, {});
 
 var port = process.env.PORT || _config["default"].get('port');
 

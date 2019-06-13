@@ -69,7 +69,7 @@ describe('/api/v1/auth', function () {
         first_name: 'ineza',
         last_name: 'sandra',
         email: 'ineza.sandra@gmail.com',
-        password: 'password',
+        password: 'PassWord123@',
         address: 'kg120st'
       };
     });
@@ -82,6 +82,9 @@ describe('/api/v1/auth', function () {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
+              newUser = {};
+
+            case 1:
             case "end":
               return _context3.stop();
           }
@@ -203,7 +206,7 @@ describe('/api/v1/auth', function () {
     beforeEach(function () {
       user = {
         email: 'ineza.sandra@gmail.com',
-        password: 'password'
+        password: 'PassWord123@'
       };
     });
     afterEach(function () {
