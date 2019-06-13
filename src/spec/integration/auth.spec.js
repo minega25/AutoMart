@@ -17,12 +17,12 @@ describe('/api/v1/auth', () => {
         first_name: 'ineza',
         last_name: 'sandra',
         email: 'ineza.sandra@gmail.com',
-        password: 'password',
+        password: 'PassWord123@',
         address: 'kg120st',
       };
     });
     afterEach(async () => {
-
+      newUser = {};
     });
 
     it('should return error message if user input validation fails', async () => {
@@ -53,7 +53,7 @@ describe('/api/v1/auth', () => {
     beforeEach(() => {
       user = {
         email: 'ineza.sandra@gmail.com',
-        password: 'password',
+        password: 'PassWord123@',
       };
     });
     afterEach(() => {
