@@ -125,7 +125,10 @@ export const getCars = (req, res) => {
   if (req.query) {
     if (req.query.status === 'available') {
       if (req.query.min_price && req.query.max_price) {
-        const result = cars.findByPrice(req.query.min_price, req.query.max_price);
+        const { min_price, max_price } = req.query;
+        const min = Math.min(min_price, max_price);
+        const max = Math.max(min_price, max_price);
+        const result = cars.findByPrice(min, max);
 
         // return car details to client
         const response = {
