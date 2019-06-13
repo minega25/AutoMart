@@ -5,29 +5,32 @@ import uuid from 'uuid';
 import server from '../../index';
 
 describe('/api/v1/order', () => {
-  afterEach(async () => {
+  let tempCar;
+  let tempOrder;
+  afterAll(async () => {
     await server.close();
   });
   describe('POST /', () => {
     let newOrder;
     let userToken;
+    const newCar = {
+      owner: 'minega shyaka patrick',
+      state: 'used',
+      status: 'available',
+      price: 123456,
+      manufacturer: 'toyota',
+      model: 'RAV 4',
+      body_type: 'Jeep',
+    };
 
-    // const newCar = {
-    //   owner: 'minega shyaka patrick',
-    //   state: 'used',
-    //   status: 'available',
-    //   price: 123456,
-    //   manufacturer: 'toyota',
-    //   model: 'RAV 4',
-    //   body_type: 'Jeep',
-    // };
-    // const registerCar = async (token) => {
-    //   const res = await request(server)
-    //     .post('/api/v1/car')
-    //     .set('x-auth-token', token || '')
-    //     .send(newCar);
-    //   return res;
-    // };
+    const registerCar = async (token, car) => {
+      const response = await request(server)
+        .post('/api/v1/car')
+        .set('x-auth-token', token || '')
+        .send(car);
+      return response;
+    };
+
     const exec = async (token) => {
       const res = await request(server)
         .post('/api/v1/order')
@@ -37,19 +40,17 @@ describe('/api/v1/order', () => {
     };
 
     beforeEach(async () => {
-      // const car = await registerCar(userToken);
-      // console.log(car.body.data.id);
       userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
       newOrder = {
-        buyer: 'minega shyaka',
-        car_id: '175ce5c2-f678-4c13-88a0-3f54e67aa05d',
+        buyer: 'patrick',
+        car_id: 'f5a4535d-8241-4f0f-9c05-9608c405f0cb',
         status: 'pending',
-        amount: '2,000,000',
+        amount: 20000000,
       };
     });
 
     it('should return error message if user input validation fails', async () => {
-      newOrder.owner = '';
+      newOrder.buyer = '';
       const res = await exec(userToken);
       expect(res.status).toBe(400);
     });
@@ -66,9 +67,59 @@ describe('/api/v1/order', () => {
       expect(res.status).toBe(400);
     });
 
-    // it('should return order details if order submission is successfull', async () => {
-    //   const res = await exec(userToken);
-    //   expect(res.status).toBe(200);
+    it('should return order details if order submission is successfull', async () => {
+      tempCar = await registerCar(userToken, newCar);
+      newOrder.car_id = tempCar.body.data.id;
+      tempOrder = await exec(userToken);
+      expect(tempOrder.status).toBe(200);
+    });
+  });
+
+
+  describe('PATCH /<:order-id>/price', () => {
+    let userToken;
+    const price_offered = {
+      new_price_offered: 1000000,
+    };
+    const exec = async (token, orderId) => {
+      const res = await request(server)
+        .patch(`/api/v1/order/${orderId}/price`)
+        .set('Accept', 'application/json')
+        .set('x-auth-token', token || '')
+        .send(price_offered);
+      return res;
+    };
+
+    beforeEach(() => {
+      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
+    });
+    it('should return error message if car_id is not a valid id', async () => {
+      const badId = 'ssss';
+      const res = await exec(userToken, badId);
+      expect(res.status).toBe(400);
+    });
+
+    it('should return error 400 message if order does not exist', async () => {
+      const WrongId = '853d913f-4fc0-4aeb-825c-b3ba82c9dcd9';
+      const res = await exec(userToken, WrongId);
+      expect(res.status).toBe(400);
+    });
+
+    it('should return error message if user not authenticated', async () => {
+      userToken = '';
+      const res = await exec(userToken, tempOrder.body.data.id);
+      expect(res.status).toBe(401);
+    });
+
+    // it('should return error message if status of order is not pending', async () => {
+    //   tempOrder.body.data.status = 'completed';
+    //   const res = await exec(userToken, tempOrder.body.data.id);
+    //   expect(res.status).toBe(400);
     // });
+
+    it('should return order details after successful order price offer updated', async () => {
+      const res = await exec(userToken, tempOrder.body.data.id);
+      expect(res.status).toBe(200);
+    });
   });
 });

@@ -19,6 +19,7 @@ export const carCreatePost = async (req, res) => {
     };
     return res.status(400).json(response);
   }
+  newCar.owner = req.user.id;
   newCar.email = req.user.email;
   const addedCar = await cars.add(newCar);
   const response = {
@@ -140,6 +141,32 @@ export const getCars = (req, res) => {
         };
         return res.status(200).json(response);
       }
+      if (req.query.min_price) {
+        const result = cars.findByMin(req.query.min_price);
+
+        // return car details to client
+        const response = {
+          status: 200,
+          data: _.map(result, _.partialRight(_.pick,
+            ['id', 'email', 'state', 'status',
+              'price', 'createdDate', 'manufacturer',
+              'model', 'body_type'])),
+        };
+        return res.status(200).json(response);
+      }
+      if (req.query.max_price) {
+        const result = cars.findByMax(req.query.max_price);
+
+        // return car details to client
+        const response = {
+          status: 200,
+          data: _.map(result, _.partialRight(_.pick,
+            ['id', 'email', 'state', 'status',
+              'price', 'createdDate', 'manufacturer',
+              'model', 'body_type'])),
+        };
+        return res.status(200).json(response);
+      }
       const allUnsoldCars = cars.findUnsold();
       // return car details to client
       const response = {
@@ -198,6 +225,18 @@ export const deleteCar = (req, res) => {
       error: 'Car does not exist',
     };
     return res.status(400).json(response);
+  }
+  if (!req.user.isAdmin) {
+    if (req.user.id === car.owner) {
+      // delete car
+      cars.delete(carId);
+      const response = {
+        status: 200,
+        data: 'Car Ad successfully deleted',
+      };
+      return res.status(200).json(response);
+    }
+    return res.status(403).send({ status: 403, data: 'Unathorized access.' });
   }
   // delete car
   cars.delete(carId);

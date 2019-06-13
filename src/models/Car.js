@@ -11,6 +11,7 @@ class Car {
   add(data) {
     const car = {
       id: uuid.v4(),
+      owner: data.owner || '',
       email: data.email || '',
       state: data.state || '',
       status: data.status || 'available',
@@ -28,6 +29,14 @@ class Car {
   // Find car by Id
   findById(id) {
     return this.cars.find(car => car.id === id);
+  }
+
+  findByMin(min) {
+    return this.cars.filter(car => car.price >= min);
+  }
+
+  findByMax(max) {
+    return this.cars.filter(car => car.price <= max);
   }
 
   // Find all cars
