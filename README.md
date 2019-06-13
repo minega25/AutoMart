@@ -27,6 +27,24 @@ Auto Mart is an online marketplace for automobiles of diverse makes, model or bo
 
 ## API Documentation link
 * [Auto Mart api documentation](https://automartappl.herokuapp.com/api-docs/#/)
+## API ENDPOINTS
+| Ressource URL | Methods  | Description  |
+| ------- | --- | --- |
+| / | GET | The index page |
+| /api/v1/auth/signup| POST | Sign up |
+| /api/v1/auth/signin| POST | Sign in |
+| /api/v1/users| GET | Get all users |
+| /api/v1/users/:id| GET | Get specific user |
+| /api/v1/users/:id| DELETE| Delete specific user |
+| /api/v1/cars| GET | Get all cars advers |
+| /api/v1/car| POST | Create a car advert |
+| /api/v1/orders| GET | Get all  purchasing order |
+| /api/v1/order| POST| Create purchasing order  |
+| /api/v1/order/:order Id | PUT| Update price of purchasing order |
+| /api/v1/car/:car Id/status | PUT| Update car status |
+| /api/v1/car/:car Id/price | PUT| Seller Update car price |
+| /api/v1/cars/available | GET| Get all available cars |
+| /api/v1/cars/:advert id | DELETE | Delete a car advert |
 
 ## Technologies used
 
