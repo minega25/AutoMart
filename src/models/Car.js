@@ -32,11 +32,35 @@ class Car {
   }
 
   findByMin(min) {
-    return this.cars.filter(car => car.price >= min);
+    const minPrice = parseInt(min, 10);
+    const result = this.cars.filter((car) => {
+      if (car.status === 'available') {
+        if ((car.price >= minPrice)) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    });
+    return result;
   }
 
   findByMax(max) {
-    return this.cars.filter(car => car.price <= max);
+    const maxPrice = parseInt(max, 10);
+    const result = this.cars.filter((car) => {
+      if (car.status === 'available') {
+        if ((car.price <= maxPrice)) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    });
+    return result;
   }
 
   // Find all cars

@@ -49,6 +49,13 @@ export const updateCarStatus = (req, res) => {
     };
     return res.status(400).json(response);
   }
+  if (req.user.id !== car.owner) {
+    const response = {
+      status: 400,
+      error: 'Bad request',
+    };
+    return res.status(400).json(response);
+  }
   // Update car
   if (car.status === 'available') {
     car.status = 'sold';
@@ -80,6 +87,13 @@ export const updateCarPrice = (req, res) => {
     const response = {
       status: 400,
       error: 'Car does not exist',
+    };
+    return res.status(400).json(response);
+  }
+  if (req.user.id !== car.owner) {
+    const response = {
+      status: 400,
+      error: 'Bad request',
     };
     return res.status(400).json(response);
   }
@@ -126,6 +140,7 @@ export const getCars = (req, res) => {
   if (req.query) {
     if (req.query.status === 'available') {
       if (req.query.min_price && req.query.max_price) {
+        // eslint-disable-next-line camelcase
         const { min_price, max_price } = req.query;
         const min = Math.min(min_price, max_price);
         const max = Math.max(min_price, max_price);

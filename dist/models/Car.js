@@ -57,16 +57,36 @@ function () {
   }, {
     key: "findByMin",
     value: function findByMin(min) {
-      return this.cars.filter(function (car) {
-        return car.price >= min;
+      var minPrice = parseInt(min, 10);
+      var result = this.cars.filter(function (car) {
+        if (car.status === 'available') {
+          if (car.price >= minPrice) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
       });
+      return result;
     }
   }, {
     key: "findByMax",
     value: function findByMax(max) {
-      return this.cars.filter(function (car) {
-        return car.price <= max;
+      var maxPrice = parseInt(max, 10);
+      var result = this.cars.filter(function (car) {
+        if (car.status === 'available') {
+          if (car.price <= maxPrice) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
       });
+      return result;
     } // Find all cars
 
   }, {
