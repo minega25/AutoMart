@@ -162,6 +162,14 @@ var updateCarPrice = function updateCarPrice(req, res) {
       error: 'Car does not exist'
     };
     return res.status(400).json(_response6);
+  }
+
+  if (req.user.id !== car.owner) {
+    var _response7 = {
+      status: 400,
+      error: 'Bad request'
+    };
+    return res.status(400).json(_response7);
   } // Update price
 
 
@@ -185,22 +193,22 @@ var getCar = function getCar(req, res) {
       error = _Joi$validate4.error;
 
   if (error) {
-    var _response7 = {
+    var _response8 = {
       status: 400,
       error: error.details[0].message
     };
-    return res.status(400).json(_response7);
+    return res.status(400).json(_response8);
   } //  Find car
 
 
   var car = cars.findById(carId);
 
   if (!car) {
-    var _response8 = {
+    var _response9 = {
       status: 400,
       error: 'Car does not exist'
     };
-    return res.status(400).json(_response8);
+    return res.status(400).json(_response9);
   } // return car details to client
 
 
@@ -225,33 +233,33 @@ var getCars = function getCars(req, res) {
         var max = Math.max(min_price, max_price);
         var result = cars.findByPrice(min, max); // return car details to client
 
-        var _response9 = {
+        var _response10 = {
           status: 200,
           data: _lodash["default"].map(result, _lodash["default"].partialRight(_lodash["default"].pick, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'manufacturer', 'model', 'body_type']))
         };
-        return res.status(200).json(_response9);
+        return res.status(200).json(_response10);
       }
 
       if (req.query.min_price) {
         var _result = cars.findByMin(req.query.min_price); // return car details to client
 
 
-        var _response10 = {
+        var _response11 = {
           status: 200,
           data: _lodash["default"].map(_result, _lodash["default"].partialRight(_lodash["default"].pick, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'manufacturer', 'model', 'body_type']))
         };
-        return res.status(200).json(_response10);
+        return res.status(200).json(_response11);
       }
 
       if (req.query.max_price) {
         var _result2 = cars.findByMax(req.query.max_price); // return car details to client
 
 
-        var _response11 = {
+        var _response12 = {
           status: 200,
           data: _lodash["default"].map(_result2, _lodash["default"].partialRight(_lodash["default"].pick, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'manufacturer', 'model', 'body_type']))
         };
-        return res.status(200).json(_response11);
+        return res.status(200).json(_response12);
       }
 
       var allUnsoldCars = cars.findUnsold(); // return car details to client
@@ -278,11 +286,11 @@ var getCars = function getCars(req, res) {
       } else {
         var allCars = cars.findAll(); // return car details to client
 
-        var _response12 = {
+        var _response13 = {
           status: 200,
           data: _lodash["default"].map(allCars, _lodash["default"].partialRight(_lodash["default"].pick, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'manufacturer', 'model', 'body_type']))
         };
-        return res.status(200).json(_response12);
+        return res.status(200).json(_response13);
       }
     } catch (ex) {
       return res.status(400).send('Invalid token.');
@@ -307,33 +315,33 @@ var deleteCar = function deleteCar(req, res) {
       error = _Joi$validate5.error;
 
   if (error) {
-    var _response13 = {
+    var _response14 = {
       status: 400,
       error: error.details[0].message
     };
-    return res.status(400).json(_response13);
+    return res.status(400).json(_response14);
   } //  Find car
 
 
   var car = cars.findById(carId);
 
   if (!car) {
-    var _response14 = {
+    var _response15 = {
       status: 400,
       error: 'Car does not exist'
     };
-    return res.status(400).json(_response14);
+    return res.status(400).json(_response15);
   }
 
   if (!req.user.isAdmin) {
     if (req.user.id === car.owner) {
       // delete car
       cars["delete"](carId);
-      var _response15 = {
+      var _response16 = {
         status: 200,
         data: 'Car Ad successfully deleted'
       };
-      return res.status(200).json(_response15);
+      return res.status(200).json(_response16);
     }
 
     return res.status(403).send({
