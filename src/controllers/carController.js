@@ -182,6 +182,26 @@ export const getCars = (req, res) => {
         };
         return res.status(200).json(response);
       }
+      if (req.query.state) {
+        const state = String(req.query.state);
+        const isValidState = state === 'new' || state === 'used';
+        if (!isValidState) {
+          const response = {
+            status: 400,
+            error: 'Invalid car state value',
+          };
+          return res.status(400).json(response);
+        }
+        const results = cars.findByState(state);
+        const response = {
+          status: 200,
+          data: _.map(results, _.partialRight(_.pick,
+            ['id', 'email', 'state', 'status',
+              'price', 'createdDate', 'manufacturer',
+              'model', 'body_type'])),
+        };
+        return res.status(200).json(response);
+      }
       const allUnsoldCars = cars.findUnsold();
       // return car details to client
       const response = {
