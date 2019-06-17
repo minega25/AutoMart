@@ -49,13 +49,13 @@ export const updateCarStatus = (req, res) => {
     };
     return res.status(400).json(response);
   }
-  if (req.user.id !== car.owner) {
-    const response = {
-      status: 400,
-      error: 'Bad request',
-    };
-    return res.status(400).json(response);
-  }
+  // if (req.user.id !== car.owner) {
+  //   const response = {
+  //     status: 400,
+  //     error: 'Bad request',
+  //   };
+  //   return res.status(400).json(response);
+  // }
   // Update car
   if (car.status === 'available') {
     car.status = 'sold';
@@ -90,13 +90,13 @@ export const updateCarPrice = (req, res) => {
     };
     return res.status(400).json(response);
   }
-  if (req.user.id !== car.owner) {
-    const response = {
-      status: 400,
-      error: 'Bad request',
-    };
-    return res.status(400).json(response);
-  }
+  // if (req.user.id !== car.owner) {
+  //   const response = {
+  //     status: 400,
+  //     error: 'Bad request',
+  //   };
+  //   return res.status(400).json(response);
+  // }
   // Update price
   car.price = price;
   const response = {
@@ -176,6 +176,26 @@ export const getCars = (req, res) => {
         const response = {
           status: 200,
           data: _.map(result, _.partialRight(_.pick,
+            ['id', 'email', 'state', 'status',
+              'price', 'createdDate', 'manufacturer',
+              'model', 'body_type'])),
+        };
+        return res.status(200).json(response);
+      }
+      if (req.query.state) {
+        const state = String(req.query.state);
+        const isValidState = state === 'new' || state === 'used';
+        if (!isValidState) {
+          const response = {
+            status: 400,
+            error: 'Invalid car state value',
+          };
+          return res.status(400).json(response);
+        }
+        const results = cars.findByState(state);
+        const response = {
+          status: 200,
+          data: _.map(results, _.partialRight(_.pick,
             ['id', 'email', 'state', 'status',
               'price', 'createdDate', 'manufacturer',
               'model', 'body_type'])),

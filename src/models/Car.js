@@ -63,6 +63,21 @@ class Car {
     return result;
   }
 
+  findByState(state) {
+    const result = this.cars.filter((car) => {
+      if (car.status === 'available') {
+        if ((car.state === state)) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    });
+    return result;
+  }
+
   // Find all cars
   findAll() {
     return this.cars;
