@@ -49,13 +49,13 @@ export const updateCarStatus = (req, res) => {
     };
     return res.status(400).json(response);
   }
-  if (req.user.id !== car.owner) {
-    const response = {
-      status: 400,
-      error: 'Bad request',
-    };
-    return res.status(400).json(response);
-  }
+  // if (req.user.id !== car.owner) {
+  //   const response = {
+  //     status: 400,
+  //     error: 'Bad request',
+  //   };
+  //   return res.status(400).json(response);
+  // }
   // Update car
   if (car.status === 'available') {
     car.status = 'sold';
@@ -90,13 +90,13 @@ export const updateCarPrice = (req, res) => {
     };
     return res.status(400).json(response);
   }
-  if (req.user.id !== car.owner) {
-    const response = {
-      status: 400,
-      error: 'Bad request',
-    };
-    return res.status(400).json(response);
-  }
+  // if (req.user.id !== car.owner) {
+  //   const response = {
+  //     status: 400,
+  //     error: 'Bad request',
+  //   };
+  //   return res.status(400).json(response);
+  // }
   // Update price
   car.price = price;
   const response = {

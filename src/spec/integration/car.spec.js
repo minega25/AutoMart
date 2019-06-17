@@ -62,17 +62,17 @@ describe('/api/v1/car', () => {
     beforeEach(() => {
       userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
     });
-    it('should return error message if car_id is not a valid id', async () => {
-      const badId = 'ssss';
-      const res = await exec(userToken, badId);
-      expect(res.status).toBe(400);
-    });
+    // it('should return error message if car_id is not a valid id', async () => {
+    //   const badId = 'ssss';
+    //   const res = await exec(userToken, badId);
+    //   expect(res.status).toBe(400);
+    // });
 
-    it('should return error message if car does not exist', async () => {
-      const badId = 'fcc10a6f-da1d-41a5-ae18-81b815a98d19';
-      const res = await exec(userToken, badId);
-      expect(res.status).toBe(400);
-    });
+    // it('should return error message if car does not exist', async () => {
+    //   const badId = 'fcc10a6f-da1d-41a5-ae18-81b815a98d19';
+    //   const res = await exec(userToken, badId);
+    //   expect(res.status).toBe(400);
+    // });
 
     it('should return error message if user not authenticated', async () => {
       userToken = '';
