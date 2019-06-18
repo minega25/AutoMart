@@ -1,4 +1,3 @@
-// eslint-disable-next-line func-names
 Element.prototype.toggle = function () {
   this.addEventListener('click', (event) => {
     event.preventDefault();
@@ -11,18 +10,21 @@ Element.prototype.toggle = function () {
 };
 const authOut = document.getElementsByClassName('authOut')[0];
 const authIn = document.getElementsByClassName('authIn')[0];
-localStorage.setItem('isAuth', false);
-if (!localStorage.getItem('isAuth')) {
+let isAuth = localStorage.getItem('isAuth');
+if (isAuth === 'false') {
   authIn.style.display = 'none';
-  authOut.style.display = 'inline-block';
+  authOut.style.display = 'block';
+}else {
+  authIn.style.display = 'block';
+  authOut.style.display = 'none';
 }
 function login() {
   authIn.style.display = 'block';
   authOut.style.display = 'none';
-  localStorage.setItem('isAuth', true);
+  localStorage.setItem('isAuth', 'true');
 }
 function logOut() {
-  authOut.style.display = 'inline-block';
+  authOut.style.display = 'block';
   authIn.style.display = 'none';
-  localStorage.setItem('isAuth', false);
+  localStorage.setItem('isAuth', 'false');
 }
