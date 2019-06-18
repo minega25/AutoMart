@@ -1,6 +1,7 @@
 import moment from 'moment';
 import uuid from 'uuid';
 import bcrypt from 'bcrypt';
+import Query from '../helpers/dbquery';
 
 class User {
   constructor() {
@@ -9,6 +10,12 @@ class User {
 
   // Add user
   async add(data) {
+    // Create query string
+    const queryString = `INSERT INTO 
+      users(id, email, first_name, last_name, 
+        password, address, is_admin, createdDate, modifiedDate)
+        VALUES($1, $2, $3, $4, $5, $6)
+        returning *`;
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(data.password, salt);
     const user = {
@@ -22,8 +29,10 @@ class User {
       createdDate: moment.now(),
       modifiedDate: moment.now(),
     };
-    this.users.push(user);
-    return user;
+    const { rows } = await Query.query(queryString, user);
+    const regUser = rows[0];
+    this.users.push(regUser);
+    return regUser;
   }
 
   // Find user by Id
