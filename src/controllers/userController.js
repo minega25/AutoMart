@@ -7,31 +7,31 @@ const users = new User();
 
 // Handle user create on POST.
 export const userCreatePost = async (req, res) => {
-  const userExistsAlready = users.findAll()
-    .find(user => user.email === req.newUser.email);
+  try {
+    const addedUser = await users.add(req.newUser);
 
-  if (userExistsAlready) {
+    const userToken = jwt.sign({ id: addedUser.id, email: addedUser.email, isAdmin: addedUser.is_admin }, config.get('jwtPrivateKey'));
+    const response = {
+      status: 201,
+      message: 'User created successfully',
+      data: {
+        token: userToken,
+        id: addedUser.id,
+        first_name: addedUser.first_name,
+        last_name: addedUser.last_name,
+        email: addedUser.email,
+        address: addedUser.address,
+        is_admin: addedUser.is_admin,
+      },
+    };
+    return res.header('x-auth-token', userToken).status(200).json(response);
+  } catch (err) {
     const response = {
       status: 400,
-      error: 'User already exists',
+      error: err.detail,
     };
     return res.status(400).json(response);
   }
-  const addedUser = await users.add(req.newUser);
-
-  const userToken = jwt.sign({ id: addedUser.id, email: addedUser.email, isAdmin: addedUser.is_admin }, config.get('jwtPrivateKey'));
-  const response = {
-    status: 200,
-    data: {
-      token: userToken,
-      id: addedUser.id,
-      first_name: addedUser.first_name,
-      last_name: addedUser.last_name,
-      email: addedUser.email,
-      is_admin: addedUser.is_admin,
-    },
-  };
-  return res.header('x-auth-token', userToken).status(200).json(response);
 };
 
 export const userLoginPost = async (req, res) => {

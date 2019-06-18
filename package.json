@@ -21,6 +21,8 @@
     "start": "babel-node dist/index.js",
     "build": "babel --copy-files src --out-dir dist",
     "dev": "nodemon --exec babel-node src/index.js",
+    "migrate-create": "babel-node src/database/migrations/createTables.js default Createtables",
+    "migrate-drop": "babel-node src/database/migrations/dropTables.js default droptables",
     "test-init": "jasmine init",
     "test": "cross-env NODE_ENV=test nyc babel-node node_modules/jasmine/bin/jasmine.js --config=src/spec/support/jasmine.json",
     "coverage": "cross-env NODE_ENV=test nyc report --reporter=text-lcov | coveralls"
