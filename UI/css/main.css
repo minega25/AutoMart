@@ -1,5 +1,6 @@
 body{
-  color: #333;
+  background-color: #040404;
+  color: #CCCCCC;
   font-family: 'Lato', Helvetica, Arial, sans-serif;
 }
 h1, h2, h3, h4, h5, h6, caption {
@@ -11,7 +12,7 @@ th{
 }
 a{
   text-decoration: none;
-  color:#3399CC;
+  color:#CCCCCC;
 }
 
 
@@ -24,6 +25,12 @@ a{
 	display: flex;
 	flex-wrap: wrap;	
 	flex: 1;
+}
+.row > h4 {
+  margin: 0 auto;
+}
+.row > img {
+  margin: 0 auto;
 }
 .or-x{
   flex-direction: column;
@@ -43,12 +50,12 @@ a{
 .fit-content{
   align-self: center;
 }
-.shadow-effect{
+.shadow-effect {
   padding: 1.5rem 2rem;
   margin : 5px;
-  background-color: white;
+  background-color: rgb(22, 21, 21);
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgb(44, 44, 46);
 }
 .centered {
 	margin : auto;
@@ -71,7 +78,7 @@ a{
 .logo::before{
   content: 'Auto Mart';
   font-family: 'Shrikhand', cursive;
-  color: #3399CC;
+  color: #CCCCCC;
   font-size: 1.5rem;
   line-height: 70px;
   position: relative;
@@ -89,18 +96,16 @@ a{
   text-align: center;
 }
 .pagination a.active {
-  background-color: #3399CC;;
-  color: white;
+  background-color: #CCCCCC;;
+  color: #CCCCCC;
 }
 
-.pagination a:hover:not(.active) {background-color: #3399CC;}
-.footer{
-  border-top: 1px solid #91C9E8;
-}
+.pagination a:hover:not(.active) {background-color: #CCCCCC;}
+
 .form-input{
   position: relative;
   padding: .9em 1.8em;
-  border: 1px solid #3399CC;
+  border: 1px solid #CCCCCC;
   cursor: pointer;
   outline: none;
   -webkit-border-radius: 4px;
@@ -124,7 +129,7 @@ a{
 .navToggle > a {
   display: block;
   font-size: 1.2em;
-  color: #3399CC;
+  color: #CCCCCC;
   line-height: 4.4rem;
   font-weight: 600;
   padding: 0 2rem;
@@ -153,12 +158,10 @@ a{
 .navbar-item:nth-last-child(2){
   margin-right: 3px;
 }
-.navbar-item:hover{
-  letter-spacing: 0.2px;
-}
+
 .navbar-link{
   display: block;
-  color: rgba(0,0,0,.65);
+  color: white;
   font-weight: 700;
   padding: 1.5rem 0;
   text-decoration: none;
@@ -166,7 +169,7 @@ a{
 }
 .mini-menu{
   padding-right: 1.5rem;
-  color: #3399CC;
+  color: #CCCCCC;
 }
 /**********************************/
 .home-page-intro{
@@ -181,7 +184,7 @@ a{
   font-size: 10px;
 }
 .home-page-intro > div >h3{
-   color: white;
+   color: #CCCCCC;
    text-align: center;
 }
 /**********************************/
@@ -196,7 +199,7 @@ a{
     padding: 10px;
 }
 .buy-page-intro > div > h3{
-    color: white;
+    color: #CCCCCC;
   }
 /*************************************/
 
@@ -208,7 +211,7 @@ a{
   max-width: 30rem;
   margin: 0 auto;
   padding: 1.5rem 2rem;
-  background-color: white;
+  background-color: #CCCCCC;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
@@ -226,10 +229,10 @@ a{
     height: 120px;
     text-align: center;
     padding: 10px;
-    color: white;
+    color: #CCCCCC;
 }
 .sell-page-intro > div > h3{
-    color: white;
+    color: #CCCCCC;
   }
 
 /*************************************/
@@ -240,8 +243,8 @@ a{
 }
 
 .upload-btn {
-  border: 1px solid #3399CC;
-  background-color: white;
+  border: 1px solid #CCCCCC;
+  background-color: #CCCCCC;
   padding: .9em 1.8em;
   border-radius: 8px;
   font-size: 20px;
@@ -265,7 +268,7 @@ a{
   font-weight:bold;
   overflow: hidden;
   padding: .9em 1.8em;
-  border: 1px solid #3399CC;
+  border: 1px solid #CCCCCC;
   cursor: pointer;
   outline: none;
   -webkit-border-radius: 4px;
@@ -281,10 +284,10 @@ a{
   text-align: center;
   width: 130px;
   display: inline-block;
-  border-radius:40px;
+  border-radius: 40px;
   background: #fff;
-  border: 2px solid #3399CC;
-  color: #3399CC;
+  border: 2px solid #CCCCCC;
+  color: #040404;
   letter-spacing:1px;
   text-shadow:0;
   font-size: 12px;
@@ -293,16 +296,29 @@ a{
   transition: all 0.25s ease;
 }
 .button-reverse{
-  color:white;
-  background: #3399CC;
+  outline:none;
+  height: 40px;
+  text-align: center;
+  width: 130px;
+  display: inline-block;
+  border-radius: 40px;
+  background: #fff;
+  border: 2px solid #CCCCCC;
+  color: #040404;
+  letter-spacing:1px;
+  text-shadow:0;
+  font-size: 12px;
+  font-weight:bold;
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 .button:hover{
-  color:white;
-  background: #3399CC;
+  color: #fff;
+  background: #040404;
 }
 .button-reverse:hover{
-  color: #3399CC;
-  background: #fff;
+  color: #fff;
+  background: #040404;
 }
 .button:active{
   letter-spacing: 2px ;
@@ -312,7 +328,7 @@ a{
   color: red;
 }
 .button-delete:hover{
-  color:white;
+  color:#CCCCCC;
   background: red;
 }
 .hide-button{
@@ -329,8 +345,8 @@ a{
 .logout-btn {
   text-decoration: none;
 	float: right;
-  color: #3399CC;
-  background-color: white;
+  color: #CCCCCC;
+  background-color: #CCCCCC;
 }
 @media all and (min-width: 600px) {
 	.or-x{
@@ -374,7 +390,7 @@ a{
   }
   .navbar-link{
     padding: 0 1.25rem;
-    color: #3399CC;
+    color: #CCCCCC;
   }
   .button{
     display: initial;

@@ -1,28 +1,14 @@
-import Joi from '@hapi/joi';
 import jwt from 'jsonwebtoken';
 import config from 'config';
 import bcrypt from 'bcrypt';
-import _ from 'lodash';
 import User from '../models/User';
-import userSignUpSchema from '../helpers/validationShemas/userSignUpSchema';
-import userLoginSchema from '../helpers/validationShemas/userLoginSchema';
 
 const users = new User();
 
 // Handle user create on POST.
 export const userCreatePost = async (req, res) => {
-  const newUser = _.pick(req.body, ['first_name', 'last_name', 'password', 'email', 'address', 'is_admin']);
-  const { error } = Joi.validate(newUser, userSignUpSchema);
-  if (error) {
-    const response = {
-      status: 400,
-      error: error.details[0].message,
-    };
-    return res.status(400).json(response);
-  }
-
   const userExistsAlready = users.findAll()
-    .find(user => user.email === newUser.email);
+    .find(user => user.email === req.newUser.email);
 
   if (userExistsAlready) {
     const response = {
@@ -31,7 +17,7 @@ export const userCreatePost = async (req, res) => {
     };
     return res.status(400).json(response);
   }
-  const addedUser = await users.add(newUser);
+  const addedUser = await users.add(req.newUser);
 
   const userToken = jwt.sign({ id: addedUser.id, email: addedUser.email, isAdmin: addedUser.is_admin }, config.get('jwtPrivateKey'));
   const response = {
@@ -49,18 +35,8 @@ export const userCreatePost = async (req, res) => {
 };
 
 export const userLoginPost = async (req, res) => {
-  const user = _.pick(req.body, ['email', 'password']);
-  const { error } = Joi.validate(user, userLoginSchema);
-  if (error) {
-    const response = {
-      status: 400,
-      error: error.details[0].message,
-    };
-    return res.status(400).json(response);
-  }
-
   const userRegistered = users.findAll()
-    .find(u => u.email === user.email);
+    .find(u => u.email === req.user.email);
   if (!userRegistered) {
     const response = {
       status: 400,
