@@ -1,4 +1,3 @@
-import pool from '../database/migrations/createUserTableSchema';
 
 export default {
   query(queryString, params) {
