@@ -7,6 +7,7 @@ install:
 env:
   - CC_TEST_REPORTER_ID=d532a378b063347e107f11a65a140e1423ccb9d83aa10b8a1ba764e6eb1af15f
   - automart_jwtPrivateKey=12345
+  - DATABASE_URL=unset
 notifications:
   email: false
 script:
