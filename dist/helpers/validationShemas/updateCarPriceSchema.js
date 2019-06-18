@@ -11,7 +11,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var schema = {
   price: _joi["default"].number().required(),
-  carId: _joi["default"].string().guid({
+  carId: _joi["default"].string().trim().guid({
     version: 'uuidv4'
   })
 };

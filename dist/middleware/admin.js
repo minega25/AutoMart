@@ -7,10 +7,6 @@ exports["default"] = void 0;
 
 // eslint-disable-next-line consistent-return
 var admin = function admin(req, res, next) {
-  if (!req.user.isAdmin) return res.status(403).send({
-    status: 403,
-    data: 'Unathorized access.'
-  });
   next();
 };
 

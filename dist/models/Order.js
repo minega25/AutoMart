@@ -47,7 +47,7 @@ function () {
                   buyer: data.buyer || '',
                   car_id: data.car_id || '',
                   price: data.price || '',
-                  price_offered: data.amount || '',
+                  price_offered: data.amount || 0,
                   status: data.status || '',
                   created_on: (0, _moment["default"])(),
                   modifiedDate: (0, _moment["default"])()

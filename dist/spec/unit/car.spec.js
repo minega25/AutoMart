@@ -12,39 +12,47 @@ describe('Car model', function () {
   var car;
   var car1;
   var car2;
+  var car3;
   beforeEach(
   /*#__PURE__*/
   _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee() {
-    var data1, data2;
+    var data1, data2, data3;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             car = new _Car["default"]();
             data1 = {
-              owner: 1,
               state: 'used',
-              status: 'available',
-              price: '39393939',
+              status: 'sold',
+              price: 1000000,
               manufacturer: 'a',
               model: 'a',
               body_type: 'a'
             };
             data2 = {
-              owner: 1,
               state: 'used',
               status: 'available',
-              price: '39393939',
+              price: 2000000,
+              manufacturer: 'a',
+              model: 'a',
+              body_type: 'a'
+            };
+            data3 = {
+              state: 'used',
+              status: 'available',
+              price: 3000000,
               manufacturer: 'a',
               model: 'a',
               body_type: 'a'
             };
             car1 = car.add(data1);
             car2 = car.add(data2);
+            car3 = car.add(data3);
 
-          case 5:
+          case 7:
           case "end":
             return _context.stop();
         }
@@ -76,6 +84,16 @@ describe('Car model', function () {
       state: 'used'
     }));
   });
+  it('should return all unsold cars', function () {
+    var result = car.findUnsold();
+    expect(result).toEqual(jasmine.objectContaining([jasmine.objectContaining({
+      id: car2.id,
+      status: 'available'
+    }), jasmine.objectContaining({
+      id: car3.id,
+      status: 'available'
+    })]));
+  });
   it('should return all cars within the fleet', function () {
     var result = car.findAll();
     expect(result).toEqual(jasmine.objectContaining([jasmine.objectContaining({
@@ -93,17 +111,29 @@ describe('Car model', function () {
       state: 'used'
     })]));
   });
+  it('should return all cars within a min and max price range', function () {
+    var min = 2000000;
+    var max = 3000000;
+    var result = car.findByPrice(min, max);
+    expect(result).toEqual(jasmine.objectContaining([jasmine.objectContaining({
+      id: car2.id,
+      state: 'used'
+    }), jasmine.objectContaining({
+      id: car3.id,
+      state: 'used'
+    })]));
+  });
   it('should add a car to a fleet',
   /*#__PURE__*/
   _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee3() {
-    var data3, car3, allCars;
+    var data4, car4, allCars;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            data3 = {
+            data4 = {
               owner: 1,
               state: 'used',
               status: 'available',
@@ -112,7 +142,7 @@ describe('Car model', function () {
               model: 'a',
               body_type: 'a'
             };
-            car3 = car.add(data3);
+            car4 = car.add(data4);
             allCars = car.findAll();
             expect(allCars).toEqual([jasmine.objectContaining({
               id: car1.id,
@@ -122,6 +152,9 @@ describe('Car model', function () {
               state: 'used'
             }), jasmine.objectContaining({
               id: car3.id,
+              state: 'used'
+            }), jasmine.objectContaining({
+              id: car4.id,
               state: 'used'
             })]);
 
@@ -146,7 +179,7 @@ describe('Car model', function () {
               owner: 1,
               state: 'new',
               status: 'available',
-              price: '39393939',
+              price: 39393939,
               manufacturer: 'a',
               model: 'a',
               body_type: 'a'
