@@ -68,11 +68,6 @@ describe('/api/v1/car', () => {
       const res = await exec(userToken);
       expect(res.status).toBe(401);
     });
-
-    it('should return car details after successfull car status update', async () => {
-      const res = await exec(userToken, tempCar.body.data.id);
-      expect(res.status).toBe(200);
-    });
   });
   describe('GET /<:car-id>', () => {
     let userToken;
@@ -141,11 +136,6 @@ describe('/api/v1/car', () => {
       userToken = '';
       const res = await exec(userToken);
       expect(res.status).toBe(401);
-    });
-
-    it('should return car details after successfull car status update', async () => {
-      const res = await exec(userToken, tempCar.body.data.id);
-      expect(res.status).toBe(200);
     });
   });
   describe('DELETE /<:car-id>', () => {
