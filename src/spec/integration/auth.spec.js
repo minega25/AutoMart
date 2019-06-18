@@ -71,20 +71,5 @@ describe('/api/v1/auth', () => {
       const res = await exec();
       expect(res.status).toBe(400);
     });
-
-    // it('should return user details and token if user successfully signs in', async () => {
-    //   const newUser = {
-    //     first_name: 'ineza',
-    //     last_name: 'sandra',
-    //     email: 'ineza.sandra@gmail.com',
-    //     password: 'password',
-    //     address: 'kg120st',
-    //   };
-    //   const res = await request(server)
-    //     .post('/api/v1/auth/signup')
-    //     .send(newUser);
-    //   const res = await exec();
-    //   expect(res.status).toBe(200);
-    // });
   });
 });
