@@ -1,24 +1,13 @@
 import Joi from '@hapi/joi';
 import _ from 'lodash';
 import Order from '../models/Order';
-import orderCreateSchema from '../helpers/validationShemas/orderCreateSchema';
 import { car } from './carController';
 
 const orders = new Order();
 
 // Handle car create on POST.
 export const orderCreatePost = async (req, res) => {
-  const newOrder = _.pick(req.body, ['car_id', 'status', 'amount']);
-  const { error } = Joi.validate(newOrder, orderCreateSchema);
-  if (error) {
-    const response = {
-      status: 400,
-      error: error.details[0].message,
-    };
-    return res.status(400).json(response);
-  }
-
-  const carObject = car.findById(newOrder.car_id);
+  const carObject = car.findById(req.newOrder.car_id);
   if (!carObject) {
     const response = {
       status: 400,
@@ -27,9 +16,18 @@ export const orderCreatePost = async (req, res) => {
     return res.status(400).json(response);
   }
 
-  newOrder.price = carObject.price;
-  newOrder.buyer = req.user.id;
-  const addedOrder = await orders.add(newOrder);
+  // User cannot order for his/her own car
+  if (req.user.email === carObject.email) {
+    const response = {
+      status: 400,
+      error: 'User cannot order for his/her own car',
+    };
+    return res.status(400).json(response);
+  }
+
+  req.newOrder.price = carObject.price;
+  req.newOrder.buyer = req.user.id;
+  const addedOrder = await orders.add(req.newOrder);
   const response = {
     status: 200,
     data: _.pick(addedOrder, ['id', 'car_id', 'status', 'price', 'price_offered', 'created_on']),
@@ -38,18 +36,8 @@ export const orderCreatePost = async (req, res) => {
 };
 
 export const updateOrderPrice = async (req, res) => {
-  // Validate incoming user input
-  const orderId = req.params.order_id;
-  const { error } = Joi.validate(orderId, Joi.string().guid({ version: 'uuidv4' }));
-  if (error) {
-    const response = {
-      status: 400,
-      error: error.details[0].message,
-    };
-    return res.status(400).json(response);
-  }
   //  Find order
-  const order = orders.findById(orderId);
+  const order = orders.findById(req.uuid);
   if (!order) {
     const response = {
       status: 400,

@@ -95,7 +95,9 @@ a{
 
 .pagination a:hover:not(.active) {background-color: #3399CC;}
 .footer{
-  border-top: 1px solid #91C9E8;
+  background-color: black;
+  text-align: center;
+  color: white;
 }
 .form-input{
   position: relative;
@@ -152,9 +154,6 @@ a{
 }
 .navbar-item:nth-last-child(2){
   margin-right: 3px;
-}
-.navbar-item:hover{
-  letter-spacing: 0.2px;
 }
 .navbar-link{
   display: block;
@@ -389,5 +388,3 @@ a{
     font-size: 21px;
   }
 }
-
-

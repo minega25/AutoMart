@@ -55,23 +55,11 @@ describe('/api/v1/order', () => {
       expect(res.status).toBe(400);
     });
 
-    it('should return error message if user not authenticated', async () => {
-      userToken = '';
-      const res = await exec(userToken);
-      expect(res.status).toBe(401);
-    });
 
     it('should return error if ordered car does not exist', async () => {
       newOrder.car_id = '175ce5c2-f678-4c13-88a0-3f54e67aa05e';
       const res = await exec(userToken);
       expect(res.status).toBe(400);
-    });
-
-    it('should return order details if order submission is successfull', async () => {
-      tempCar = await registerCar(userToken, newCar);
-      newOrder.car_id = tempCar.body.data.id;
-      tempOrder = await exec(userToken);
-      expect(tempOrder.status).toBe(200);
     });
   });
 
@@ -103,23 +91,6 @@ describe('/api/v1/order', () => {
       const WrongId = '853d913f-4fc0-4aeb-825c-b3ba82c9dcd9';
       const res = await exec(userToken, WrongId);
       expect(res.status).toBe(400);
-    });
-
-    it('should return error message if user not authenticated', async () => {
-      userToken = '';
-      const res = await exec(userToken, tempOrder.body.data.id);
-      expect(res.status).toBe(401);
-    });
-
-    // it('should return error message if status of order is not pending', async () => {
-    //   tempOrder.body.data.status = 'completed';
-    //   const res = await exec(userToken, tempOrder.body.data.id);
-    //   expect(res.status).toBe(400);
-    // });
-
-    it('should return order details after successful order price offer updated', async () => {
-      const res = await exec(userToken, tempOrder.body.data.id);
-      expect(res.status).toBe(200);
     });
   });
 });
