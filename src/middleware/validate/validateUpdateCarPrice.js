@@ -3,9 +3,9 @@ import updateCarPriceSchema from '../../helpers/validationShemas/updateCarPriceS
 
 const validateUpdateCarPrice = (req, res, next) => {
   // Validate incoming user input
-  const carId = req.params.car_id;
+  const { uuid } = req.params;
   const { price } = req.body;
-  const { error } = Joi.validate({ price, carId }, updateCarPriceSchema);
+  const { error } = Joi.validate({ price, uuid }, updateCarPriceSchema);
   if (error) {
     const response = {
       status: 400,
@@ -13,7 +13,7 @@ const validateUpdateCarPrice = (req, res, next) => {
     };
     return res.status(400).json(response);
   }
-  req.carId = carId;
+  req.uuid = uuid;
   req.price = price;
   next();
 };
