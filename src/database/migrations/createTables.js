@@ -32,7 +32,6 @@ const Createtables = () => {
                     id UUID PRIMARY KEY,
                     buyer UUID NOT NULL,
                     car_id UUID,
-                    created_on TIMESTAMP NOT NULL,
                     price DECIMAL(12,2) NOT NULL,
                     price_offered DECIMAL(12,2) NOT NULL,
                     status VARCHAR(30) NOT NULL,
