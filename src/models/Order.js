@@ -30,8 +30,10 @@ class Order {
   }
 
   // Find order by Id
-  findById(id) {
-    return this.orders.find(order => order.id === id);
+  async findById(id) {
+    const query = 'SELECT * FROM orders WHERE id=$1';
+    const { rows } = await Query(query, [id]);
+    return rows[0];
   }
 
   // Find all orders
@@ -41,12 +43,10 @@ class Order {
 
   // Update a order
   async update(id, data) {
-    const order = this.findById(id);
-    const index = this.orders.indexOf(order);
-    this.orders[index].amount = data.amount || order.amount;
-    this.orders[index].modifiedDate = moment.now();
+    const priceUpdate = 'UPDATE orders SET price_offered=$1,modifieddate=$2 WHERE id=$3';
+    const response = await Query(priceUpdate, [data.new_price_offered, moment().format(), id]);
 
-    return this.orders;
+    return response;
   }
 
   // Delete order by id

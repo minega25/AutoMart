@@ -44,29 +44,50 @@ export const orderCreatePost = async (req, res) => {
 };
 
 export const updateOrderPrice = async (req, res) => {
+  try {
   //  Find order
-  const order = orders.findById(req.uuid);
-  if (!order) {
+    const order = await orders.findById(req.uuid);
+    if (!order) {
+      const response = {
+        status: 400,
+        error: 'Order does not exist',
+      };
+      return res.status(400).json(response);
+    }
+    if (order.status !== 'pending') {
+      const response = {
+        status: 400,
+        error: 'Order status changed to non pending.',
+      };
+      return res.status(400).json(response);
+    }
+    // Update price
+    const price = {
+      new_price_offered: req.body.new_price_offered,
+    };
+    const currentPrice = order.price_offered;
+    const result = await orders.update(order.id, price);
+
+    if (!result) {
+      const response = {
+        status: 500,
+        error: 'Cannot update price',
+      };
+      return res.status(500).json(response);
+    }
+    order.old_price_offered = currentPrice;
+    order.new_price_offered = price.new_price_offered;
+    const response = {
+      status: 200,
+      message: 'Order price successfully updated',
+      data: _.pick(order, ['id', 'car_id', 'status', 'old_price_offered', 'new_price_offered']),
+    };
+    return res.status(200).json(response);
+  } catch (err) {
     const response = {
       status: 400,
-      error: 'Order does not exist',
+      error: err.detail,
     };
     return res.status(400).json(response);
   }
-  if (order.status !== 'pending') {
-    const response = {
-      status: 400,
-      error: 'Order status changed to non pending.',
-    };
-    return res.status(400).json(response);
-  }
-  // Update price
-  order.old_price_offered = order.price_offered;
-  order.price_offered = req.body.new_price_offered;
-  order.new_price_offered = req.body.new_price_offered;
-  const response = {
-    status: 200,
-    data: _.pick(order, ['id', 'car_id', 'status', 'old_price_offered', 'new_price_offered']),
-  };
-  return res.status(200).json(response);
 };

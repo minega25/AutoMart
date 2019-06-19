@@ -9,6 +9,6 @@ const router = express.Router();
 
 // POST request to create car
 router.post('/', [auth, validatePostOrder], orderCreatePost);
-router.patch('/:order_id/price', [auth, validateId], updateOrderPrice);
+router.patch('/:uuid/price', [auth, validateId], updateOrderPrice);
 
 export default router;
