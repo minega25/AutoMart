@@ -133,11 +133,10 @@ class Car {
   }
 
   // Delete car by id
-  delete(id) {
-    const car = this.findById(id);
-    const index = this.cars.indexOf(car);
-    this.cars.splice(index, 1);
-    return this.cars;
+  async delete(id) {
+    const query = 'DELETE FROM cars WHERE id=$1';
+    const result = await Query(query, [id]);
+    return result;
   }
 }
 
