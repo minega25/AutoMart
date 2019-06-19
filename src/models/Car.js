@@ -93,9 +93,10 @@ class Car {
   }
 
   // Find all unsold cars
-  findUnsold() {
-    const result = this.cars.filter(car => car.status === 'available');
-    return result;
+  async findUnsold() {
+    const query = 'SELECT * FROM cars WHERE status=$1';
+    const { rows } = await Query(query, ['available']);
+    return rows;
   }
 
   // Find all unsold cars in a fleet within a price range
