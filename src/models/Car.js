@@ -72,19 +72,10 @@ class Car {
     return result;
   }
 
-  findByState(state) {
-    const result = this.cars.filter((car) => {
-      if (car.status === 'available') {
-        if ((car.state === state)) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    });
-    return result;
+  async findByState(state) {
+    const query = 'SELECT * FROM cars WHERE status=$1 AND state=$2';
+    const { rows } = await Query(query, ['available', state]);
+    return rows;
   }
 
   // Find all cars
