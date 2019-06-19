@@ -126,7 +126,7 @@ export const getCars = async (req, res) => {
         const { min_price, max_price } = req.query;
         const min = Math.min(min_price, max_price);
         const max = Math.max(min_price, max_price);
-        const result = cars.findByPrice(min, max);
+        const result = await cars.findByPrice(min, max);
 
         // return car details to client
         const response = {
