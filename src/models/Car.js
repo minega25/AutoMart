@@ -124,6 +124,13 @@ class Car {
     return response;
   }
 
+  async updatePrice(id, data) {
+    const priceUpdate = 'UPDATE cars SET price=$1,modifieddate=$2 WHERE id=$3';
+    const response = await Query(priceUpdate, [data, moment().format(), id]);
+
+    return response;
+  }
+
   // Delete car by id
   delete(id) {
     const car = this.findById(id);
