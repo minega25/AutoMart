@@ -102,21 +102,13 @@ class Car {
   }
 
   // Find all unsold cars in a fleet within a price range
-  findByPrice(min, max) {
+  async findByPrice(min, max) {
     const minPrice = parseInt(min, 10);
     const maxPrice = parseInt(max, 10);
-    const result = this.cars.filter((car) => {
-      if (car.status === 'available') {
-        if ((car.price >= minPrice) && (car.price <= maxPrice)) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    });
-    return result;
+    const query = 'SELECT * FROM cars WHERE price>=$1 AND price<=$2';
+    const { rows } = await Query(query, [minPrice, maxPrice]);
+
+    return rows;
   }
 
   // Update car
