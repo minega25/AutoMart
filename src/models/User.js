@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import moment from 'moment';
 import uuid from 'uuid';
 import bcrypt from 'bcrypt';
@@ -37,6 +38,12 @@ class User {
   // Find user by Id
   findById(id) {
     return this.users.find(user => user.id === id);
+  }
+
+  async findByEmail(email) {
+    const text = 'SELECT * FROM users WHERE email=$1';
+    const { rows } = await Query(text, [email]);
+    return rows[0];
   }
 
   // Find user by any attribute
