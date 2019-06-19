@@ -174,7 +174,7 @@ export const getCars = async (req, res) => {
           };
           return res.status(400).json(response);
         }
-        const results = cars.findByState(state);
+        const results = await cars.findByState(state);
         const response = {
           status: 200,
           data: _.map(results, _.partialRight(_.pick,
