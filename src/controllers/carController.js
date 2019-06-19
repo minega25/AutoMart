@@ -204,7 +204,7 @@ export const getCars = async (req, res) => {
         return res.status(403).send({ status: 403, data: 'Unathorized access.' });
       // eslint-disable-next-line no-else-return
       } else {
-        const allCars = cars.findAll();
+        const allCars = await cars.findAll();
         // return car details to client
         const response = {
           status: 200,

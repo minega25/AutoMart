@@ -88,8 +88,10 @@ class Car {
   }
 
   // Find all cars
-  findAll() {
-    return this.cars;
+  async findAll() {
+    const query = 'SELECT * FROM cars';
+    const { rows } = await Query(query, []);
+    return rows;
   }
 
   // Find all unsold cars
