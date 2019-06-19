@@ -34,8 +34,10 @@ class Car {
   }
 
   // Find car by Id
-  findById(id) {
-    return this.cars.find(car => car.id === id);
+  async findById(id) {
+    const query = 'SELECT * FROM cars WHERE id=$1';
+    const { rows } = await Query(query, [id]);
+    return rows[0];
   }
 
   findByMin(min) {

@@ -1,5 +1,7 @@
+/* eslint-disable class-methods-use-this */
 import moment from 'moment';
 import uuid from 'uuid';
+import Query from '../helpers/dbquery';
 
 class Order {
   constructor() {
@@ -8,6 +10,10 @@ class Order {
 
   // Add order
   async add(data) {
+    // Query string
+    const insertOrder = `INSERT INTO orders(id,buyer,car_id,price,price_offered,status,createddate,modifieddate) 
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8) returning *`;
+
     const order = {
       id: uuid.v4(),
       buyer: data.buyer || '',
@@ -15,11 +21,12 @@ class Order {
       price: data.price || '',
       price_offered: data.amount || 0,
       status: data.status || '',
-      created_on: moment(),
-      modifiedDate: moment(),
+      createdDate: moment().format(),
+      modifiedDate: moment().format(),
     };
-    this.orders.push(order);
-    return order;
+    const orderArr = Object.keys(order).map(u => order[u]);
+    const { rows } = await Query(insertOrder, orderArr);
+    return rows[0];
   }
 
   // Find order by Id
