@@ -185,7 +185,6 @@ export const getCars = async (req, res) => {
         return res.status(200).json(response);
       }
       const allUnsoldCars = await cars.findUnsold();
-      console.log(allUnsoldCars);
       // return car details to client
       const response = {
         status: 200,
@@ -224,9 +223,9 @@ export const getCars = async (req, res) => {
   }
 };
 
-export const deleteCar = (req, res) => {
+export const deleteCar = async (req, res) => {
   //  Find car
-  const car = cars.findById(req.uuid);
+  const car = await cars.findById(req.uuid);
   if (!car) {
     const response = {
       status: 400,
@@ -237,7 +236,7 @@ export const deleteCar = (req, res) => {
   if (!req.user.isAdmin) {
     if (req.user.id === car.owner) {
       // delete car
-      cars.delete(req.uuid);
+      await cars.delete(req.uuid);
       const response = {
         status: 200,
         data: 'Car Ad successfully deleted',
@@ -247,7 +246,7 @@ export const deleteCar = (req, res) => {
     return res.status(403).send({ status: 403, data: 'Unathorized access.' });
   }
   // delete car
-  cars.delete(req.uuid);
+  await cars.delete(req.uuid);
   const response = {
     status: 200,
     data: 'Car Ad successfully deleted',
