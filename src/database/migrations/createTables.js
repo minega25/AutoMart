@@ -39,7 +39,17 @@ const Createtables = () => {
                     modifiedDate TIMESTAMP,
                     FOREIGN KEY (buyer) REFERENCES users(id) ON DELETE CASCADE
                     )`;
-  pool.query(`${Users};${Cars};${Orders}`).then((res) => {
+  const Flags = `CREATE TABLE IF NOT EXISTS flags
+                    (
+                    id UUID PRIMARY KEY,
+                    car_id UUID,
+                    reason VARCHAR(256) NOT NULL,
+                    description VARCHAR(256) NOT NULL,
+                    createdDate TIMESTAMP,
+                    modifiedDate TIMESTAMP,
+                    FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
+                    )`;
+  pool.query(`${Users};${Cars};${Orders};${Flags}`).then((res) => {
     winston.info(res);
     pool.end();
   })

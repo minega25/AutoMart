@@ -1,5 +1,7 @@
+/* eslint-disable class-methods-use-this */
 import moment from 'moment';
 import uuid from 'uuid';
+import Query from '../helpers/dbquery';
 
 class Flag {
   constructor() {
@@ -8,21 +10,27 @@ class Flag {
 
   // Add flag
   async add(data) {
+    // Query string
+    const insertFlag = `INSERT INTO flags(id,car_id,reason,description,createddate,modifieddate) 
+    VALUES($1,$2,$3,$4,$5,$6) returning *`;
     const flag = {
       id: uuid.v4(),
       car_id: data.car_id || '',
       reason: data.reason || '',
       description: data.description || '',
-      created_on: moment(),
-      modifiedDate: moment(),
+      createdDate: moment().format(),
+      modifiedDate: moment().format(),
     };
-    this.flags.push(flag);
-    return flag;
+    const flagArr = Object.keys(flag).map(u => flag[u]);
+    const { rows } = await Query(insertFlag, flagArr);
+    return rows[0];
   }
 
   // Find flag by Id
-  findById(id) {
-    return this.flags.find(flag => flag.id === id);
+  async findById(id) {
+    const query = 'SELECT * FROM flags WHERE id=$1';
+    const { rows } = await Query(query, [id]);
+    return rows[0];
   }
 
   // Find all flags
