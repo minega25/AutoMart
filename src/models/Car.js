@@ -2,6 +2,7 @@
 /* eslint-disable no-else-return */
 import moment from 'moment';
 import uuid from 'uuid';
+import Query from '../helpers/dbquery';
 
 class Car {
   constructor() {
@@ -9,7 +10,11 @@ class Car {
   }
 
   // Add car in fleet
-  add(data) {
+  async add(data) {
+    // Query string
+    const insertCar = `INSERT INTO cars(id,owner,email,state,status,price,manufacturer,model,body_type,createddate,modifieddate) 
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) returning *`;
+
     const car = {
       id: uuid.v4(),
       owner: data.owner || '',
@@ -20,11 +25,12 @@ class Car {
       manufacturer: data.manufacturer || '',
       model: data.model || '',
       body_type: data.body_type || '',
-      createdDate: moment(),
-      modifiedDate: moment(),
+      createdDate: moment().format(),
+      modifiedDate: moment().format(),
     };
-    this.cars.push(car);
-    return car;
+    const carArr = Object.keys(car).map(u => car[u]);
+    const { rows } = await Query(insertCar, carArr);
+    return rows[0];
   }
 
   // Find car by Id
