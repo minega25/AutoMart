@@ -118,7 +118,7 @@ export const getCar = async (req, res) => {
   }
 };
 
-export const getCars = (req, res) => {
+export const getCars = async (req, res) => {
   if (req.query) {
     if (req.query.status === 'available') {
       if (req.query.min_price && req.query.max_price) {
@@ -184,7 +184,8 @@ export const getCars = (req, res) => {
         };
         return res.status(200).json(response);
       }
-      const allUnsoldCars = cars.findUnsold();
+      const allUnsoldCars = await cars.findUnsold();
+      console.log(allUnsoldCars);
       // return car details to client
       const response = {
         status: 200,
