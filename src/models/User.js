@@ -36,8 +36,10 @@ class User {
   }
 
   // Find user by Id
-  findById(id) {
-    return this.users.find(user => user.id === id);
+  async findById(id) {
+    const query = 'SELECT * FROM users WHERE id=$1';
+    const { rows } = await Query(query, [id]);
+    return rows[0];
   }
 
   async findByEmail(email) {

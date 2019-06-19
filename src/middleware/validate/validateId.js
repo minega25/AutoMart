@@ -2,7 +2,7 @@ import Joi from '@hapi/joi';
 
 const validateId = (req, res, next) => {
   // Validate incoming user input
-  const uuid = req.params.car_id;
+  const { uuid } = req.params;
   const { error } = Joi.validate(uuid, Joi.string().guid({ version: 'uuidv4' }));
   if (error) {
     const response = {
