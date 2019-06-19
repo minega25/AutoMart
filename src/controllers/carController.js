@@ -9,12 +9,21 @@ const cars = new Car();
 export const carCreatePost = async (req, res) => {
   req.newCar.owner = req.user.id;
   req.newCar.email = req.user.email;
+  // try {
   const addedCar = await cars.add(req.newCar);
   const response = {
-    status: 200,
+    status: 201,
+    message: 'Car successfully created',
     data: _.pick(addedCar, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'manufacturer']),
   };
-  return res.status(200).json(response);
+  return res.status(201).json(response);
+  // } catch (err) {
+  //   const response = {
+  //     status: 400,
+  //     error: err.detail,
+  //   };
+  //   return res.status(400).json(response);
+  // }
 };
 
 export const updateCarStatus = (req, res) => {

@@ -17,13 +17,14 @@ const Createtables = () => {
                     id UUID PRIMARY KEY,
                     owner UUID NOT NULL,
                     email VARCHAR(30) NOT NULL,
-                    created_on TIMESTAMP NOT NULL,
                     state VARCHAR(30) NOT NULL,
                     status VARCHAR(30) NOT NULL,
                     price DECIMAL(12,2) NOT NULL,
                     manufacturer VARCHAR(30) NOT NULL,
                     model VARCHAR(30) NOT NULL,
                     body_type VARCHAR(30) NOT NULL,
+                    createdDate TIMESTAMP,
+                    modifiedDate TIMESTAMP,
                     FOREIGN KEY (owner) REFERENCES users(id) ON DELETE CASCADE
                     )`;
   const Orders = `CREATE TABLE IF NOT EXISTS orders
@@ -35,7 +36,8 @@ const Createtables = () => {
                     price DECIMAL(12,2) NOT NULL,
                     price_offered DECIMAL(12,2) NOT NULL,
                     status VARCHAR(30) NOT NULL,
-                    modifiedDate TIMESTAMP NOT NULL,
+                    createdDate TIMESTAMP,
+                    modifiedDate TIMESTAMP,
                     FOREIGN KEY (buyer) REFERENCES users(id) ON DELETE CASCADE
                     )`;
   pool.query(`${Users};${Cars};${Orders}`).then((res) => {
