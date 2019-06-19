@@ -64,7 +64,6 @@ export const updateCarPrice = async (req, res) => {
   try {
     //  Find car
     const car = await cars.findById(req.uuid);
-    console.log(car);
     if (!car) {
       const response = {
         status: 400,
@@ -91,24 +90,32 @@ export const updateCarPrice = async (req, res) => {
   }
 };
 
-export const getCar = (req, res) => {
-  //  Find car
-  const car = cars.findById(req.uuid);
-  if (!car) {
+export const getCar = async (req, res) => {
+  try {
+    //  Find car
+    const car = await cars.findById(req.uuid);
+    if (!car) {
+      const response = {
+        status: 400,
+        error: 'Car does not exist',
+      };
+      return res.status(400).json(response);
+    }
+    // return car details to client
+    const response = {
+      status: 200,
+      data: _.pick(car,
+        ['id', 'email', 'state', 'status',
+          'price', 'createdDate', 'manufacturer', 'model', 'body_type']),
+    };
+    return res.status(200).json(response);
+  } catch (err) {
     const response = {
       status: 400,
-      error: 'Car does not exist',
+      error: err.detail,
     };
     return res.status(400).json(response);
   }
-  // return car details to client
-  const response = {
-    status: 200,
-    data: _.pick(car,
-      ['id', 'email', 'state', 'status',
-        'price', 'createdDate', 'manufacturer', 'model', 'body_type']),
-  };
-  return res.status(200).json(response);
 };
 
 export const getCars = (req, res) => {
