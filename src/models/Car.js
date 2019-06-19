@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable no-else-return */
 import moment from 'moment';
 import uuid from 'uuid';

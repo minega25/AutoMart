@@ -35,8 +35,7 @@ export const userCreatePost = async (req, res) => {
 };
 
 export const userLoginPost = async (req, res) => {
-  const userRegistered = users.findAll()
-    .find(u => u.email === req.user.email);
+  const userRegistered = await users.findByEmail(req.user.email);
   if (!userRegistered) {
     const response = {
       status: 400,

@@ -1,6 +1,4 @@
-import Joi from '@hapi/joi';
 import _ from 'lodash';
-import flagCreateSchema from '../helpers/validationShemas/flagCreateSchema';
 import Flag from '../models/Flag';
 import { car } from './carController';
 
