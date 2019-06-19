@@ -117,15 +117,11 @@ class Car {
   }
 
   // Update car
-  update(id, data) {
-    const car = this.findById(id);
-    const index = this.cars.indexOf(car);
-    this.cars[index].state = data.state || car.state;
-    this.cars[index].status = data.status || car.status;
-    this.cars[index].price = data.price || car.price;
-    this.cars[index].modifiedDate = moment.now();
+  async update(id, data) {
+    const priceUpdate = 'UPDATE cars SET status=$1,modifieddate=$2 WHERE id=$3';
+    const response = await Query(priceUpdate, [data, moment().format(), id]);
 
-    return this.cars;
+    return response;
   }
 
   // Delete car by id

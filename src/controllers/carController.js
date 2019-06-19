@@ -26,28 +26,38 @@ export const carCreatePost = async (req, res) => {
   }
 };
 
-export const updateCarStatus = (req, res) => {
-  //  Find car
-  const car = cars.findById(req.uuid);
-  if (!car) {
+export const updateCarStatus = async (req, res) => {
+  try {
+    //  Find car
+    const car = await cars.findById(req.uuid);
+    if (!car) {
+      const response = {
+        status: 400,
+        error: 'Car does not exist',
+      };
+      return res.status(400).json(response);
+    }
+
+    // Update car
+    if (car.status === 'available') {
+      await cars.update(req.uuid, 'sold');
+    } else {
+      await cars.update(req.uuid, 'available');
+    }
+    const UpdatedCar = await cars.findById(req.uuid);
+    const response = {
+      status: 200,
+      message: 'Car status updated successfully',
+      data: _.pick(UpdatedCar, ['id', 'email', 'created_on', 'manufacturer', 'model', 'price', 'state', 'status']),
+    };
+    return res.status(200).json(response);
+  } catch (err) {
     const response = {
       status: 400,
-      error: 'Car does not exist',
+      error: err.detail,
     };
     return res.status(400).json(response);
   }
-
-  // Update car
-  if (car.status === 'available') {
-    car.status = 'sold';
-  } else {
-    car.status = 'available';
-  }
-  const response = {
-    status: 200,
-    data: _.pick(car, ['id', 'email', 'created_on', 'manufacturer', 'model', 'price', 'state', 'status']),
-  };
-  return res.status(200).json(response);
 };
 
 export const updateCarPrice = (req, res) => {
