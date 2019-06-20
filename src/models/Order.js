@@ -36,26 +36,12 @@ class Order {
     return rows[0];
   }
 
-  // Find all orders
-  findAll() {
-    return this.orders;
-  }
-
   // Update a order
   async update(id, data) {
     const priceUpdate = 'UPDATE orders SET price_offered=$1,modifieddate=$2 WHERE id=$3';
     const response = await Query(priceUpdate, [data.new_price_offered, moment().format(), id]);
 
     return response;
-  }
-
-  // Delete order by id
-  delete(id) {
-    const order = this.findById(id);
-    const index = this.orders.indexOf(order);
-    this.orders.splice(index, 1);
-
-    return this.orders;
   }
 }
 

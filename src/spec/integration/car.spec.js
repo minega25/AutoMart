@@ -5,13 +5,28 @@ import uuid from 'uuid';
 import server from '../../index';
 
 describe('/api/v1/car', () => {
+  let user;
+  let userToken;
   let tempCar;
+  beforeAll(async () => {
+    const dummyUser = {
+      first_name: 'patrick',
+      last_name: 'shyaka',
+      email: 'usertest@gmail.com',
+      password: 'PassWrd123@',
+      address: 'adsfa',
+      is_admin: true,
+    };
+    const res = await request(server)
+      .post('/api/v1/auth/signup')
+      .send(dummyUser);
+    user = res.body.data;
+  });
   afterAll(async () => {
     await server.close();
   });
   describe('POST /', () => {
     let newCar;
-    let userToken;
     const exec = async (token) => {
       const res = await request(server)
         .post('/api/v1/car')
@@ -21,15 +36,13 @@ describe('/api/v1/car', () => {
     };
 
     beforeEach(() => {
-      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
+      userToken = jwt.sign({ id: user.id, email: user.email, isAdmin: user.is_admin }, config.get('jwtPrivateKey'));
       newCar = {
-        owner: 'minega shyaka patrick',
-        state: 'used',
-        status: 'available',
-        price: 123456,
-        manufacturer: 'toyota',
-        model: 'RAV 4',
-        body_type: 'Jeep',
+        state: 'new',
+        price: 9000000,
+        manufacturer: 'aaaa',
+        model: 'x',
+        body_type: 'jeep',
       };
     });
 
@@ -47,11 +60,10 @@ describe('/api/v1/car', () => {
 
     it('should return car details after successfull car registration', async () => {
       tempCar = await exec(userToken);
-      expect(tempCar.status).toBe(200);
+      expect(tempCar.status).toBe(201);
     });
   });
   describe('PATCH /<:car-id>/status', () => {
-    let userToken;
     const exec = async (token, carId) => {
       const res = await request(server)
         .patch(`/api/v1/car/${carId}/status`)
@@ -70,7 +82,6 @@ describe('/api/v1/car', () => {
     });
   });
   describe('GET /<:car-id>', () => {
-    let userToken;
     let newCar;
     const exec = async (token, carId) => {
       const res = await request(server)
@@ -105,7 +116,6 @@ describe('/api/v1/car', () => {
   });
 
   describe('PATCH /<:car-id>/price', () => {
-    let userToken;
     const newPrice = {
       price: 70000000,
     };
@@ -139,19 +149,16 @@ describe('/api/v1/car', () => {
     });
   });
   describe('DELETE /<:car-id>', () => {
-    let userToken;
-    let adminToken;
     const exec = async (token, carId) => {
       const res = await request(server)
         .delete(`/api/v1/car/${carId}`)
         .set('x-auth-token', token || '');
       return res;
     };
-
-    beforeEach(() => {
-      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
-      adminToken = jwt.sign({ id: uuid.v4(), email: 'admin@gmail.com', isAdmin: true }, config.get('jwtPrivateKey'));
+    beforeEach(async () => {
+      userToken = jwt.sign({ id: user.id, email: user.email, isAdmin: user.is_admin }, config.get('jwtPrivateKey'));
     });
+
     it('should return error message if car_id is not a valid id', async () => {
       const badId = 'ssss';
       const res = await exec(userToken, badId);
@@ -170,8 +177,8 @@ describe('/api/v1/car', () => {
       expect(res.status).toBe(401);
     });
 
-    it('should return car deleted successfully if user is admin update', async () => {
-      const res = await exec(adminToken, tempCar.body.data.id);
+    it('should return car deleted successfully if user is admin', async () => {
+      const res = await exec(userToken, tempCar.body.data.id);
       expect(res.status).toBe(200);
     });
   });

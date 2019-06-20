@@ -1,45 +1,40 @@
 import request from 'supertest';
 import server from '../../index';
 
-describe('/api/v1/auth', () => {
+describe('/api/v1/auth', async () => {
   afterEach(async () => {
     await server.close();
   });
-  describe('POST /signup', () => {
+  describe('POST /signup', async () => {
     let newUser;
-    const exec = async () => {
-      const res = await request(server).post('/api/v1/auth/signup').send(newUser);
+    const exec = async (user) => {
+      const res = await request(server).post('/api/v1/auth/signup').send(user);
       return res;
     };
 
     beforeEach(() => {
       newUser = {
-        first_name: 'ineza',
-        last_name: 'sandra',
-        email: 'ineza.sandra@gmail.com',
-        password: 'PassWord123@',
-        address: 'kg120st',
+        first_name: 'patrick',
+        last_name: 'shyaka',
+        email: 'kevin@gmail.com',
+        password: 'PassWrd123@',
+        address: 'adsfa',
+        is_admin: true,
       };
     });
-    afterEach(async () => {
+    afterEach(() => {
       newUser = {};
     });
 
     it('should return error message if user input validation fails', async () => {
-      newUser.email = 'dd';
-      const res = await exec();
+      newUser.email = '';
+      const res = await exec(newUser);
       expect(res.status).toBe(400);
     });
 
     it('should return user details after successfull sign up', async () => {
-      const res = await exec();
-      expect(res.status).toBe(200);
-    });
-
-    it('should return user already registered if user attemps to signup again', async () => {
-      await exec();
-      const res = await exec();
-      expect(res.status).toBe(400);
+      const res = await exec(newUser);
+      expect(res.status).toBe(201);
     });
   });
 

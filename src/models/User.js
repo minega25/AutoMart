@@ -48,38 +48,11 @@ class User {
     return rows[0];
   }
 
-  // Find user by any attribute
-  findOne(data) {
-    const attrArr = Object.keys(data);
-    const attr = attrArr[0];
-
-    return this.users.find(user => user[attr] === data[attr]);
-  }
-
   // Find all users
-  findAll() {
-    return this.users;
-  }
-
-  // Update a user
-  async update(id, data) {
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(data.password, salt);
-    const user = this.findById(id);
-    const index = this.users.indexOf(user);
-    this.users[index].password = hash || user.password;
-    this.users[index].modifiedDate = moment.now();
-
-    return this.users;
-  }
-
-  // Delete user by id
-  delete(id) {
-    const user = this.findById(id);
-    const index = this.users.indexOf(user);
-    this.users.splice(index, 1);
-
-    return this.users;
+  async findAll() {
+    const text = 'SELECT * FROM users';
+    const { rows } = await Query(text, []);
+    return rows;
   }
 }
 
