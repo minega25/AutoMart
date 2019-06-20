@@ -2,12 +2,14 @@ import { Pool } from 'pg';
 import config from 'config';
 import winston from 'winston';
 
+const db = config.get('dbUrl');
+console.log(process.env.NODE_ENV);
 const pool = new Pool({
-  connectionString: config.get('dbUrl'),
+  connectionString: db,
 });
 
 pool.on('connect', () => {
-  winston.info('connected to the db');
+  winston.info(`connected to ${db}`);
 });
 
 pool.on('remove', () => {

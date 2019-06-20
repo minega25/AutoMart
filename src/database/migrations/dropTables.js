@@ -5,7 +5,8 @@ const droptables = () => {
   const Users = 'DROP TABLE IF EXISTS users CASCADE';
   const Cars = 'DROP TABLE IF EXISTS cars CASCADE';
   const Orders = 'DROP TABLE IF EXISTS orders CASCADE';
-  pool.query(`${Users};${Cars};${Orders}`).then((res) => {
+  const Flags = 'DROP TABLE IF EXISTS flags CASCADE';
+  pool.query(`${Users};${Cars};${Orders};${Flags}`).then((res) => {
     winston.info(res);
     pool.end();
   })

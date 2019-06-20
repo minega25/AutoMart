@@ -24,7 +24,7 @@ export const userCreatePost = async (req, res) => {
         is_admin: addedUser.is_admin,
       },
     };
-    return res.header('x-auth-token', userToken).status(200).json(response);
+    return res.header('x-auth-token', userToken).status(201).json(response);
   } catch (err) {
     const response = {
       status: 400,
@@ -55,6 +55,7 @@ export const userLoginPost = async (req, res) => {
   const userToken = jwt.sign({ id: userRegistered.id, email: userRegistered.email, isAdmin: userRegistered.is_admin }, config.get('jwtPrivateKey'));
   const response = {
     status: 200,
+    message: 'user logged in successfully',
     data: {
       token: userToken,
       id: userRegistered.id,
@@ -63,5 +64,5 @@ export const userLoginPost = async (req, res) => {
       email: userRegistered.email,
     },
   };
-  return res.header('x-auth-token', userToken).status(200).json(response);
+  return res.header('x-auth-token', userToken).status(201).json(response);
 };
