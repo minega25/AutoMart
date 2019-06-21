@@ -27,10 +27,10 @@ export const userCreatePost = async (req, res) => {
     return res.header('x-auth-token', userToken).status(201).json(response);
   } catch (err) {
     const response = {
-      status: 400,
-      error: err.detail,
+      status: 409,
+      error: 'User already registered',
     };
-    return res.status(400).json(response);
+    return res.status(409).json(response);
   }
 };
 
@@ -64,5 +64,5 @@ export const userLoginPost = async (req, res) => {
       email: userRegistered.email,
     },
   };
-  return res.header('x-auth-token', userToken).status(201).json(response);
+  return res.header('x-auth-token', userToken).status(200).json(response);
 };

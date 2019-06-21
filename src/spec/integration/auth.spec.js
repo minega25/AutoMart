@@ -40,15 +40,15 @@ describe('/api/v1/auth', async () => {
 
   describe('POST /signin', () => {
     let user;
-    const exec = async () => {
-      const res = await request(server).post('/api/v1/auth/signin').send(user);
+    const exec = async (user1) => {
+      const res = await request(server).post('/api/v1/auth/signin').send(user1);
       return res;
     };
 
     beforeEach(() => {
       user = {
-        email: 'ineza.sandra@gmail.com',
-        password: 'PassWord123@',
+        email: 'kevin@gmail.com',
+        password: 'PassWrd123@',
       };
     });
     afterEach(() => {
@@ -57,14 +57,23 @@ describe('/api/v1/auth', async () => {
 
     it('should return error message if user input validation fails', async () => {
       user.email = 'dd';
-      const res = await exec();
+      const res = await exec(user);
+      expect(res.status).toBe(400);
+    });
+    it('should return error message if user input validation fails', async () => {
+      user.password = 'd@##sdfd12344d';
+      const res = await exec(user);
       expect(res.status).toBe(400);
     });
 
     it('should return error message if user is not registered', async () => {
       user.email = 'usernotknown@gmail.com';
-      const res = await exec();
+      const res = await exec(user);
       expect(res.status).toBe(400);
+    });
+    it('should return user details after successfull sign up', async () => {
+      const res = await exec(user);
+      expect(res.status).toBe(200);
     });
   });
 });

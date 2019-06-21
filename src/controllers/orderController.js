@@ -33,11 +33,11 @@ export const orderCreatePost = async (req, res) => {
       message: 'Order registered successfully',
       data: _.pick(addedOrder, ['id', 'car_id', 'status', 'price', 'price_offered', 'created_on']),
     };
-    return res.status(200).json(response);
+    return res.status(201).json(response);
   } catch (err) {
     const response = {
       status: 400,
-      error: err.detail,
+      error: 'Bad request',
     };
     return res.status(400).json(response);
   }
@@ -54,27 +54,13 @@ export const updateOrderPrice = async (req, res) => {
       };
       return res.status(400).json(response);
     }
-    if (order.status !== 'pending') {
-      const response = {
-        status: 400,
-        error: 'Order status changed to non pending.',
-      };
-      return res.status(400).json(response);
-    }
     // Update price
     const price = {
       new_price_offered: req.body.new_price_offered,
     };
     const currentPrice = order.price_offered;
-    const result = await orders.update(order.id, price);
+    await orders.update(order.id, price);
 
-    if (!result) {
-      const response = {
-        status: 500,
-        error: 'Cannot update price',
-      };
-      return res.status(500).json(response);
-    }
     order.old_price_offered = currentPrice;
     order.new_price_offered = price.new_price_offered;
     const response = {
@@ -86,7 +72,7 @@ export const updateOrderPrice = async (req, res) => {
   } catch (err) {
     const response = {
       status: 400,
-      error: err.detail,
+      error: 'Bad request',
     };
     return res.status(400).json(response);
   }

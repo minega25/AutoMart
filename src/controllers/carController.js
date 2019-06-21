@@ -9,113 +9,82 @@ const cars = new Car();
 export const carCreatePost = async (req, res) => {
   req.newCar.owner = req.user.id;
   req.newCar.email = req.user.email;
-  try {
-    const addedCar = await cars.add(req.newCar);
-    const response = {
-      status: 201,
-      message: 'Car successfully created',
-      data: _.pick(addedCar, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'manufacturer']),
-    };
-    return res.status(201).json(response);
-  } catch (err) {
-    const response = {
-      status: 400,
-      error: err.detail,
-    };
-    return res.status(400).json(response);
-  }
+  const addedCar = await cars.add(req.newCar);
+  const response = {
+    status: 201,
+    message: 'Car successfully created',
+    data: _.pick(addedCar, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'manufacturer']),
+  };
+  console.log(addedCar);
+  return res.status(201).json(response);
 };
 
 export const updateCarStatus = async (req, res) => {
-  try {
-    //  Find car
-    const car = await cars.findById(req.uuid);
-    if (!car) {
-      const response = {
-        status: 400,
-        error: 'Car does not exist',
-      };
-      return res.status(400).json(response);
-    }
-
-    // Update car
-    if (car.status === 'available') {
-      await cars.update(req.uuid, 'sold');
-    } else {
-      await cars.update(req.uuid, 'available');
-    }
-    const UpdatedCar = await cars.findById(req.uuid);
-    const response = {
-      status: 200,
-      message: 'Car status updated successfully',
-      data: _.pick(UpdatedCar, ['id', 'email', 'created_on', 'manufacturer', 'model', 'price', 'state', 'status']),
-    };
-    return res.status(200).json(response);
-  } catch (err) {
+  //  Find car
+  const car = await cars.findById(req.uuid);
+  if (!car) {
     const response = {
       status: 400,
-      error: err.detail,
+      error: 'Car does not exist',
     };
     return res.status(400).json(response);
   }
+
+  // Update car
+  if (car.status === 'available') {
+    await cars.update(req.uuid, 'sold');
+  } else {
+    await cars.update(req.uuid, 'available');
+  }
+  const UpdatedCar = await cars.findById(req.uuid);
+  const response = {
+    status: 200,
+    message: 'Car status updated successfully',
+    data: _.pick(UpdatedCar, ['id', 'email', 'created_on', 'manufacturer', 'model', 'price', 'state', 'status']),
+  };
+  return res.status(200).json(response);
 };
 
 export const updateCarPrice = async (req, res) => {
-  try {
-    //  Find car
-    const car = await cars.findById(req.uuid);
-    if (!car) {
-      const response = {
-        status: 400,
-        error: 'Car does not exist',
-      };
-      return res.status(400).json(response);
-    }
-
-    // Update price
-    await cars.updatePrice(req.uuid, req.price);
-    const updatedCar = await cars.findById(req.uuid);
-    const response = {
-      status: 200,
-      message: 'Car price updated successfully',
-      data: _.pick(updatedCar, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'model', 'manufacturer']),
-    };
-    return res.status(200).json(response);
-  } catch (err) {
+  //  Find car
+  const car = await cars.findById(req.uuid);
+  if (!car) {
     const response = {
       status: 400,
-      error: err.detail,
+      error: 'Car does not exist',
     };
     return res.status(400).json(response);
   }
+
+  // Update price
+  await cars.updatePrice(req.uuid, req.price);
+  const updatedCar = await cars.findById(req.uuid);
+  const response = {
+    status: 200,
+    message: 'Car price updated successfully',
+    data: _.pick(updatedCar, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'model', 'manufacturer']),
+  };
+  return res.status(200).json(response);
 };
 
 export const getCar = async (req, res) => {
-  try {
-    //  Find car
-    const car = await cars.findById(req.uuid);
-    if (!car) {
-      const response = {
-        status: 400,
-        error: 'Car does not exist',
-      };
-      return res.status(400).json(response);
-    }
-    // return car details to client
-    const response = {
-      status: 200,
-      data: _.pick(car,
-        ['id', 'email', 'state', 'status',
-          'price', 'createdDate', 'manufacturer', 'model', 'body_type']),
-    };
-    return res.status(200).json(response);
-  } catch (err) {
+  //  Find car
+  const car = await cars.findById(req.uuid);
+  if (!car) {
     const response = {
       status: 400,
-      error: err.detail,
+      error: 'Car does not exist',
     };
     return res.status(400).json(response);
   }
+  // return car details to client
+  const response = {
+    status: 200,
+    data: _.pick(car,
+      ['id', 'email', 'state', 'status',
+        'price', 'createdDate', 'manufacturer', 'model', 'body_type']),
+  };
+  return res.status(200).json(response);
 };
 
 export const getCars = async (req, res) => {
@@ -216,7 +185,7 @@ export const getCars = async (req, res) => {
         return res.status(200).json(response);
       }
     } catch (ex) {
-      return res.status(400).send('Invalid token.');
+      return res.status(400).send({ status: 400, error: 'Invalid token.' });
     }
   } else {
     return res.status(400).send({ status: 400, data: 'No token provided' });

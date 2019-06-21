@@ -32,7 +32,6 @@ describe('Order model', async () => {
   beforeAll(async () => {
   });
   beforeEach(async () => {
-    console.log(`ssss ${car1} , ${user1}`);
     const data1 = {
       buyer: user1.id,
       car_id: car1.id,

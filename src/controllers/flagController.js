@@ -24,7 +24,7 @@ export default async (req, res) => {
   } catch (err) {
     const response = {
       status: 400,
-      error: err.detail,
+      error: 'Bad request',
     };
     return res.status(400).json(response);
   }
