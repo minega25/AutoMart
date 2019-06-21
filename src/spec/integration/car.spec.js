@@ -72,13 +72,24 @@ describe('/api/v1/car', () => {
     };
 
     beforeEach(() => {
-      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
+      userToken = jwt.sign({ id: user.id, email: user.email, isAdmin: user.is_admin }, config.get('jwtPrivateKey'));
     });
 
     it('should return error message if user not authenticated', async () => {
       userToken = '';
       const res = await exec(userToken);
       expect(res.status).toBe(401);
+    });
+
+    it('should return error message if car does not exist', async () => {
+      const badId = 'fcc10a6f-da1d-41a5-ae18-81b815a98d19';
+      const res = await exec(userToken, badId);
+      expect(res.status).toBe(400);
+    });
+
+    it('should return car status updated successfully', async () => {
+      const res = await exec(userToken, tempCar.body.data.id);
+      expect(res.status).toBe(200);
     });
   });
   describe('GET /<:car-id>', () => {
@@ -113,6 +124,71 @@ describe('/api/v1/car', () => {
       const res = await exec(userToken, newCar.id);
       expect(res.status).toBe(400);
     });
+
+    it('should return error message if car does not exist', async () => {
+      const badId = 'fcc10a6f-da1d-41a5-ae18-81b815a98d19';
+      const res = await exec(userToken, badId);
+      expect(res.status).toBe(400);
+    });
+
+    it('should return car fetched successfully', async () => {
+      const res = await exec(userToken, tempCar.body.data.id);
+      expect(res.status).toBe(200);
+    });
+  });
+  describe('GET /', () => {
+    const exec = async (object, token) => {
+      const res = await request(server)
+        .get('/api/v1/car/')
+        .query(object)
+        .set('x-auth-token', token || '');
+      return res;
+    };
+
+    beforeEach(() => {
+      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: true }, config.get('jwtPrivateKey'));
+    });
+
+    it('should return car fetched successfully if query status = available', async () => {
+      const res = await exec({ status: 'available' }, userToken);
+      expect(res.status).toBe(200);
+    });
+
+    it('should return car fetched successfully if query status = available and min and max price set', async () => {
+      const res = await exec({ status: 'available', min_price: 300000, max_price: 10000000 }, userToken);
+      expect(res.status).toBe(200);
+    });
+
+    it('should return car fetched successfully if query state=new', async () => {
+      const res = await exec({ status: 'available', state: 'used' }, userToken);
+      expect(res.status).toBe(200);
+    });
+    it('should return error if invalid state is passed', async () => {
+      const res = await exec({ status: 'available', state: 'ddddd' }, userToken);
+      expect(res.status).toBe(400);
+    });
+    it('should return error message if no user token provided', async () => {
+      userToken = '';
+      const res = await exec({}, userToken);
+      expect(res.status).toBe(400);
+    });
+
+    it('should return error message if no user not an admin', async () => {
+      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
+      const res = await exec({}, userToken);
+      expect(res.status).toBe(403);
+    });
+
+    it('should return error message if token not valid', async () => {
+      userToken = '77ggg';
+      const res = await exec({}, userToken);
+      expect(res.status).toBe(400);
+    });
+
+    it('should return car fetched successfully', async () => {
+      const res = await exec({}, userToken);
+      expect(res.status).toBe(200);
+    });
   });
 
   describe('PATCH /<:car-id>/price', () => {
@@ -144,8 +220,13 @@ describe('/api/v1/car', () => {
 
     it('should return error message if user not authenticated', async () => {
       userToken = '';
-      const res = await exec(userToken);
+      const res = await exec(userToken, tempCar.body.data.id);
       expect(res.status).toBe(401);
+    });
+
+    it('should return car status updated successfully', async () => {
+      const res = await exec(userToken, tempCar.body.data.id);
+      expect(res.status).toBe(200);
     });
   });
   describe('DELETE /<:car-id>', () => {
@@ -163,6 +244,12 @@ describe('/api/v1/car', () => {
       const badId = 'ssss';
       const res = await exec(userToken, badId);
       expect(res.status).toBe(400);
+    });
+
+    it('should return error message if no user not an admin', async () => {
+      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
+      const res = await exec(userToken, tempCar.body.data.id);
+      expect(res.status).toBe(403);
     });
 
     it('should return error message if car does not exist', async () => {

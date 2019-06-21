@@ -10,7 +10,7 @@ const auth = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (ex) {
-    return res.status(400).send('Invalid token.');
+    return res.status(400).send({ status: 400, error: 'Invalid token.' });
   }
 };
 
