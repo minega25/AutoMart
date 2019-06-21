@@ -1,76 +1,79 @@
-import Joi from '@hapi/joi';
 import _ from 'lodash';
 import Order from '../models/Order';
-import orderCreateSchema from '../helpers/validationShemas/orderCreateSchema';
-import { car } from './carController';
+import Car from '../models/Car';
 
 const orders = new Order();
+const cars = new Car();
 
 // Handle car create on POST.
 export const orderCreatePost = async (req, res) => {
-  const newOrder = _.pick(req.body, ['car_id', 'status', 'amount']);
-  const { error } = Joi.validate(newOrder, orderCreateSchema);
-  if (error) {
+  try {
+    const carObject = await cars.findById(req.newOrder.car_id);
+    if (!carObject) {
+      const response = {
+        status: 400,
+        error: 'Car with that id does not exist',
+      };
+      return res.status(400).json(response);
+    }
+
+    // User cannot order for his/her own car
+    if (req.user.email === carObject.email) {
+      const response = {
+        status: 400,
+        error: 'User cannot order for his/her own car',
+      };
+      return res.status(400).json(response);
+    }
+    req.newOrder.price = carObject.price;
+    req.newOrder.buyer = req.user.id;
+    const addedOrder = await orders.add(req.newOrder);
+    const response = {
+      status: 201,
+      message: 'Order registered successfully',
+      data: _.pick(addedOrder, ['id', 'car_id', 'status', 'price', 'price_offered', 'created_on']),
+    };
+    return res.status(201).json(response);
+  } catch (err) {
     const response = {
       status: 400,
-      error: error.details[0].message,
+      error: 'Bad request',
     };
     return res.status(400).json(response);
   }
-
-  const carObject = car.findById(newOrder.car_id);
-  if (!carObject) {
-    const response = {
-      status: 400,
-      error: 'Car with that id does not exist',
-    };
-    return res.status(400).json(response);
-  }
-
-  newOrder.price = carObject.price;
-  newOrder.buyer = req.user.id;
-  const addedOrder = await orders.add(newOrder);
-  const response = {
-    status: 200,
-    data: _.pick(addedOrder, ['id', 'car_id', 'status', 'price', 'price_offered', 'created_on']),
-  };
-  return res.status(200).json(response);
 };
 
 export const updateOrderPrice = async (req, res) => {
-  // Validate incoming user input
-  const orderId = req.params.order_id;
-  const { error } = Joi.validate(orderId, Joi.string().guid({ version: 'uuidv4' }));
-  if (error) {
-    const response = {
-      status: 400,
-      error: error.details[0].message,
-    };
-    return res.status(400).json(response);
-  }
+  try {
   //  Find order
-  const order = orders.findById(orderId);
-  if (!order) {
+    const order = await orders.findById(req.uuid);
+    if (!order) {
+      const response = {
+        status: 400,
+        error: 'Order does not exist',
+      };
+      return res.status(400).json(response);
+    }
+    // Update price
+    const price = {
+      new_price_offered: req.body.new_price_offered,
+    };
+    const currentPrice = order.price_offered;
+    await orders.update(order.id, price);
+
+    order.old_price_offered = currentPrice;
+    order.new_price_offered = price.new_price_offered;
+    const response = {
+      status: 200,
+      message: 'Order price successfully updated',
+      data: _.pick(order, ['id', 'car_id', 'status', 'old_price_offered', 'new_price_offered']),
+    };
+    return res.status(200).json(response);
+  } catch (err) {
     const response = {
       status: 400,
-      error: 'Order does not exist',
+      error: 'Bad request',
     };
     return res.status(400).json(response);
   }
-  if (order.status !== 'pending') {
-    const response = {
-      status: 400,
-      error: 'Order status changed to non pending.',
-    };
-    return res.status(400).json(response);
-  }
-  // Update price
-  order.old_price_offered = order.price_offered;
-  order.price_offered = req.body.new_price_offered;
-  order.new_price_offered = req.body.new_price_offered;
-  const response = {
-    status: 200,
-    data: _.pick(order, ['id', 'car_id', 'status', 'old_price_offered', 'new_price_offered']),
-  };
-  return res.status(200).json(response);
 };

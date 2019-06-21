@@ -5,13 +5,28 @@ import uuid from 'uuid';
 import server from '../../index';
 
 describe('/api/v1/car', () => {
+  let user;
+  let userToken;
   let tempCar;
+  beforeAll(async () => {
+    const dummyUser = {
+      first_name: 'patrick',
+      last_name: 'shyaka',
+      email: 'usertest@gmail.com',
+      password: 'PassWrd123@',
+      address: 'adsfa',
+      is_admin: true,
+    };
+    const res = await request(server)
+      .post('/api/v1/auth/signup')
+      .send(dummyUser);
+    user = res.body.data;
+  });
   afterAll(async () => {
     await server.close();
   });
   describe('POST /', () => {
     let newCar;
-    let userToken;
     const exec = async (token) => {
       const res = await request(server)
         .post('/api/v1/car')
@@ -21,15 +36,13 @@ describe('/api/v1/car', () => {
     };
 
     beforeEach(() => {
-      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
+      userToken = jwt.sign({ id: user.id, email: user.email, isAdmin: user.is_admin }, config.get('jwtPrivateKey'));
       newCar = {
-        owner: 'minega shyaka patrick',
-        state: 'used',
-        status: 'available',
-        price: 123456,
-        manufacturer: 'toyota',
-        model: 'RAV 4',
-        body_type: 'Jeep',
+        state: 'new',
+        price: 9000000,
+        manufacturer: 'aaaa',
+        model: 'x',
+        body_type: 'jeep',
       };
     });
 
@@ -47,11 +60,10 @@ describe('/api/v1/car', () => {
 
     it('should return car details after successfull car registration', async () => {
       tempCar = await exec(userToken);
-      expect(tempCar.status).toBe(200);
+      expect(tempCar.status).toBe(201);
     });
   });
   describe('PATCH /<:car-id>/status', () => {
-    let userToken;
     const exec = async (token, carId) => {
       const res = await request(server)
         .patch(`/api/v1/car/${carId}/status`)
@@ -60,18 +72,7 @@ describe('/api/v1/car', () => {
     };
 
     beforeEach(() => {
-      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
-    });
-    it('should return error message if car_id is not a valid id', async () => {
-      const badId = 'ssss';
-      const res = await exec(userToken, badId);
-      expect(res.status).toBe(400);
-    });
-
-    it('should return error message if car does not exist', async () => {
-      const badId = 'fcc10a6f-da1d-41a5-ae18-81b815a98d19';
-      const res = await exec(userToken, badId);
-      expect(res.status).toBe(400);
+      userToken = jwt.sign({ id: user.id, email: user.email, isAdmin: user.is_admin }, config.get('jwtPrivateKey'));
     });
 
     it('should return error message if user not authenticated', async () => {
@@ -80,13 +81,18 @@ describe('/api/v1/car', () => {
       expect(res.status).toBe(401);
     });
 
-    it('should return car details after successfull car status update', async () => {
+    it('should return error message if car does not exist', async () => {
+      const badId = 'fcc10a6f-da1d-41a5-ae18-81b815a98d19';
+      const res = await exec(userToken, badId);
+      expect(res.status).toBe(400);
+    });
+
+    it('should return car status updated successfully', async () => {
       const res = await exec(userToken, tempCar.body.data.id);
       expect(res.status).toBe(200);
     });
   });
   describe('GET /<:car-id>', () => {
-    let userToken;
     let newCar;
     const exec = async (token, carId) => {
       const res = await request(server)
@@ -118,10 +124,74 @@ describe('/api/v1/car', () => {
       const res = await exec(userToken, newCar.id);
       expect(res.status).toBe(400);
     });
+
+    it('should return error message if car does not exist', async () => {
+      const badId = 'fcc10a6f-da1d-41a5-ae18-81b815a98d19';
+      const res = await exec(userToken, badId);
+      expect(res.status).toBe(400);
+    });
+
+    it('should return car fetched successfully', async () => {
+      const res = await exec(userToken, tempCar.body.data.id);
+      expect(res.status).toBe(200);
+    });
+  });
+  describe('GET /', () => {
+    const exec = async (object, token) => {
+      const res = await request(server)
+        .get('/api/v1/car/')
+        .query(object)
+        .set('x-auth-token', token || '');
+      return res;
+    };
+
+    beforeEach(() => {
+      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: true }, config.get('jwtPrivateKey'));
+    });
+
+    it('should return car fetched successfully if query status = available', async () => {
+      const res = await exec({ status: 'available' }, userToken);
+      expect(res.status).toBe(200);
+    });
+
+    it('should return car fetched successfully if query status = available and min and max price set', async () => {
+      const res = await exec({ status: 'available', min_price: 300000, max_price: 10000000 }, userToken);
+      expect(res.status).toBe(200);
+    });
+
+    it('should return car fetched successfully if query state=new', async () => {
+      const res = await exec({ status: 'available', state: 'used' }, userToken);
+      expect(res.status).toBe(200);
+    });
+    it('should return error if invalid state is passed', async () => {
+      const res = await exec({ status: 'available', state: 'ddddd' }, userToken);
+      expect(res.status).toBe(400);
+    });
+    it('should return error message if no user token provided', async () => {
+      userToken = '';
+      const res = await exec({}, userToken);
+      expect(res.status).toBe(400);
+    });
+
+    it('should return error message if no user not an admin', async () => {
+      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
+      const res = await exec({}, userToken);
+      expect(res.status).toBe(403);
+    });
+
+    it('should return error message if token not valid', async () => {
+      userToken = '77ggg';
+      const res = await exec({}, userToken);
+      expect(res.status).toBe(400);
+    });
+
+    it('should return car fetched successfully', async () => {
+      const res = await exec({}, userToken);
+      expect(res.status).toBe(200);
+    });
   });
 
   describe('PATCH /<:car-id>/price', () => {
-    let userToken;
     const newPrice = {
       price: 70000000,
     };
@@ -150,33 +220,36 @@ describe('/api/v1/car', () => {
 
     it('should return error message if user not authenticated', async () => {
       userToken = '';
-      const res = await exec(userToken);
+      const res = await exec(userToken, tempCar.body.data.id);
       expect(res.status).toBe(401);
     });
 
-    it('should return car details after successfull car status update', async () => {
+    it('should return car status updated successfully', async () => {
       const res = await exec(userToken, tempCar.body.data.id);
       expect(res.status).toBe(200);
     });
   });
   describe('DELETE /<:car-id>', () => {
-    let userToken;
-    let adminToken;
     const exec = async (token, carId) => {
       const res = await request(server)
         .delete(`/api/v1/car/${carId}`)
         .set('x-auth-token', token || '');
       return res;
     };
-
-    beforeEach(() => {
-      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
-      adminToken = jwt.sign({ id: uuid.v4(), email: 'admin@gmail.com', isAdmin: true }, config.get('jwtPrivateKey'));
+    beforeEach(async () => {
+      userToken = jwt.sign({ id: user.id, email: user.email, isAdmin: user.is_admin }, config.get('jwtPrivateKey'));
     });
+
     it('should return error message if car_id is not a valid id', async () => {
       const badId = 'ssss';
       const res = await exec(userToken, badId);
       expect(res.status).toBe(400);
+    });
+
+    it('should return error message if no user not an admin', async () => {
+      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
+      const res = await exec(userToken, tempCar.body.data.id);
+      expect(res.status).toBe(403);
     });
 
     it('should return error message if car does not exist', async () => {
@@ -191,8 +264,8 @@ describe('/api/v1/car', () => {
       expect(res.status).toBe(401);
     });
 
-    it('should return car deleted successfully if user is admin update', async () => {
-      const res = await exec(adminToken, tempCar.body.data.id);
+    it('should return car deleted successfully if user is admin', async () => {
+      const res = await exec(userToken, tempCar.body.data.id);
       expect(res.status).toBe(200);
     });
   });

@@ -1,47 +1,27 @@
-import Joi from '@hapi/joi';
 import _ from 'lodash';
 import jwt from 'jsonwebtoken';
 import config from 'config';
 import Car from '../models/Car';
-import carCreateSchema from '../helpers/validationShemas/carCreateSchema';
-import updateCarPriceSchema from '../helpers/validationShemas/updateCarPriceSchema';
 
 const cars = new Car();
 
 // Handle car create on POST.
 export const carCreatePost = async (req, res) => {
-  const newCar = _.pick(req.body, ['state', 'price', 'manufacturer', 'model', 'body_type']);
-  const { error } = Joi.validate(newCar, carCreateSchema);
-  if (error) {
-    const response = {
-      status: 400,
-      error: error.details[0].message,
-    };
-    return res.status(400).json(response);
-  }
-  newCar.owner = req.user.id;
-  newCar.email = req.user.email;
-  const addedCar = await cars.add(newCar);
+  req.newCar.owner = req.user.id;
+  req.newCar.email = req.user.email;
+  const addedCar = await cars.add(req.newCar);
   const response = {
-    status: 200,
+    status: 201,
+    message: 'Car successfully created',
     data: _.pick(addedCar, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'manufacturer']),
   };
-  return res.status(200).json(response);
+  console.log(addedCar);
+  return res.status(201).json(response);
 };
 
-export const updateCarStatus = (req, res) => {
-// Validate incoming user input
-  const carId = req.params.car_id;
-  const { error } = Joi.validate(carId, Joi.string().guid({ version: 'uuidv4' }));
-  if (error) {
-    const response = {
-      status: 400,
-      error: error.details[0].message,
-    };
-    return res.status(400).json(response);
-  }
+export const updateCarStatus = async (req, res) => {
   //  Find car
-  const car = cars.findById(carId);
+  const car = await cars.findById(req.uuid);
   if (!car) {
     const response = {
       status: 400,
@@ -49,33 +29,25 @@ export const updateCarStatus = (req, res) => {
     };
     return res.status(400).json(response);
   }
+
   // Update car
   if (car.status === 'available') {
-    car.status = 'sold';
+    await cars.update(req.uuid, 'sold');
   } else {
-    car.status = 'available';
+    await cars.update(req.uuid, 'available');
   }
+  const UpdatedCar = await cars.findById(req.uuid);
   const response = {
     status: 200,
-    data: _.pick(car, ['id', 'email', 'created_on', 'manufacturer', 'model', 'price', 'state', 'status']),
+    message: 'Car status updated successfully',
+    data: _.pick(UpdatedCar, ['id', 'email', 'created_on', 'manufacturer', 'model', 'price', 'state', 'status']),
   };
   return res.status(200).json(response);
 };
 
-export const updateCarPrice = (req, res) => {
-  // Validate incoming user input
-  const carId = req.params.car_id;
-  const { price } = req.body;
-  const { error } = Joi.validate({ price, carId }, updateCarPriceSchema);
-  if (error) {
-    const response = {
-      status: 400,
-      error: error.details[0].message,
-    };
-    return res.status(400).json(response);
-  }
+export const updateCarPrice = async (req, res) => {
   //  Find car
-  const car = cars.findById(carId);
+  const car = await cars.findById(req.uuid);
   if (!car) {
     const response = {
       status: 400,
@@ -83,28 +55,21 @@ export const updateCarPrice = (req, res) => {
     };
     return res.status(400).json(response);
   }
+
   // Update price
-  car.price = price;
+  await cars.updatePrice(req.uuid, req.price);
+  const updatedCar = await cars.findById(req.uuid);
   const response = {
     status: 200,
-    data: _.pick(car, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'model', 'manufacturer']),
+    message: 'Car price updated successfully',
+    data: _.pick(updatedCar, ['id', 'email', 'state', 'status', 'price', 'createdDate', 'model', 'manufacturer']),
   };
   return res.status(200).json(response);
 };
 
-export const getCar = (req, res) => {
-// Validate incoming user input
-  const carId = req.params.car_id;
-  const { error } = Joi.validate(carId, Joi.string().guid({ version: 'uuidv4' }));
-  if (error) {
-    const response = {
-      status: 400,
-      error: error.details[0].message,
-    };
-    return res.status(400).json(response);
-  }
+export const getCar = async (req, res) => {
   //  Find car
-  const car = cars.findById(carId);
+  const car = await cars.findById(req.uuid);
   if (!car) {
     const response = {
       status: 400,
@@ -122,14 +87,15 @@ export const getCar = (req, res) => {
   return res.status(200).json(response);
 };
 
-export const getCars = (req, res) => {
+export const getCars = async (req, res) => {
   if (req.query) {
     if (req.query.status === 'available') {
       if (req.query.min_price && req.query.max_price) {
+        // eslint-disable-next-line camelcase
         const { min_price, max_price } = req.query;
         const min = Math.min(min_price, max_price);
         const max = Math.max(min_price, max_price);
-        const result = cars.findByPrice(min, max);
+        const result = await cars.findByPrice(min, max);
 
         // return car details to client
         const response = {
@@ -167,7 +133,27 @@ export const getCars = (req, res) => {
         };
         return res.status(200).json(response);
       }
-      const allUnsoldCars = cars.findUnsold();
+      if (req.query.state) {
+        const state = String(req.query.state);
+        const isValidState = state === 'new' || state === 'used';
+        if (!isValidState) {
+          const response = {
+            status: 400,
+            error: 'Invalid car state value',
+          };
+          return res.status(400).json(response);
+        }
+        const results = await cars.findByState(state);
+        const response = {
+          status: 200,
+          data: _.map(results, _.partialRight(_.pick,
+            ['id', 'email', 'state', 'status',
+              'price', 'createdDate', 'manufacturer',
+              'model', 'body_type'])),
+        };
+        return res.status(200).json(response);
+      }
+      const allUnsoldCars = await cars.findUnsold();
       // return car details to client
       const response = {
         status: 200,
@@ -187,7 +173,7 @@ export const getCars = (req, res) => {
         return res.status(403).send({ status: 403, data: 'Unathorized access.' });
       // eslint-disable-next-line no-else-return
       } else {
-        const allCars = cars.findAll();
+        const allCars = await cars.findAll();
         // return car details to client
         const response = {
           status: 200,
@@ -199,26 +185,16 @@ export const getCars = (req, res) => {
         return res.status(200).json(response);
       }
     } catch (ex) {
-      return res.status(400).send('Invalid token.');
+      return res.status(400).send({ status: 400, error: 'Invalid token.' });
     }
   } else {
     return res.status(400).send({ status: 400, data: 'No token provided' });
   }
 };
 
-export const deleteCar = (req, res) => {
-  // Validate incoming user input
-  const carId = req.params.car_id;
-  const { error } = Joi.validate(carId, Joi.string().guid({ version: 'uuidv4' }));
-  if (error) {
-    const response = {
-      status: 400,
-      error: error.details[0].message,
-    };
-    return res.status(400).json(response);
-  }
+export const deleteCar = async (req, res) => {
   //  Find car
-  const car = cars.findById(carId);
+  const car = await cars.findById(req.uuid);
   if (!car) {
     const response = {
       status: 400,
@@ -229,7 +205,7 @@ export const deleteCar = (req, res) => {
   if (!req.user.isAdmin) {
     if (req.user.id === car.owner) {
       // delete car
-      cars.delete(carId);
+      await cars.delete(req.uuid);
       const response = {
         status: 200,
         data: 'Car Ad successfully deleted',
@@ -239,7 +215,7 @@ export const deleteCar = (req, res) => {
     return res.status(403).send({ status: 403, data: 'Unathorized access.' });
   }
   // delete car
-  cars.delete(carId);
+  await cars.delete(req.uuid);
   const response = {
     status: 200,
     data: 'Car Ad successfully deleted',

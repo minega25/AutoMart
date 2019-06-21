@@ -35,7 +35,7 @@ function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            newOrder = _lodash["default"].pick(req.body, ['buyer', 'car_id', 'status', 'amount']);
+            newOrder = _lodash["default"].pick(req.body, ['car_id', 'status', 'amount']);
             _Joi$validate = _joi["default"].validate(newOrder, _orderCreateSchema["default"]), error = _Joi$validate.error;
 
             if (!error) {
@@ -65,10 +65,11 @@ function () {
 
           case 9:
             newOrder.price = carObject.price;
-            _context.next = 12;
+            newOrder.buyer = req.user.id;
+            _context.next = 13;
             return orders.add(newOrder);
 
-          case 12:
+          case 13:
             addedOrder = _context.sent;
             response = {
               status: 200,
@@ -76,7 +77,7 @@ function () {
             };
             return _context.abrupt("return", res.status(200).json(response));
 
-          case 15:
+          case 16:
           case "end":
             return _context.stop();
         }
@@ -150,6 +151,7 @@ function () {
           case 12:
             // Update price
             order.old_price_offered = order.price_offered;
+            order.price_offered = req.body.new_price_offered;
             order.new_price_offered = req.body.new_price_offered;
             response = {
               status: 200,
@@ -157,7 +159,7 @@ function () {
             };
             return _context2.abrupt("return", res.status(200).json(response));
 
-          case 16:
+          case 17:
           case "end":
             return _context2.stop();
         }

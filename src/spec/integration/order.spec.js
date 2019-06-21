@@ -1,12 +1,38 @@
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
 import config from 'config';
-import uuid from 'uuid';
 import server from '../../index';
 
 describe('/api/v1/order', () => {
+  let user;
+  let user2;
   let tempCar;
   let tempOrder;
+  beforeAll(async () => {
+    const dummyUser = {
+      first_name: 'patrick',
+      last_name: 'shyaka',
+      email: 'usertestorder@gmail.com',
+      password: 'PassWrd123@',
+      address: 'adsfa',
+      is_admin: true,
+    };
+    const dummyUser2 = {
+      first_name: 'patrick',
+      last_name: 'shyaka',
+      email: 'usertestorder2@gmail.com',
+      password: 'PassWrd123@',
+      address: 'adsfa',
+    };
+    const res = await request(server)
+      .post('/api/v1/auth/signup')
+      .send(dummyUser);
+    const res2 = await request(server)
+      .post('/api/v1/auth/signup')
+      .send(dummyUser2);
+    user = res.body.data;
+    user2 = res2.body.data;
+  });
   afterAll(async () => {
     await server.close();
   });
@@ -14,13 +40,11 @@ describe('/api/v1/order', () => {
     let newOrder;
     let userToken;
     const newCar = {
-      owner: 'minega shyaka patrick',
       state: 'used',
-      status: 'available',
-      price: 123456,
-      manufacturer: 'toyota',
-      model: 'RAV 4',
-      body_type: 'Jeep',
+      price: 9000000,
+      manufacturer: 'aaaa',
+      model: 'x',
+      body_type: 'jeep',
     };
 
     const registerCar = async (token, car) => {
@@ -31,47 +55,48 @@ describe('/api/v1/order', () => {
       return response;
     };
 
-    const exec = async (token) => {
+    const exec = async (token, order) => {
       const res = await request(server)
         .post('/api/v1/order')
         .set('x-auth-token', token || '')
-        .send(newOrder);
+        .send(order);
       return res;
     };
 
     beforeEach(async () => {
-      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
+      userToken = jwt.sign({ id: user.id, email: user.email, isAdmin: user.is_admin }, config.get('jwtPrivateKey'));
       newOrder = {
-        buyer: 'patrick',
-        car_id: 'f5a4535d-8241-4f0f-9c05-9608c405f0cb',
+        car_id: '',
         status: 'pending',
-        amount: 20000000,
+        amount: 4000000,
       };
+    });
+    it('should return success if order registered', async () => {
+      tempCar = await registerCar(userToken, newCar);
+      const buyerToken = jwt.sign({ id: user2.id, email: user2.email, isAdmin: user2.is_admin }, config.get('jwtPrivateKey'));
+      newOrder.car_id = tempCar.body.data.id;
+      tempOrder = await exec(buyerToken, newOrder);
+      expect(tempOrder.status).toBe(201);
     });
 
     it('should return error message if user input validation fails', async () => {
-      newOrder.buyer = '';
-      const res = await exec(userToken);
+      newOrder.amount = 'dd';
+      const buyerToken = jwt.sign({ id: user2.id, email: user2.email, isAdmin: user2.is_admin }, config.get('jwtPrivateKey'));
+      const res = await exec(userToken, buyerToken);
       expect(res.status).toBe(400);
     });
 
-    it('should return error message if user not authenticated', async () => {
-      userToken = '';
-      const res = await exec(userToken);
-      expect(res.status).toBe(401);
+    it('should return error message if user is trying to order own car', async () => {
+      newOrder.car_id = tempCar.body.data.id;
+      const res = await exec(userToken, newOrder);
+      expect(res.status).toBe(400);
     });
 
     it('should return error if ordered car does not exist', async () => {
       newOrder.car_id = '175ce5c2-f678-4c13-88a0-3f54e67aa05e';
-      const res = await exec(userToken);
+      const buyerToken = jwt.sign({ id: user2.id, email: user2.email, isAdmin: user2.is_admin }, config.get('jwtPrivateKey'));
+      const res = await exec(buyerToken, newOrder);
       expect(res.status).toBe(400);
-    });
-
-    it('should return order details if order submission is successfull', async () => {
-      tempCar = await registerCar(userToken, newCar);
-      newOrder.car_id = tempCar.body.data.id;
-      tempOrder = await exec(userToken);
-      expect(tempOrder.status).toBe(200);
     });
   });
 
@@ -91,7 +116,7 @@ describe('/api/v1/order', () => {
     };
 
     beforeEach(() => {
-      userToken = jwt.sign({ id: uuid.v4(), email: 'minega.patrick@gmail.com', isAdmin: false }, config.get('jwtPrivateKey'));
+      userToken = jwt.sign({ id: user2.id, email: user2.email, isAdmin: user2.is_admin }, config.get('jwtPrivateKey'));
     });
     it('should return error message if car_id is not a valid id', async () => {
       const badId = 'ssss';
@@ -104,20 +129,7 @@ describe('/api/v1/order', () => {
       const res = await exec(userToken, WrongId);
       expect(res.status).toBe(400);
     });
-
-    it('should return error message if user not authenticated', async () => {
-      userToken = '';
-      const res = await exec(userToken, tempOrder.body.data.id);
-      expect(res.status).toBe(401);
-    });
-
-    // it('should return error message if status of order is not pending', async () => {
-    //   tempOrder.body.data.status = 'completed';
-    //   const res = await exec(userToken, tempOrder.body.data.id);
-    //   expect(res.status).toBe(400);
-    // });
-
-    it('should return order details after successful order price offer updated', async () => {
+    it('should return success if order is updated', async () => {
       const res = await exec(userToken, tempOrder.body.data.id);
       expect(res.status).toBe(200);
     });

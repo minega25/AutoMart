@@ -1,77 +1,76 @@
 /* eslint-disable max-len */
 import Order from '../../models/Order';
+import User from '../../models/User';
+import Car from '../../models/Car';
 
-describe('Order model', () => {
-  let order;
+describe('Order model', async () => {
+  const car = new Car();
+  const user = new User();
+  const userCar = {
+    email: 'userorder@gmail.com',
+    first_name: 'abc',
+    last_name: 'deg',
+    password: '12345',
+    address: 'deg',
+  };
+  const user1 = await user.add(userCar);
+
   let order1;
-  let order2;
+  const cardata = {
+    state: 'new', price: 9000000, manufacturer: 'aaaa', model: 'x', body_type: 'jeep',
+  };
+  const cardata2 = {
+    state: 'new', price: 9000000, manufacturer: 'aaaa', model: 'x', body_type: 'jeep',
+  };
+  const cardata3 = {
+    state: 'new', price: 9000000, manufacturer: 'aaaa', model: 'x', body_type: 'jeep',
+  };
+  const car1 = await car.add(cardata);
+  const car2 = await car.add(cardata2);
+  const car3 = await car.add(cardata3);
+  const order = new Order();
+  beforeAll(async () => {
+  });
   beforeEach(async () => {
-    order = new Order();
     const data1 = {
-      buyer: 'a',
-      car_id: 'asdfd',
-      amount: 'sdfd',
+      buyer: user1.id,
+      car_id: car1.id,
+      amount: 5000000,
       status: 'sdf',
     };
     const data2 = {
-      buyer: 'b',
-      car_id: 'asdfd',
-      amount: 'sdfd',
+      buyer: user1.id,
+      car_id: car2.id,
+      amount: 4000000,
       status: 'sdf',
     };
     order1 = await order.add(data1);
     order2 = await order.add(data2);
   });
-  afterEach(async () => {
-    order = {};
-  });
-  it('should return a order with a given id', () => {
-    const result = order.findById(order1.id);
-    expect(result).toEqual(jasmine.objectContaining({ id: order1.id }));
-  });
 
-  it('should return all registered orders ', () => {
-    const result = order.findAll();
-    // eslint-disable-next-line max-len
-    expect(result).toEqual(jasmine.objectContaining([jasmine.objectContaining({ id: order1.id }), jasmine.objectContaining({ id: order2.id })]));
-  });
-
-  it('should delete a order by id', () => {
-    const result = order.delete(order1.id);
-    expect(result).not.toEqual(jasmine.objectContaining([jasmine.objectContaining({ id: order1.id })]));
+  it('should return a order with a given id', async () => {
+    const result = await order.findById(order1.id);
+    expect(result.id).toEqual(order1.id);
   });
 
   it('should add a order', async () => {
     const data3 = {
-      buyer: 'c',
-      car_id: 'asdfd',
-      amount: 'sdfd',
+      buyer: user1.id,
+      car_id: car3.id,
+      amount: 400000,
       status: 'sdf',
     };
     const order3 = await order.add(data3);
-    const allorders = order.findAll();
-    expect(allorders).toEqual(
-      [
-        jasmine.objectContaining({ id: order1.id }),
-        jasmine.objectContaining({ id: order2.id }),
-        jasmine.objectContaining({ id: order3.id }),
-      ],
-    );
+    const result = await order.findById(order3.id);
+    expect(result.id).toEqual(order3.id);
   });
 
   it('should update a order by Id', async () => {
     const data4 = {
-      buyer: 'd',
-      car_id: 'asdfd',
-      amount: 'sdfd',
-      status: 'sdf',
+      amount: 300000,
     };
-    const result = await order.update(order1.id, data4);
-    expect(result).toEqual(jasmine.objectContaining(
-      [
-        jasmine.objectContaining({ id: order1.id }),
-        jasmine.objectContaining({ id: order2.id }),
-      ],
-    ));
+    await order.update(order1.id, data4);
+    const result = await order.findById(order1.id);
+    expect(result.amount).toEqual(data4.amount);
   });
 });

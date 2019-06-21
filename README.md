@@ -9,6 +9,7 @@ Auto Mart is an online marketplace for automobiles of diverse makes, model or bo
 
 [![Coverage Status](https://coveralls.io/repos/github/minega25/AutoMart/badge.svg?branch=develop)](https://coveralls.io/github/minega25/AutoMart?branch=develop)
 
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/b6eeebdf4625b8aa7a73/maintainability)](https://codeclimate.com/github/minega25/AutoMart/maintainability)
 
 # Auto mart Front-end UI design
@@ -106,8 +107,8 @@ Heroku
 <b>Step 4: Start the server</b>
 
 `npm run dev`
-##Tests
-###To run test run the below command
+## Tests
+### To run test run the below command
 `npm test`
 ## Contributor
 Minega Shyaka Patrick 

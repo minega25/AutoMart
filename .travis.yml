@@ -2,16 +2,21 @@ sudo: false
 language: node_js
 node_js:
   - 10.15.1
+before_install:
+  - sudo /etc/init.d/postgresql stop
+  - sudo /etc/init.d/postgresql start
 install:
   - npm ci
+services:
+  - postgresql
 env:
-  - CC_TEST_REPORTER_ID=d532a378b063347e107f11a65a140e1423ccb9d83aa10b8a1ba764e6eb1af15f
-  - automart_jwtPrivateKey=12345
+  - NODE_ENV=test
 notifications:
   email: false
 script:
   - "npm test"
-  
+before_script:
+  - psql -c 'create database automart_test;' -U postgres
 branches:
   only:
   - master

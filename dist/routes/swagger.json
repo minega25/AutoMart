@@ -1,0 +1,630 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Automart Api documentation",
+    "description": "Auto Mart is online shopping app for cars, this is a market place app where one can make ads and others can be able to make order of that car.",
+    "license": {
+      "name": "ISC",
+      "url": "git+https://github.com/minega25/AutoMart.git"
+    }
+  },
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for users operation"
+    },
+    {
+      "name": "Cars",
+      "description": "API for Cars"
+    },
+    {
+      "name": "Orders",
+      "description": "API for orders"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Signup a new user",
+        "description": "Create a new user",
+        "parameters": [
+          {
+            "name": "users",
+            "in": "body",
+            "description": "User to be created",
+            "schema": {
+              "$ref": "#/definitions/signup"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success: User successfully created"
+          },
+          "400": {
+            "description": "Error: Validation error"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Login a user",
+        "description": "Login a user",
+        "parameters": [
+          {
+            "name": "users",
+            "in": "body",
+            "description": "User to be signed In",
+            "schema": {
+              "$ref": "#/definitions/signin"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success: successfully loged in"
+          },
+          "400": {
+            "description": "Error: invalid input"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/car": {
+      "post": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "Post a car sale ad",
+        "description": "User(seller) can Post a new car",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name":"Authorization",
+            "in": "header",
+            "description" :"The user token",
+            "required":false
+
+          },
+          {
+            "name": "owner",
+            "in": "formData",
+            "type": "integer",
+            "description": "owner"
+          },
+          {
+            "name": "manufacture",
+            "in": "formData",
+            "type": "string",
+            "description": "manufacturer"
+          },
+          {
+            "name": "model",
+            "in": "formData",
+            "type": "string",
+            "description": "model"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "type": "integer",
+            "description": "price"
+          },
+          {
+            "name": "state",
+            "in": "formData",
+            "type": "string",
+            "description": "state"
+          },
+          {
+            "name": "body_type",
+            "in": "formData",
+            "type": "string",
+            "description": "body_type"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "type": "string",
+            "description": "descriptions"
+          },
+          {
+            "name": "picture",
+            "in": "formData",
+            "type": "file",
+            "description": "file to upload"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success: A new car is sucessfully posted"
+          },
+          "400": {
+            "description": "Error: invalid value"
+          },
+          "401": {
+            "description": "Error: Authentication failed"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "View cars with the option of available cars within given price range",
+        "description": "User can view cars with the option of available cars within given price range",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": " query parameters",
+            "required":false,
+            "type":"string"
+          },
+          {
+            "name": "min_price",
+            "in": "query",
+            "description": " query parameters",
+            "required":false,
+            "type":"integer"
+          },
+          {
+            "name": "max_price",
+            "in": "query",
+            "description": " query parameters",
+            "required":false,
+            "type":"integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+              "description": "success: Successfully retrieve a cars"
+            },
+            "404": {
+              "description": "Error: Car not found"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+        }
+      }
+    },
+    "/car/{id}": {
+      "get": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "View a specific car",
+        "description": "User can view a specific car",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": " Car Id",
+            "required":true,
+            "type":"integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+              "description": "success: Successfully retrieve a car"
+            },
+            "404": {
+              "description": "Error: Car not found"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "Delete a specific car",
+        "description": "Admin can delete a specific car",
+        "parameters": [
+          {
+            "name":"Authorization",
+            "in": "header",
+            "description" :"The user token",
+            "required":false
+            
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": " Car Id",
+            "required":true,
+            "type":"integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+              "description": "success: Ad Successfully deleted"
+            },
+            "404": {
+              "description": "Error: Car not found"
+            },
+            "500": {
+              "description": "Server Error"
+            }
+        }
+      }
+    },
+    "/car/{id}/status": {
+      "patch": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "mark a posted car ad as sold",
+        "description": "seller can mark a posted ad as sold",
+        "parameters": [
+          {
+            "name":"Authorization",
+            "in": "header",
+            "description" :"The user token",
+            "required":false
+            
+          },
+          {
+            "name":"id",
+            "in": "path",
+            "description" :"car id",
+            "required":true,
+            "type":"integer"
+            
+          },
+          {
+            "name": "new status of car posted",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/markAsSold"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success: car succesfully marked as sold"
+          },
+          "400": {
+            "description": "Error: invalid value"
+          },
+          "404": {
+            "description": "Error: car not found"
+          },
+          "401": {
+            "description": "Error: Authentication failed"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/car/{id}/price": {
+      "patch": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "Update the price of posted car Ad",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name":"Authorization",
+            "in": "header",
+            "description" :"The user token",
+            "required":false
+
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "car id",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name": "new status of car posted",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/updatePrice"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success: Successfully car price updated"
+          },
+          "404": {
+            "description": "Error: Car not found"
+          },
+          "401": {
+            "description": "Error: Authentication failed"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/order": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Make an order",
+        "description": "Buyer can make purchase order",
+        "parameters": [
+          {
+            "name":"Authorization",
+            "in": "header",
+            "description" :"The user token",
+            "required":false
+
+          },
+          {
+            "name": "purchase order",
+            "in": "body",
+            "description": "Details of a purchase order",
+            "schema": {
+              "$ref": "#/definitions/order"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success: Order created Successfully"
+          },
+          "400": {
+            "description": "Error: invalid value"
+          },
+          "401": {
+            "description": "Error: Authentication failed"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    },
+    "/order/{id}/price": {
+      "patch": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "update the price of purchase order",
+        "description": "Buyer can update the price of purchase order",
+        "parameters": [
+          {
+            "name":"Authorization",
+            "in": "header",
+            "description" :"The user token",
+            "required":false
+
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "order id",
+            "required":true,
+            "type":"integer"
+          },
+          {
+            "name": "new price offered",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/updateOrder"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success: Order price is sucessfully updated"
+          },
+          "400": {
+            "description": "Error: invalid value"
+          },
+          "404": {
+            "description": "Error: order not found"
+          },
+          "401": {
+            "description": "Error: Authentication failed"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    }
+  },
+  
+  
+  "definitions": {
+    "signup": {
+      "required": [
+        "first_name",
+        "last_name",
+        "email",
+        "password",
+        "address"
+      ],
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "signin": {
+      "required": [
+        "email",
+        "password"
+      ],
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "carData": {
+      "required": [
+        "owner",
+        "manufacture",
+        "model",
+        "price",
+        "state",
+        "body_type",
+        "descriptions"
+      ],
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "integer"
+        },
+        "manufacture": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "state": {
+          "type": "string"
+        },
+        "body_type": {
+          "type": "string"
+        },
+        "descriptions": {
+          "type": "string"
+        }
+      }
+    },
+    "order": {
+      "required": [
+        "buyer_id",
+        "car_id",
+        "amount"
+      ],
+      "type": "object",
+      "properties": {
+        "buyer_id": {
+          "type": "integer"
+        },
+        "car_id": {
+          "type": "integer"
+        },
+        "amount": {
+          "type": "integer"
+        }
+      }
+    },
+    "updateOrder": {
+      "required": [
+        "price"
+      ],
+      "properties": {
+        "price": {
+          "type": "integer"
+        }
+      }
+    },
+    "markAsSold": {
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "updatePrice": {
+      "required": [
+        "price"
+      ],
+      "properties": {
+        "price": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
