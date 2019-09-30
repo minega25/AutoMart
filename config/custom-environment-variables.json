@@ -1,4 +1,0 @@
-{
-    "jwtPrivateKey": "automart_jwtPrivateKey",
-    "dbUrl": "DATABASE_URL"
-}

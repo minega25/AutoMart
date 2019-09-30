@@ -1,7 +1,6 @@
 {
-    "jwtPrivateKey": "unsecureKey",
-    "port": "5000",
-    "dbUrl": "postgres://postgres:12345@localhost:5432/automart",
-    "requiresAuth": false
+  "jwtPrivateKey": "unsecureKey",
+  "port": "5000",
+  "dbUrl": "postgres://postgres:12345@localhost:5432/automart",
+  "requiresAuth": false
 }
-  
